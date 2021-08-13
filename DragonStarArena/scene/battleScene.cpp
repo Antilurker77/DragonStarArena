@@ -239,43 +239,43 @@ void BattleScene::setActorSpritePositions() {
 		if (actors[i]->IsPlayer()) {
 			switch (actors[i]->GetBattlePosition()) {
 			case BattlePosition::FrontFarLeft:
-				pos = actorBoxes[0].getPosition();
-				actors[i]->Move(pos);
-				break;
-			case BattlePosition::FrontLeft:
-				pos = actorBoxes[1].getPosition();
-				actors[i]->Move(pos);
-				break;
-			case BattlePosition::FrontCenter:
-				pos = actorBoxes[2].getPosition();
-				actors[i]->Move(pos);
-				break;
-			case BattlePosition::FrontRight:
-				pos = actorBoxes[3].getPosition();
-				actors[i]->Move(pos);
-				break;
-			case BattlePosition::FrontFarRight:
-				pos = actorBoxes[4].getPosition();
-				actors[i]->Move(pos);
-				break;
-			case BattlePosition::BackFarLeft:
 				pos = actorBoxes[5].getPosition();
 				actors[i]->Move(pos);
 				break;
-			case BattlePosition::BackLeft:
+			case BattlePosition::FrontLeft:
 				pos = actorBoxes[6].getPosition();
 				actors[i]->Move(pos);
 				break;
-			case BattlePosition::BackCenter:
+			case BattlePosition::FrontCenter:
 				pos = actorBoxes[7].getPosition();
 				actors[i]->Move(pos);
 				break;
-			case BattlePosition::BackRight:
+			case BattlePosition::FrontRight:
 				pos = actorBoxes[8].getPosition();
 				actors[i]->Move(pos);
 				break;
-			case BattlePosition::BackFarRight:
+			case BattlePosition::FrontFarRight:
 				pos = actorBoxes[9].getPosition();
+				actors[i]->Move(pos);
+				break;
+			case BattlePosition::BackFarLeft:
+				pos = actorBoxes[0].getPosition();
+				actors[i]->Move(pos);
+				break;
+			case BattlePosition::BackLeft:
+				pos = actorBoxes[1].getPosition();
+				actors[i]->Move(pos);
+				break;
+			case BattlePosition::BackCenter:
+				pos = actorBoxes[2].getPosition();
+				actors[i]->Move(pos);
+				break;
+			case BattlePosition::BackRight:
+				pos = actorBoxes[3].getPosition();
+				actors[i]->Move(pos);
+				break;
+			case BattlePosition::BackFarRight:
+				pos = actorBoxes[4].getPosition();
 				actors[i]->Move(pos);
 				break;
 			default:
