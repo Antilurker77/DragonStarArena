@@ -24,10 +24,10 @@ BattleScene::BattleScene() {
 	float fMaxMessages = static_cast<float>(messagesDisplayed);
 
 	messageLogBG.setSize(sf::Vector2f(4.f + fFontSize * 50.f, 4.f + fMaxMessages * (fFontSize + 2.f)));
-	messageLogBG.setPosition(settings.SceenWidthF / 2.f - messageLogBG.getSize().x / 2.f, settings.SceenHeightF - messageLogBG.getSize().y - 4.f);
+	messageLogBG.setPosition(settings.ScreenWidthF / 2.f - messageLogBG.getSize().x / 2.f, settings.ScreenHeightF - messageLogBG.getSize().y - 4.f);
 
 	const float actorBoxSize = 64.f;
-	sf::Vector2f actorBoxPos{ settings.SceenWidthF / 2.f - (actorBoxSize * 2.5f), 7.f };
+	sf::Vector2f actorBoxPos{ settings.ScreenWidthF / 2.f - (actorBoxSize * 2.5f), 7.f };
 	for (size_t i = 0; i < actorBoxes.size(); i++) {
 		actorBoxes[i].setSize(sf::Vector2f(actorBoxSize, actorBoxSize));
 		actorBoxes[i].setFillColor(sf::Color(0, 0, 0, 255));

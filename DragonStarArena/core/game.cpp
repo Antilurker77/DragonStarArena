@@ -50,6 +50,9 @@ void Game::processInput() {
 	case GameState::MainMenu:
 		mainMenuScene.ReadInput(window);
 		break;
+	case GameState::DungeonMap:
+		dungeonMapScene.ReadInput(window);
+		break;
 	case GameState::Battle:
 		battleScene.ReadInput(window);
 		break;
@@ -68,6 +71,9 @@ void Game::update(float secondsPerUpdate) {
 		}
 
 		break;
+	case GameState::DungeonMap:
+		gameState = dungeonMapScene.Update(secondsPerUpdate);
+		break;
 	case GameState::Battle:
 		gameState = battleScene.Update(secondsPerUpdate);
 		break;
@@ -82,6 +88,9 @@ void Game::draw(float timeRatio) {
 	switch (gameState) {
 	case GameState::MainMenu:
 		mainMenuScene.Render(window, timeRatio);
+		break;
+	case GameState::DungeonMap:
+		dungeonMapScene.Render(window, timeRatio);
 		break;
 	case GameState::Battle:
 		battleScene.Render(window, timeRatio);

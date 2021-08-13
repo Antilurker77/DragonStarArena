@@ -19,7 +19,8 @@ MainMenuScene::MainMenuScene() {
 	subtitleText.setCharacterSize(32);
 	subtitleText.setFont(*assetManager.LoadFont(settings.Font));
 
-	newGameButton.SetString("Test Battle");
+	newGameButton.SetString("New Game");
+	testBattleButton.SetString("Test Battle");
 
 	SetPositions();
 }
@@ -57,6 +58,11 @@ GameState MainMenuScene::Update(float secondsPerUpdate) {
 
 	if (newGameButton.Update(secondsPerUpdate, mousePos)) {
 		if (leftClick) {
+			gs = GameState::DungeonMap;
+		}
+	}
+	if (testBattleButton.Update(secondsPerUpdate, mousePos)) {
+		if (leftClick) {
 			gs = GameState::Battle;
 		}
 	}
@@ -68,6 +74,7 @@ void MainMenuScene::Render(sf::RenderTarget& window, float timeRatio) {
 	window.draw(titleText);
 	window.draw(subtitleText);
 	newGameButton.Render(window);
+	testBattleButton.Render(window);
 }
 
 void MainMenuScene::SetPositions() {
@@ -75,15 +82,19 @@ void MainMenuScene::SetPositions() {
 	auto subtitleTextSize = subtitleText.getLocalBounds();
 	sf::Vector2f pos;
 
-	pos.x = std::roundf(settings.ScreenWidth / 2.f - titleTextSize.width / 2.f);
-	pos.y = std::roundf(settings.ScreenHeight / 2.f - 200.f);
+	pos.x = std::roundf(settings.ScreenWidthF / 2.f - titleTextSize.width / 2.f);
+	pos.y = std::roundf(settings.ScreenHeightF / 2.f - 200.f);
 	titleText.setPosition(pos);
 
-	pos.x = std::roundf(settings.ScreenWidth / 2.f - subtitleTextSize.width / 2.f);
+	pos.x = std::roundf(settings.ScreenWidthF / 2.f - subtitleTextSize.width / 2.f);
 	pos.y = std::roundf(pos.y + 12.f + titleTextSize.height);
 	subtitleText.setPosition(pos);
 
-	pos.x = settings.ScreenWidth * 0.5f;
-	pos.y = settings.ScreenHeight * 0.75f;
+	pos.x = settings.ScreenWidthF * 0.5f;
+	pos.y = settings.ScreenHeightF * 0.7f;
 	newGameButton.SetPosition(pos);
+
+	pos.x = settings.ScreenWidthF * 0.5f;
+	pos.y = settings.ScreenHeightF * 0.75f;
+	testBattleButton.SetPosition(pos);
 }

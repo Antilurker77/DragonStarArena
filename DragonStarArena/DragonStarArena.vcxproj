@@ -164,6 +164,7 @@
     <ClCompile Include="entity\player.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="scene\battleScene.cpp" />
+    <ClCompile Include="scene\dungeonMapScene.cpp" />
     <ClCompile Include="scene\mainMenuScene.cpp" />
     <ClCompile Include="ui\button.cpp" />
     <ClCompile Include="ui\fpsWindow.cpp" />
@@ -203,6 +204,7 @@
     <ClInclude Include="entity\monster.hpp" />
     <ClInclude Include="entity\player.hpp" />
     <ClInclude Include="scene\battleScene.hpp" />
+    <ClInclude Include="scene\dungeonMapScene.hpp" />
     <ClInclude Include="scene\mainMenuScene.hpp" />
     <ClInclude Include="ui\button.hpp" />
     <ClInclude Include="ui\fpsWindow.hpp" />

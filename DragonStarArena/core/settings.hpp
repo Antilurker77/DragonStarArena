@@ -14,8 +14,8 @@
 struct Settings {
 	uint32_t ScreenWidth = 1280u;
 	uint32_t ScreenHeight = 720u;
-	float SceenWidthF = static_cast<float>(ScreenWidth);
-	float SceenHeightF = static_cast<float>(ScreenHeight);
+	float ScreenWidthF = static_cast<float>(ScreenWidth);
+	float ScreenHeightF = static_cast<float>(ScreenHeight);
 
 	bool EnableVSync = true;
 	bool EnableFullscreen = false;

@@ -12,6 +12,7 @@
 #include <SFML/Window.hpp>
 #include "gameState.hpp"
 #include "../scene/battleScene.hpp"
+#include "../scene/dungeonMapScene.hpp"
 #include "../scene/mainMenuScene.hpp"
 #include "../ui/fpsWindow.hpp"
 
@@ -38,6 +39,7 @@ private:
 
 	GameState gameState{};
 	MainMenuScene mainMenuScene;
+	DungeonMapScene dungeonMapScene;
 	BattleScene battleScene;
 
 	FPSWindow fpsWindow;

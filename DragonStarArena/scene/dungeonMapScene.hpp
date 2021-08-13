@@ -1,8 +1,8 @@
 // ================================================================
 //
-// mainMenuScene.hpp
+// dungeonMapScene.hpp
 // 
-// Scene for the main menu.
+// Scene where battles take place.
 //
 // ================================================================
 
@@ -11,11 +11,10 @@
 enum class GameState;
 
 #include <SFML/Graphics.hpp>
-#include "../ui/button.hpp"
 
-class MainMenuScene {
+class DungeonMapScene {
 public:
-	MainMenuScene();
+	DungeonMapScene();
 
 	// Reads input.
 	void ReadInput(sf::RenderWindow& window);
@@ -26,20 +25,10 @@ public:
 	// Draws the scene.
 	void Render(sf::RenderTarget& window, float timeRatio);
 
-	// Sets the positions of the UI elements. Should be called whenever the resolution
-	// is changed.
-	void SetPositions();
-
 private:
+
 	// Input
 	bool leftClick = false;
 	bool rightClick = false;
 	sf::Vector2i mousePos;
-
-	// UI
-	sf::Text titleText;
-	sf::Text subtitleText;
-
-	Button newGameButton;
-	Button testBattleButton;
 };

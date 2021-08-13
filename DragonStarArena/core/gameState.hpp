@@ -11,5 +11,6 @@
 enum class GameState {
 	Undefined = 0,
 	MainMenu,
+	DungeonMap,
 	Battle
 };
