@@ -41,5 +41,5 @@ struct AuraData {
 	bool CanCrit = false;
 	std::vector<AbilityEffect> OnTick{};
 	std::vector<AbilityEffect> OnExpiry{};
-	std::vector<StatMod> StatMods;
+	std::vector<StatMod> StatMods{};
 };

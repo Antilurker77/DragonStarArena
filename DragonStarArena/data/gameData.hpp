@@ -11,6 +11,7 @@
 #include <vector>
 #include "abilityData.hpp"
 #include "auraData.hpp"
+#include "enconterData.hpp"
 #include "itemData.hpp"
 #include "monsterData.hpp"
 #include "raceData.hpp"
@@ -27,6 +28,9 @@ public:
 
 	// Returns aura data for a given ID.
 	AuraData* GetAura(size_t id);
+
+	// Returns encounter data for a given ID.
+	EncounterData* GetEncounter(size_t id);
 
 	// Returns item data for a given ID.
 	ItemData* GetItem(size_t id);
@@ -55,6 +59,12 @@ private:
 
 	// Initializes the ability stat mods.
 	static int loadAuraStatMods(void* notUsed, int argc, char** data, char** colname);
+
+	// Resizes the encounter vector to the proper size.
+	static int resizeEncounters(void* notUsed, int argc, char** data, char** colname);
+
+	// Initializes the encounter data.
+	static int loadEncounters(void* notUsed, int argc, char** data, char** colname);
 
 	// Resizes the item vector to the proper size.
 	static int resizeItems(void* notUsed, int argc, char** data, char** colname);
@@ -90,6 +100,7 @@ private:
 
 	static std::vector<AbilityData> abilities;
 	static std::vector<AuraData> auras;
+	static std::vector<EncounterData> encounters;
 	static std::vector<ItemData> items;
 	static std::vector<MonsterData> monsters;
 	static std::vector<RaceData> races;

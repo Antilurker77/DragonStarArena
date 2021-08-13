@@ -159,6 +159,7 @@
     <ClCompile Include="data\gameData.cpp" />
     <ClCompile Include="data\item.cpp" />
     <ClCompile Include="entity\actor.cpp" />
+    <ClCompile Include="entity\encounterNode.cpp" />
     <ClCompile Include="entity\entity.cpp" />
     <ClCompile Include="entity\monster.cpp" />
     <ClCompile Include="entity\player.cpp" />
@@ -188,6 +189,7 @@
     <ClInclude Include="data\id\attribute.hpp" />
     <ClInclude Include="data\id\category.hpp" />
     <ClInclude Include="data\id\element.hpp" />
+    <ClInclude Include="data\enconterData.hpp" />
     <ClInclude Include="data\id\equipType.hpp" />
     <ClInclude Include="data\id\battlePosition.hpp" />
     <ClInclude Include="data\id\itemRarity.hpp" />
@@ -200,6 +202,7 @@
     <ClInclude Include="data\statMod.hpp" />
     <ClInclude Include="data\tactic.hpp" />
     <ClInclude Include="entity\actor.hpp" />
+    <ClInclude Include="entity\encounterNode.hpp" />
     <ClInclude Include="entity\entity.hpp" />
     <ClInclude Include="entity\monster.hpp" />
     <ClInclude Include="entity\player.hpp" />

@@ -6,6 +6,7 @@
 
 #include "game.hpp"
 
+#include "random.hpp"
 #include "settings.hpp"
 
 // Time per update.
@@ -65,6 +66,11 @@ void Game::update(float secondsPerUpdate) {
 	switch (gameState) {
 	case GameState::MainMenu:
 		gameState = mainMenuScene.Update(secondsPerUpdate);
+
+		if (gameState == GameState::DungeonMap) {
+			dungeonMapScene.CreateParty();
+			dungeonMapScene.GenerateEncounterNodes(Random::RandomSeed());
+		}
 
 		if (gameState == GameState::Battle) {
 			battleScene.InitTestBattle();

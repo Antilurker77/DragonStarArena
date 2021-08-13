@@ -27,6 +27,7 @@ GameData gameData;
 
 std::vector<AbilityData> GameData::abilities{};
 std::vector<AuraData> GameData::auras{};
+std::vector<EncounterData> GameData::encounters{};
 std::vector<ItemData> GameData::items{};
 std::vector<MonsterData> GameData::monsters{};
 std::vector<RaceData> GameData::races{};
@@ -510,6 +511,13 @@ void GameData::LoadData() {
 		query = "SELECT * FROM AuraStatMod;";
 		error = sqlite3_exec(db, query.c_str(), GameData::loadAuraStatMods, 0, &errorMessage);
 
+		// Encounters
+		query = "SELECT COUNT(*) FROM Encounter;";
+		error = sqlite3_exec(db, query.c_str(), GameData::resizeEncounters, 0, &errorMessage);
+
+		query = "SELECT * FROM Encounter;";
+		error = sqlite3_exec(db, query.c_str(), GameData::loadEncounters, 0, &errorMessage);
+
 		// Items
 		query = "SELECT COUNT(*) FROM Item;";
 		error = sqlite3_exec(db, query.c_str(), GameData::resizeItems, 0, &errorMessage);
@@ -562,6 +570,13 @@ AbilityData* GameData::GetAbility(size_t id) {
 AuraData* GameData::GetAura(size_t id) {
 	if (id < auras.size()) {
 		return &auras[id];
+	}
+	return nullptr;
+}
+
+EncounterData* GameData::GetEncounter(size_t id) {
+	if (id < encounters.size()) {
+		return &encounters[id];
 	}
 	return nullptr;
 }
@@ -783,6 +798,76 @@ int GameData::loadAuraStatMods(void* notUsed, int argc, char** data, char** coln
 	sm.AuraID = std::stoull(data[7]);
 
 	auras[auraID].StatMods.push_back(sm);
+
+	return 0;
+}
+
+int GameData::resizeEncounters(void* notUsed, int argc, char** data, char** colname) {
+	notUsed = 0;
+	size_t count = 0;
+
+	count = std::stoll(data[0]);
+	encounters.reserve(count);
+
+	std::cout << "Loading " << count << " encounters...\n";
+
+	return 0;
+}
+
+int GameData::loadEncounters(void* notUsed, int argc, char** data, char** colname) {
+	notUsed = 0;
+
+	EncounterData ed;
+
+	ed.Name = data[1];
+	ed.IsUnique = (std::stoi(data[2]) == 1);
+	ed.MinLevel = std::stoi(data[3]);
+	ed.MaxLevel = std::stoi(data[4]);
+	ed.Weight = std::stoi(data[5]);
+
+	if (data[6] != nullptr) {
+		ed.FrontFarLeftMonster = std::stoull(data[6]);
+	}
+
+	if (data[7] != nullptr) {
+		ed.FrontLeftMonster = std::stoull(data[7]);
+	}
+
+	if (data[8] != nullptr) {
+		ed.FrontCenterMonster = std::stoull(data[8]);
+	}
+
+	if (data[9] != nullptr) {
+		ed.FrontRightMonster = std::stoull(data[9]);
+	}
+
+	if (data[10] != nullptr) {
+		ed.FrontFarRightMonster = std::stoull(data[10]);
+	}
+
+	if (data[11] != nullptr) {
+		ed.BackFarLeftMonster = std::stoull(data[11]);
+	}
+
+	if (data[12] != nullptr) {
+		ed.BackLeftMonster = std::stoull(data[12]);
+	}
+
+	if (data[13] != nullptr) {
+		ed.BackCenterMonster = std::stoull(data[13]);
+	}
+
+	if (data[14] != nullptr) {
+		ed.BackRightMonster = std::stoull(data[14]);
+	}
+
+	if (data[15] != nullptr) {
+		ed.BackFarRightMonster = std::stoull(data[15]);
+	}
+
+	encounters.push_back(ed);
+
+	std::cout << "Loaded " << data[1] << " into encounter vector.\n";
 
 	return 0;
 }
