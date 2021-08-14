@@ -374,6 +374,9 @@ static StatModType stringToStatModType(char* s) {
 	else if (str == "hp_per_level") {
 		return StatModType::HPPerLevel;
 	}
+	else if (str == "hp_leech") {
+		return StatModType::HPLeech;
+	}
 	else if (str == "mp") {
 		return StatModType::MP;
 	}
