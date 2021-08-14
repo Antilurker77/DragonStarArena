@@ -45,6 +45,13 @@ int64_t Item::GetWeaponMultiplier() {
 	return 0;
 }
 
+int64_t Item::GetWeaponSpeed() {
+	if (itemData != nullptr && itemData->ItemType == ItemType::Weapon) {
+		return itemData->WeaponSpeed;
+	}
+	return 0;
+}
+
 int64_t Item::GetArmor() {
 	if (itemData != nullptr && itemData->ItemType == ItemType::Armor) {
 		return itemData->Armor;

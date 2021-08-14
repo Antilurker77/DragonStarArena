@@ -62,6 +62,16 @@ bool Player::IsPlayer() {
 	return true;
 }
 
+int Player::GetAttackSpeed() {
+	int result = 200;
+
+	if (!equipment[0].IsNull()) {
+		result = equipment[0].GetWeaponSpeed();
+	}
+
+	return result;
+}
+
 int64_t Player::GetMainHandDamage(CombatOptions& combatOptions, bool consumeBuffs) {
 	int64_t result = 0;
 

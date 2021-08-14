@@ -244,6 +244,10 @@ public:
 	// Returns the actor's EXP rate multiplier.
 	int64_t GetEXPRate();
 
+	// Returns the attack speed of the actor's weapon. If a player is dual
+	// wielding, the slowest weapon is used.
+	virtual int GetAttackSpeed() = 0;
+
 	// Returns the damage of the actor's main hand, including
 	// damage gained from attack power.
 	virtual int64_t GetMainHandDamage(CombatOptions& combatOptions, bool consumeBuffs) = 0;

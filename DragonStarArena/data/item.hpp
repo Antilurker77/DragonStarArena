@@ -34,6 +34,10 @@ public:
 	// Non-weapons return 0.
 	int64_t GetWeaponMultiplier();
 
+	// Returns the attack speed of the weapon. Non-weapons
+	// return 0.
+	int64_t GetWeaponSpeed();
+
 	// Returns the armor value of the armor. Non-armor returns 0.
 	int64_t GetArmor();
 

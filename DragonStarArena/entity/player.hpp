@@ -22,6 +22,7 @@ public:
 
 	bool IsPlayer();
 
+	int GetAttackSpeed();
 	int64_t GetMainHandDamage(CombatOptions& combatOptions, bool consumeBuffs);
 private:
 	int64_t getBaseStat(StatModType statModType);

@@ -55,6 +55,16 @@ bool Monster::IsPlayer() {
 	return false;
 }
 
+int Monster::GetAttackSpeed() {
+	int result = 200;
+
+	if (monsterData != nullptr) {
+		result = monsterData->AttackSpeed;
+	}
+
+	return result;
+}
+
 int64_t Monster::GetMainHandDamage(CombatOptions& combatOptions, bool consumeBuffs) {
 	int64_t result = 0;
 	if (monsterData != nullptr) {

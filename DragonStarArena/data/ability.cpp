@@ -267,8 +267,8 @@ int Ability::GetUseTime(bool consumeBuffs, Actor* actor) {
 
 		// negative usetime means to use weapon speed
 		// todo: weapon speed calculations
-		if (useTime < 0) {
-			useTime = 200;
+		if (useTime < 0 && actor != nullptr) {
+			useTime = actor->GetAttackSpeed() * useTime / -100;
 		}
 	}
 

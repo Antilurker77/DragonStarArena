@@ -54,7 +54,7 @@ void BattleScene::InitTestBattle() {
 	actors.push_back(std::make_shared<Player>("Vulpine", 6, BattlePosition::BackRight));
 	actors.push_back(std::make_shared<Monster>(5, BattlePosition::FrontCenter)); // Giant Rat
 	actors.push_back(std::make_shared<Monster>(5, BattlePosition::FrontLeft)); // Giant Rat
-	actors.push_back(std::make_shared<Monster>(5, BattlePosition::FrontRight)); // Giant Rat
+	actors.push_back(std::make_shared<Monster>(6, BattlePosition::FrontRight)); // Black Snake
 
 	for (size_t i = 0; i < actors.size(); i++) {
 		actors[i]->SetIndex(i);
