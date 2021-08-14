@@ -8,6 +8,8 @@
 
 #pragma once
 
+enum class EquipType;
+
 #include <string>
 #include <vector>
 #include "statMod.hpp"
@@ -29,8 +31,10 @@ struct MonsterData {
 	int64_t BaseSpellDefense = 20ll;
 	int64_t BaseHitChance = 8000ll;
 	int AttackSpeed = 200;
+	EquipType MainHandWeaponType{};
 	int64_t MainHandWeaponDamage = 0ll;
 	int64_t MainHandMultiplier = 10000;
+	EquipType OffHandWeaponType{};
 	int64_t OffHandWeaponDamage = 0ll;
 	int64_t OffHandMultiplier = 10000;
 	std::vector<StatMod> StatMods{};

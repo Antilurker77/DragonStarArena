@@ -237,7 +237,10 @@ static std::vector<Element> stringToElements(std::vector<std::string>& strv) {
 static EquipType stringToEquipType(char* s) {
 	std::string str(s);
 
-	if (str == "sword") {
+	if (str == "unarmed") {
+		return EquipType::Unarmed;
+	}
+	else if (str == "sword") {
 		return EquipType::Sword;
 	}
 	else if (str == "sword2h") {
@@ -982,13 +985,23 @@ int GameData::loadMonsters(void* notUsed, int argc, char** data, char** colname)
 	md.BaseSpellDefense = std::stoll(data[13]);
 	md.BaseHitChance = std::stoll(data[14]);
 	md.AttackSpeed = std::stoi(data[15]);
-	md.MainHandWeaponDamage = std::stoll(data[16]);
-	md.MainHandMultiplier = std::stoll(data[17]);
-	md.OffHandWeaponDamage = std::stoll(data[18]);
-	md.OffHandMultiplier = std::stoll(data[19]);
 
-	if (data[20] != nullptr) {
-		strv = splitString(data[20], ',');
+	if (data[16] != nullptr) {
+		md.MainHandWeaponType = stringToEquipType(data[16]);
+	}
+
+	md.MainHandWeaponDamage = std::stoll(data[17]);
+	md.MainHandMultiplier = std::stoll(data[18]);
+
+	if (data[19] != nullptr) {
+		md.OffHandWeaponType = stringToEquipType(data[19]);
+	}
+
+	md.OffHandWeaponDamage = std::stoll(data[20]);
+	md.OffHandMultiplier = std::stoll(data[21]);
+
+	if (data[22] != nullptr) {
+		strv = splitString(data[22], ',');
 		md.AbilityIDs = stringToID(strv);
 	}
 

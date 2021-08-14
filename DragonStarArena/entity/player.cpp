@@ -67,9 +67,10 @@ int64_t Player::GetMainHandDamage(CombatOptions& combatOptions, bool consumeBuff
 
 	if (!equipment[0].IsNull()) {
 		result = equipment[0].GetWeaponDamage();
-		result = result + (GetAttackPower(combatOptions, consumeBuffs) * equipment[0].GetWeaponMultiplier() / 10000);
+		result += GetAttackPower(combatOptions, consumeBuffs * equipment[0].GetWeaponMultiplier() / 10000);
 	}
 	else {
+		result = static_cast<int64_t>(std::round(5.0 + (level - 1.0) * 0.5 + (std::pow(level - 1.0, 2) * 0.05)));
 		result += GetAttackPower(combatOptions, consumeBuffs);
 	}
 

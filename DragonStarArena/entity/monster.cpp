@@ -8,6 +8,7 @@
 
 #include "../data/gameData.hpp"
 #include "../data/monsterData.hpp"
+#include "../data/id/equipType.hpp"
 #include "../data/id/statModType.hpp"
 
 Monster::Monster() {
@@ -57,7 +58,12 @@ bool Monster::IsPlayer() {
 int64_t Monster::GetMainHandDamage(CombatOptions& combatOptions, bool consumeBuffs) {
 	int64_t result = 0;
 	if (monsterData != nullptr) {
-		result = monsterData->MainHandWeaponDamage;
+		if (monsterData->MainHandWeaponType == EquipType::Unarmed) {
+			result = static_cast<int64_t>(std::round(5.0 + (level - 1.0) * 0.5 + (std::pow(level - 1.0, 2) * 0.05)));
+		}
+		else {
+			result = monsterData->MainHandWeaponDamage;
+		}
 		result += GetAttackPower(combatOptions, consumeBuffs) * monsterData->MainHandMultiplier / 10000;
 	}
 	return result;
