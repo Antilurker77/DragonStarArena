@@ -29,6 +29,12 @@ namespace Random {
 	// Returns a random size_t value. Values are inclusive.
 	size_t RandomSizeT(size_t min, size_t max, std::mt19937_64& mt);
 
+	// Returns a random float value. Min is inclusive, max is exlusive.
+	float RandomFloat(float min, float max);
+
+	// Returns a random float value. Min is inclusive, max is exlusive.
+	float RandomFloat(float min, float max, std::mt19937_64& mt);
+
 	// Returns a random double value. Min is inclusive, max is exlusive.
 	double RandomDouble(double min, double max);
 

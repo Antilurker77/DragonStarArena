@@ -118,8 +118,8 @@ void Entity::Move(sf::Vector2f target, float unitsPerSecond) {
 
 void Entity::VaryPosition(float amount) {
 	sf::Vector2f newPos = sprites[0].getPosition();
-	newPos.x += Random::RandomInt(-amount, amount);
-	newPos.y += Random::RandomInt(-amount, amount);
+	newPos.x += Random::RandomFloat(-amount, amount);
+	newPos.y += Random::RandomFloat(-amount, amount);
 	for (size_t i = 0; i < sprites.size(); i++) {
 		sprites[i].setPosition(newPos);
 	}

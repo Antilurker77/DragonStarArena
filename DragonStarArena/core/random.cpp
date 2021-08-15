@@ -41,6 +41,18 @@ size_t Random::RandomSizeT(size_t min, size_t max, std::mt19937_64& mt) {
 	return dist(mt);
 }
 
+float Random::RandomFloat(float min, float max) {
+	std::random_device rd;
+	std::mt19937_64 mt(rd());
+	std::uniform_real_distribution<float> dist(min, max);
+	return dist(mt);
+}
+
+float Random::RandomFloat(float min, float max, std::mt19937_64& mt) {
+	std::uniform_real_distribution<float> dist(min, max);
+	return dist(mt);
+}
+
 double Random::RandomDouble(double min, double max) {
 	std::random_device rd;
 	std::mt19937_64 mt(rd());
