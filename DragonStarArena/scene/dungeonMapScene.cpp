@@ -11,9 +11,10 @@
 #include "../core/random.hpp"
 #include "../core/settings.hpp"
 #include "../data/id/battlePosition.hpp"
+#include "../data/id/encounterType.hpp"
 
 DungeonMapScene::DungeonMapScene() {
-
+	nodeTexture = assetManager.LoadTexture("gfx/node/nodes.png");
 }
 
 void DungeonMapScene::ReadInput(sf::RenderWindow& window) {
@@ -52,10 +53,11 @@ GameState DungeonMapScene::Update(float secondsPerUpdate) {
 
 void DungeonMapScene::Render(sf::RenderTarget& window, float timeRatio) {
 	window.draw(lines);
-	
-	for (size_t i = 0; i < encounterNodes.size(); i++) {
-		encounterNodes[i].Render(window, timeRatio);
-	}
+	window.draw(nodes, nodeTexture);
+
+	//for (size_t i = 0; i < encounterNodes.size(); i++) {
+	//	encounterNodes[i].Render(window, timeRatio);
+	//}
 }
 
 void DungeonMapScene::CreateParty() {
@@ -120,7 +122,7 @@ void DungeonMapScene::GenerateEncounterNodes() {
 				pos.x = (settings.ScreenWidthF / (stages + 1)) * (i + 1);
 				pos.y = (settings.ScreenHeightF / (rows + 2)) * (j + 2);
 
-				EncounterNode node(pos, i, j, partyLevel);
+				EncounterNode node(pos, i, j, partyLevel, mt);
 				node.VaryPosition(8.f);
 				encounterNodes.push_back(node);
 
@@ -177,6 +179,8 @@ void DungeonMapScene::GenerateEncounterNodes() {
 		connections.push_back({ first, second });
 	}
 
+	BuildNodeVertexArray();
+
 	// build connection lines
 	buildLineVertexArray();
 }
@@ -186,12 +190,94 @@ void DungeonMapScene::GenerateEncounterNodes(uint64_t seed) {
 	GenerateEncounterNodes();
 }
 
+void DungeonMapScene::BuildNodeVertexArray() {
+	size_t i = 0;
+	nodes.clear();
+	nodes.resize(encounterNodes.size() * 8);
+	nodes.setPrimitiveType(sf::Quads);
+
+	for (auto& node : encounterNodes) {
+		// Inner Node
+		sf::Vertex* quad = &nodes[i * 8];
+
+		sf::Vector2f pos = node.GetSpritePosition();
+
+		// quad cords
+		// 0  1
+		// 3  2
+		quad[0].position = pos;
+		quad[1].position = sf::Vector2f{ pos.x + 64.f, pos.y };
+		quad[2].position = sf::Vector2f{ pos.x + 64.f, pos.y + 64.f };
+		quad[3].position = sf::Vector2f{ pos.x, pos.y + 64.f };
+
+		sf::Vector2f texPos{};
+
+		switch (node.GetEncounterType()) {
+		case EncounterType::Battle:
+			texPos.x = 0.f;
+			texPos.y = 64.f;
+			break;
+		case EncounterType::Treasure:
+			texPos.x = 64.f;
+			texPos.y = 64.f;
+			break;
+		case EncounterType::SpecialShop:
+			texPos.x = 128.f;
+			texPos.y = 64.f;
+			break;
+		case EncounterType::UniqueBattle:
+			texPos.x = 196.f;
+			texPos.y = 64.f;
+			break;
+		default:
+			break;
+		}
+
+		quad[0].texCoords = sf::Vector2f{ texPos.x, texPos.y };
+		quad[1].texCoords = sf::Vector2f{ texPos.x + 64.f, texPos.y };
+		quad[2].texCoords = sf::Vector2f{ texPos.x + 64.f, texPos.y + 64.f };
+		quad[3].texCoords = sf::Vector2f{ texPos.x, texPos.y + 64.f };
+
+		// Border
+		quad = &nodes[i * 8 + 4];
+
+		quad[0].position = pos;
+		quad[1].position = sf::Vector2f{ pos.x + 64.f, pos.y };
+		quad[2].position = sf::Vector2f{ pos.x + 64.f, pos.y + 64.f };
+		quad[3].position = sf::Vector2f{ pos.x, pos.y + 64.f };
+
+		if (hasStarted == false && node.GetLocation().first == 0) {
+			texPos.x = 128.f;
+			texPos.y = 0.f;
+		}
+		else if (hasStarted && node.GetLocation().first == currentLocation.x && node.GetLocation().second == currentLocation.y) {
+			texPos.x = 64.f;
+			texPos.y = 0.f;
+		}
+		else if (std::find(availableNodes.begin(), availableNodes.end(), i) != availableNodes.end()) {
+			texPos.x = 128.f;
+			texPos.y = 0.f;
+		}
+		else {
+			texPos.x = 0.f;
+			texPos.y = 0.f;
+		}
+
+		quad[0].texCoords = sf::Vector2f{ texPos.x, texPos.y };
+		quad[1].texCoords = sf::Vector2f{ texPos.x + 64.f, texPos.y };
+		quad[2].texCoords = sf::Vector2f{ texPos.x + 64.f, texPos.y + 64.f };
+		quad[3].texCoords = sf::Vector2f{ texPos.x, texPos.y + 64.f };
+
+		i++;
+	}
+}
+
 int DungeonMapScene::getAveragePartyLevel() {
 	int result = 0;
 	for (size_t i = 0; i < party.size(); i++) {
 		result += party[i]->GetLevel();
 	}
-	return result / 6;
+	return result / static_cast<int>(party.size());
 }
 
 void DungeonMapScene::buildLineVertexArray() {

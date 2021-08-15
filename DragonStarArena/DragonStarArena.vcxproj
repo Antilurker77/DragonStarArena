@@ -190,6 +190,7 @@
     <ClInclude Include="data\id\category.hpp" />
     <ClInclude Include="data\id\element.hpp" />
     <ClInclude Include="data\enconterData.hpp" />
+    <ClInclude Include="data\id\encounterType.hpp" />
     <ClInclude Include="data\id\equipType.hpp" />
     <ClInclude Include="data\id\battlePosition.hpp" />
     <ClInclude Include="data\id\itemRarity.hpp" />

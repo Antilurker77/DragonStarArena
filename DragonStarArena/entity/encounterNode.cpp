@@ -9,13 +9,14 @@
 #include "../core/assetManager.hpp"
 #include "../data/enconterData.hpp"
 #include "../data/gameData.hpp"
+#include "../data/id/encounterType.hpp"
 
 EncounterNode::EncounterNode() {
 	sprites.resize(1);
 	sprites[0].setTexture(*assetManager.LoadTexture("gfx/node/test_node.png"));
 }
 
-EncounterNode::EncounterNode(sf::Vector2f spawnPos, size_t xLoc, size_t yLoc, int level) {
+EncounterNode::EncounterNode(sf::Vector2f spawnPos, size_t xLoc, size_t yLoc, int level, std::mt19937_64& mt) {
 	sprites.resize(1);
 	sprites[0].setTexture(*assetManager.LoadTexture("gfx/node/test_node.png"));
 	auto spriteSize = sprites[0].getLocalBounds();
@@ -25,10 +26,21 @@ EncounterNode::EncounterNode(sf::Vector2f spawnPos, size_t xLoc, size_t yLoc, in
 	location.first = xLoc;
 	location.second = yLoc;
 
-	// todo: select random encounter
-	encounterData = gameData.GetEncounter(3);
+	generateEncounter(level, mt);
 }
 
 Location EncounterNode::GetLocation() {
 	return location;
+}
+
+EncounterType EncounterNode::GetEncounterType() {
+	return encounterType;
+}
+
+void EncounterNode::generateEncounter(int level, std::mt19937_64& mt) {
+	encounterType = gameData.GetEncounterTypeRandom(mt);
+
+	if (encounterType == EncounterType::Battle) {
+		encounterData = gameData.GetEncounterRandom(level, mt);
+	}
 }

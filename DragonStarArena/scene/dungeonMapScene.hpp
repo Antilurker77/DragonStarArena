@@ -43,6 +43,9 @@ public:
 	// Creates encounter nodes based on the given seed.
 	void GenerateEncounterNodes(uint64_t seed);
 
+	// Builds the vertex array for the nodes.
+	void BuildNodeVertexArray();
+
 private:
 	// Returns the average level of the party, rounded down.
 	int getAveragePartyLevel();
@@ -62,7 +65,13 @@ private:
 	std::vector<EncounterNode> encounterNodes{};
 	std::vector<Connection> connections{};
 	sf::VertexArray lines;
+	sf::VertexArray nodes;
+	sf::Texture* nodeTexture = nullptr;
 	EncounterNode* choosenEncounter = nullptr;
+
+	std::vector<size_t> availableNodes{};
+	sf::Vector2<size_t> currentLocation = { 0, 0 };
+	bool hasStarted = false;
 
 	// Input
 	bool leftClick = false;

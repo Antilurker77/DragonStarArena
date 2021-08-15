@@ -200,6 +200,9 @@
     <ClInclude Include="data\enconterData.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="data\id\encounterType.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <CopyFileToFolders Include="..\..\..\..\Dakota\Documents\Arena Master Project\dsa_data.db" />

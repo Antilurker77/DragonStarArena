@@ -66,7 +66,7 @@ int Player::GetAttackSpeed() {
 	int result = 200;
 
 	if (!equipment[0].IsNull()) {
-		result = equipment[0].GetWeaponSpeed();
+		result = static_cast<int>(equipment[0].GetWeaponSpeed());
 	}
 
 	return result;

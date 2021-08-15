@@ -18,16 +18,19 @@
 #include "id/aiTarget.hpp"
 #include "id/category.hpp"
 #include "id/element.hpp"
+#include "id/encounterType.hpp"
 #include "id/equipType.hpp"
 #include "id/itemRarity.hpp"
 #include "id/itemType.hpp"
 #include "id/statModType.hpp"
+#include "../core/random.hpp"
 
 GameData gameData;
 
 std::vector<AbilityData> GameData::abilities{};
 std::vector<AuraData> GameData::auras{};
 std::vector<EncounterData> GameData::encounters{};
+std::vector<std::pair<EncounterType, int>> GameData::encounterTypeWeights{};
 std::vector<ItemData> GameData::items{};
 std::vector<MonsterData> GameData::monsters{};
 std::vector<RaceData> GameData::races{};
@@ -232,6 +235,23 @@ static std::vector<Element> stringToElements(std::vector<std::string>& strv) {
 	}
 
 	return elements;
+}
+
+static EncounterType stringToEncounterType(char* s) {
+	std::string str(s);
+
+	if (str == "battle") {
+		return EncounterType::Battle;
+	}
+	else if (str == "treasure") {
+		return EncounterType::Treasure;
+	}
+	else if (str == "special_shop") {
+		return EncounterType::SpecialShop;
+	}
+	else {
+		return EncounterType::Undefined;
+	}
 }
 
 static EquipType stringToEquipType(char* s) {
@@ -524,6 +544,9 @@ void GameData::LoadData() {
 		query = "SELECT * FROM Encounter;";
 		error = sqlite3_exec(db, query.c_str(), GameData::loadEncounters, 0, &errorMessage);
 
+		query = "SELECT * FROM EncounterType;";
+		error = sqlite3_exec(db, query.c_str(), GameData::loadEncounterTypes, 0, &errorMessage);
+
 		// Items
 		query = "SELECT COUNT(*) FROM Item;";
 		error = sqlite3_exec(db, query.c_str(), GameData::resizeItems, 0, &errorMessage);
@@ -585,6 +608,48 @@ EncounterData* GameData::GetEncounter(size_t id) {
 		return &encounters[id];
 	}
 	return nullptr;
+}
+
+EncounterData* GameData::GetEncounterRandom(int level, std::mt19937_64& mt) {
+	int sum = 0;
+	std::vector<std::pair<EncounterData, size_t>> possible;
+	
+	for (size_t i = 0; i < encounters.size(); i++) {
+		if (encounters[i].Weight > 0 && level >= encounters[i].MinLevel && level <= encounters[i].MaxLevel) {
+			sum += encounters[i].Weight;
+			possible.push_back({ encounters[i], i });
+		}
+	}
+
+	int roll = Random::RandomInt(1, sum);
+
+	for (size_t i = 0; i < possible.size(); i++) {
+		roll -= possible[i].first.Weight;
+		if (roll <= 0) {
+			return &encounters[possible[i].second];
+		}
+	}
+
+	return nullptr;
+}
+
+EncounterType GameData::GetEncounterTypeRandom(std::mt19937_64& mt) {
+	int sum = 0;
+
+	for (size_t i = 0; i < encounterTypeWeights.size(); i++) {
+		sum += encounterTypeWeights[i].second;
+	}
+
+	int roll = Random::RandomInt(1, sum, mt);
+
+	for (size_t i = 0; i < encounterTypeWeights.size(); i++) {
+		roll -= encounterTypeWeights[i].second;
+		if (roll <= 0) {
+			return encounterTypeWeights[i].first;
+		}
+	}
+
+	return EncounterType::Undefined;
 }
 
 ItemData* GameData::GetItem(size_t id) {
@@ -874,6 +939,18 @@ int GameData::loadEncounters(void* notUsed, int argc, char** data, char** colnam
 	encounters.push_back(ed);
 
 	std::cout << "Loaded " << data[1] << " into encounter vector.\n";
+
+	return 0;
+}
+
+int GameData::loadEncounterTypes(void* notUsed, int argc, char** data, char** colname) {
+	notUsed = 0;
+	std::pair<EncounterType, int> etw{};
+
+	etw.first = stringToEncounterType(data[1]);
+	etw.second = std::stoi(data[2]);
+
+	encounterTypeWeights.push_back(etw);
 
 	return 0;
 }

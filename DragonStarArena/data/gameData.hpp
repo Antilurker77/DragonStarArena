@@ -8,6 +8,10 @@
 
 #pragma once
 
+enum class EncounterType;
+
+#include <random>
+#include <utility>
 #include <vector>
 #include "abilityData.hpp"
 #include "auraData.hpp"
@@ -31,6 +35,12 @@ public:
 
 	// Returns encounter data for a given ID.
 	EncounterData* GetEncounter(size_t id);
+
+	// Returns random encounter data based on the level.
+	EncounterData* GetEncounterRandom(int level, std::mt19937_64& mt);
+
+	// Returns a random encounter type.
+	EncounterType GetEncounterTypeRandom(std::mt19937_64& mt);
 
 	// Returns item data for a given ID.
 	ItemData* GetItem(size_t id);
@@ -65,6 +75,9 @@ private:
 
 	// Initializes the encounter data.
 	static int loadEncounters(void* notUsed, int argc, char** data, char** colname);
+
+	// Initializes the encounter type weight table.
+	static int loadEncounterTypes(void* notUsed, int argc, char** data, char** colname);
 
 	// Resizes the item vector to the proper size.
 	static int resizeItems(void* notUsed, int argc, char** data, char** colname);
@@ -101,6 +114,7 @@ private:
 	static std::vector<AbilityData> abilities;
 	static std::vector<AuraData> auras;
 	static std::vector<EncounterData> encounters;
+	static std::vector<std::pair<EncounterType, int>> encounterTypeWeights;
 	static std::vector<ItemData> items;
 	static std::vector<MonsterData> monsters;
 	static std::vector<RaceData> races;
