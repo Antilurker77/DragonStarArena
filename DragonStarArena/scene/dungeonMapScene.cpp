@@ -87,7 +87,8 @@ void DungeonMapScene::GenerateEncounterNodes() {
 	}
 
 	// 3 Paths
-	for (size_t i = 0; i < 3; i++) {
+	size_t pathsToMake = 3;
+	for (size_t i = 0; i < pathsToMake; i++) {
 		size_t previousColumn = 0;
 		for (size_t j = 0; j < stages; j++) {
 			size_t column = 0;
@@ -129,12 +130,12 @@ void DungeonMapScene::GenerateEncounterNodes() {
 						if (nodesToPlace[i + 1][0]) {
 							connectionsToBuild.push_back({ {i, j}, {i + 1, j} });
 						}
-						if (nodesToPlace[i + 1][1]) {
+						if (nodesToPlace[i + 1][1] && (!nodesToPlace[i][1] || !nodesToPlace[i + 1][0])) {
 							connectionsToBuild.push_back({ {i, j}, {i + 1, j + 1} });
 						}
 					}
 					else if (j == rows - 1) {
-						if (nodesToPlace[i + 1][rows - 2]) {
+						if (nodesToPlace[i + 1][rows - 2] && (!nodesToPlace[i][rows - 2] || !nodesToPlace[i + 1][rows - 1])) {
 							connectionsToBuild.push_back({ {i, j}, {i + 1, j - 1} });
 						}
 						if (nodesToPlace[i + 1][rows - 1]) {
@@ -142,13 +143,13 @@ void DungeonMapScene::GenerateEncounterNodes() {
 						}
 					}
 					else {
-						if (nodesToPlace[i + 1][j - 1]) {
+						if (nodesToPlace[i + 1][j - 1] && (!nodesToPlace[i][j - 1] || !nodesToPlace[i + 1][j])) {
 							connectionsToBuild.push_back({ {i, j}, {i + 1, j - 1} });
 						}
 						if (nodesToPlace[i + 1][j]) {
 							connectionsToBuild.push_back({ {i, j}, {i + 1, j} });
 						}
-						if (nodesToPlace[i + 1][j + 1]) {
+						if (nodesToPlace[i + 1][j + 1] && (!nodesToPlace[i][j + 1] || !nodesToPlace[i + 1][j])) {
 							connectionsToBuild.push_back({ {i, j}, {i + 1, j + 1} });
 						}
 					}
