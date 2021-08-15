@@ -52,7 +52,7 @@ void BattleScene::InitTestBattle() {
 	actors.push_back(std::make_shared<Player>("Shadow Elf", 3, BattlePosition::BackLeft));
 	actors.push_back(std::make_shared<Player>("Draconian", 5, BattlePosition::BackCenter));
 	actors.push_back(std::make_shared<Player>("Vulpine", 6, BattlePosition::BackRight));
-	actors.push_back(std::make_shared<Monster>(5, BattlePosition::FrontCenter)); // Giant Rat
+	actors.push_back(std::make_shared<Monster>(7, BattlePosition::FrontCenter)); // Fire Ant
 	actors.push_back(std::make_shared<Monster>(5, BattlePosition::FrontLeft)); // Giant Rat
 	actors.push_back(std::make_shared<Monster>(6, BattlePosition::FrontRight)); // Black Snake
 

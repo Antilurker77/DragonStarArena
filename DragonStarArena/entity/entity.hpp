@@ -30,6 +30,9 @@ public:
 	// Moves the sprite to the specified location. If the velocity is set to 0, the move will be instant.
 	void Move(sf::Vector2f target, float unitsPerSecond = 0.f);
 
+	// Randomly alters the position of the sprites.
+	void VaryPosition(float amount);
+
 	// Returns the position of the sprite.
 	sf::Vector2f GetSpritePosition();
 

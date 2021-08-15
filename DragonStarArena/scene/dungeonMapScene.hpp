@@ -17,6 +17,8 @@ enum class GameState;
 #include "../entity/encounterNode.hpp"
 
 typedef std::shared_ptr<Actor> ActorPtr;
+typedef std::pair<size_t, size_t> Connection;
+typedef std::pair<std::pair<size_t, size_t>, std::pair<size_t, size_t>> LocationPair;
 
 class DungeonMapScene {
 public:
@@ -45,6 +47,9 @@ private:
 	// Returns the average level of the party, rounded down.
 	int getAveragePartyLevel();
 	
+	// Builds the vertex array for connection lines.
+	void buildLineVertexArray();
+
 	// ================================
 
 	// Party
@@ -55,6 +60,8 @@ private:
 	// Encounters
 	uint64_t masterSeed = 0xdeadbeefdeadbeef;
 	std::vector<EncounterNode> encounterNodes{};
+	std::vector<Connection> connections{};
+	sf::VertexArray lines;
 	EncounterNode* choosenEncounter = nullptr;
 
 	// Input

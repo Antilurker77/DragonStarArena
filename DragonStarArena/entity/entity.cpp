@@ -6,6 +6,7 @@
 
 #include "entity.hpp"
 
+#include "../core/random.hpp"
 #include "../core/settings.hpp"
 
 Entity::Entity() {
@@ -112,6 +113,15 @@ void Entity::Move(sf::Vector2f target, float unitsPerSecond) {
 			velocity.x = (unitsPerSecond / distance) * (target.x - sprites[0].getPosition().x);
 			velocity.y = (unitsPerSecond / distance) * (target.y - sprites[0].getPosition().y);
 		}
+	}
+}
+
+void Entity::VaryPosition(float amount) {
+	sf::Vector2f newPos = sprites[0].getPosition();
+	newPos.x += Random::RandomInt(-amount, amount);
+	newPos.y += Random::RandomInt(-amount, amount);
+	for (size_t i = 0; i < sprites.size(); i++) {
+		sprites[i].setPosition(newPos);
 	}
 }
 
