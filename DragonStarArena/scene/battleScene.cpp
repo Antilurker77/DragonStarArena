@@ -205,15 +205,17 @@ GameState BattleScene::Update(float secondsPerUpdate) {
 	}
 
 	// check if there's an actor ready to go
-	for (size_t i = 0; i < actors.size(); i++) {
-		if (actors[i]->IsReady()) {
-			auto ai = actors[i]->CalcTactics(actors);
-			if (ai.first == 0) {
-				actors[i]->Exhaust(100);
-				AddMessage(actors[i]->GetName() + " failed to find a tactic.");
-			}
-			else {
-				actors[i]->UseAbility(ai.second, ai.first, this);
+	if (!victory && !defeat) {
+		for (size_t i = 0; i < actors.size(); i++) {
+			if (actors[i]->IsReady()) {
+				auto ai = actors[i]->CalcTactics(actors);
+				if (ai.first == 0) {
+					actors[i]->Exhaust(100);
+					AddMessage(actors[i]->GetName() + " failed to find a tactic.");
+				}
+				else {
+					actors[i]->UseAbility(ai.second, ai.first, this);
+				}
 			}
 		}
 	}
@@ -222,6 +224,36 @@ GameState BattleScene::Update(float secondsPerUpdate) {
 	for (size_t i = 0; i < actors.size(); i++) {
 		actors[i]->DecrementExhaustion(this);
 	}
+
+	// check for victory or defeat
+	if (!victory && !defeat) {
+		// victory
+		victory = true;
+		for (size_t i = 0; i < actors.size(); i++) {
+			if (!actors[i]->IsPlayer() && actors[i]->IsAlive()) {
+				victory = false;
+				break;
+			}
+		}
+		// defeat
+		if (!victory) {
+			defeat = true;
+			for (size_t i = 0; i < actors.size(); i++) {
+				if (actors[i]->IsPlayer() && actors[i]->IsAlive()) {
+					defeat = false;
+					break;
+				}
+			}
+		}
+
+		if (victory) {
+			AddMessage("Your party is victorious!");
+		}
+		else if (defeat) {
+			AddMessage("Your party has been slain.");
+		}
+	}
+
 	timePassed++;
 
 	// UI

@@ -60,6 +60,8 @@ private:
 
 	std::vector<ActorPtr> actors{};
 	int timePassed = 0;
+	bool victory = false;
+	bool defeat = false;
 
 	// Debug
 	sf::Text playerText;
