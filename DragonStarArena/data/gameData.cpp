@@ -266,17 +266,41 @@ static EquipType stringToEquipType(char* s) {
 	else if (str == "sword2h") {
 		return EquipType::Sword2H;
 	}
+	else if (str == "axe") {
+		return EquipType::Axe;
+	}
+	else if (str == "axe2h") {
+		return EquipType::Axe2H;
+	}
+	else if (str == "mace") {
+		return EquipType::Mace;
+	}
+	else if (str == "mace2h") {
+		return EquipType::Mace2H;
+	}
 	else if (str == "dagger") {
 		return EquipType::Dagger;
+	}
+	else if (str == "spear") {
+		return EquipType::Spear;
 	}
 	else if (str == "bow") {
 		return EquipType::Bow;
 	}
+	else if (str == "wand") {
+		return EquipType::Wand;
+	}
 	else if (str == "staff") {
 		return EquipType::Staff;
 	}
-	else if (str == "med_body") {
-		return EquipType::MediumBody;
+	else if (str == "shield") {
+		return EquipType::Shield;
+	}
+	else if (str == "off_hand") {
+		return EquipType::OffHand;
+	}
+	else if (str == "light_head") {
+		return EquipType::LightHead;
 	}
 	else if (str == "light_body") {
 		return EquipType::LightBody;
@@ -290,8 +314,50 @@ static EquipType stringToEquipType(char* s) {
 	else if (str == "light_feet") {
 		return EquipType::LightFeet;
 	}
+	else if (str == "med_head") {
+		return EquipType::MediumHead;
+	}
+	else if (str == "med_body") {
+		return EquipType::MediumBody;
+	}
+	else if (str == "med_hands") {
+		return EquipType::MediumHands;
+	}
+	else if (str == "med_legs") {
+		return EquipType::MediumLegs;
+	}
+	else if (str == "med_feet") {
+		return EquipType::MediumFeet;
+	}
+	else if (str == "heavy_head") {
+		return EquipType::HeavyHead;
+	}
+	else if (str == "heavy_body") {
+		return EquipType::HeavyBody;
+	}
+	else if (str == "heavy_hands") {
+		return EquipType::HeavyHands;
+	}
+	else if (str == "heavy_legs") {
+		return EquipType::HeavyLegs;
+	}
+	else if (str == "heavy_feet") {
+		return EquipType::HeavyFeet;
+	}
+	else if (str == "belt") {
+		return EquipType::Belt;
+	}
+	else if (str == "neck") {
+		return EquipType::Neck;
+	}
 	else if (str == "ring") {
 		return EquipType::Ring;
+	}
+	else if (str == "trinket") {
+		return EquipType::Trinket;
+	}
+	else if (str == "flask") {
+		return EquipType::Trinket;
 	}
 	else {
 		std::cout << "EquipType Error: Could not parse " << str << ".\n";

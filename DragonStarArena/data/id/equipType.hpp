@@ -22,6 +22,8 @@ enum class EquipType {
 	Bow,
 	Wand,
 	Staff,
+	Shield,
+	OffHand,
 	LightHead,
 	LightBody,
 	LightHands,
@@ -40,5 +42,6 @@ enum class EquipType {
 	Belt,
 	Neck,
 	Ring,
-	Trinket
+	Trinket,
+	Flask
 };
