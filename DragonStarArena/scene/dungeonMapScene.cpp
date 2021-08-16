@@ -119,12 +119,17 @@ void DungeonMapScene::GenerateEncounterNodes() {
 		for (size_t j = 0; j < nodesToPlace[i].size(); j++) {
 			if (nodesToPlace[i][j]) {
 				sf::Vector2f pos(0.f, 0.f);
-				pos.x = (settings.ScreenWidthF / (stages + 1)) * (i + 1);
+				pos.x = (settings.ScreenWidthF / (stages + 2)) * (i + 1);
 				pos.y = (settings.ScreenHeightF / (rows + 2)) * (j + 2);
 
 				EncounterNode node(pos, i, j, partyLevel, mt);
-				node.VaryPosition(8.f);
+				node.VaryPosition(16.f);
 				encounterNodes.push_back(node);
+
+				sf::RectangleShape hitBox;
+				hitBox.setSize(sf::Vector2f(48.f, 48.f));
+				hitBox.setPosition(node.GetSpritePosition().x + 12.f, node.GetSpritePosition().y + 12.f);
+				nodeBoxes.push_back(hitBox);
 
 				// Connections
 				if (i < stages - 1) {
@@ -156,9 +161,28 @@ void DungeonMapScene::GenerateEncounterNodes() {
 						}
 					}
 				}
+				if (i == stages - 1) {
+					connectionsToBuild.push_back({ {i, j}, {i + 1, (rows / 2) + (rows % 2)} });
+				}
 			}
 		}
 	}
+
+	// Boss Node
+	sf::Vector2f pos(0.f, 0.f);
+	pos.x = (settings.ScreenWidthF / (stages + 2)) * (stages + 1);
+	pos.y = (settings.ScreenHeightF / (rows + 2)) * ((rows / 2) + 2 + (rows % 2));
+
+	EncounterNode node(pos, stages, (rows / 2) + (rows % 2), partyLevel, mt);
+	node.VaryPosition(16.f);
+	node.SetBossNode(partyLevel, mt);
+	encounterNodes.push_back(node);
+
+	sf::RectangleShape hitBox;
+	hitBox.setSize(sf::Vector2f(48.f, 48.f));
+	hitBox.setPosition(node.GetSpritePosition().x + 12.f, node.GetSpritePosition().y + 12.f);
+	nodeBoxes.push_back(hitBox);
+
 
 	for (size_t i = 0; i < connectionsToBuild.size(); i++) {
 		size_t first = 0;
@@ -226,7 +250,7 @@ void DungeonMapScene::BuildNodeVertexArray() {
 			texPos.y = 64.f;
 			break;
 		case EncounterType::UniqueBattle:
-			texPos.x = 196.f;
+			texPos.x = 192.f;
 			texPos.y = 64.f;
 			break;
 		default:

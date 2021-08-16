@@ -22,6 +22,9 @@ public:
 	EncounterNode();
 	EncounterNode(sf::Vector2f spawnPos, size_t xLoc, size_t yLoc, int level, std::mt19937_64& mt);
 
+	// Turns the node into a boss node.
+	void SetBossNode(int level, std::mt19937_64& mt);
+
 	// Returns the location in the grid of this node.
 	Location GetLocation();
 

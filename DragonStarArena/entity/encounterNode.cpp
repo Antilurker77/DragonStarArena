@@ -29,6 +29,11 @@ EncounterNode::EncounterNode(sf::Vector2f spawnPos, size_t xLoc, size_t yLoc, in
 	generateEncounter(level, mt);
 }
 
+void EncounterNode::SetBossNode(int level, std::mt19937_64& mt) {
+	encounterType = EncounterType::UniqueBattle;
+	encounterData = gameData.GetEncounterRandom(level, mt);
+}
+
 Location EncounterNode::GetLocation() {
 	return location;
 }

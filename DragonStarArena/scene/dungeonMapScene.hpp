@@ -64,6 +64,7 @@ private:
 	uint64_t masterSeed = 0xdeadbeefdeadbeef;
 	std::vector<EncounterNode> encounterNodes{};
 	std::vector<Connection> connections{};
+	std::vector<sf::RectangleShape> nodeBoxes{};
 	sf::VertexArray lines;
 	sf::VertexArray nodes;
 	sf::Texture* nodeTexture = nullptr;
