@@ -42,6 +42,10 @@ EncounterType EncounterNode::GetEncounterType() {
 	return encounterType;
 }
 
+EncounterData* EncounterNode::GetEncounterData() {
+	return encounterData;
+}
+
 void EncounterNode::generateEncounter(int level, std::mt19937_64& mt) {
 	encounterType = gameData.GetEncounterTypeRandom(mt);
 

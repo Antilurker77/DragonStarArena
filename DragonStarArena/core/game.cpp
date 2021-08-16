@@ -79,6 +79,11 @@ void Game::update(float secondsPerUpdate) {
 		break;
 	case GameState::DungeonMap:
 		gameState = dungeonMapScene.Update(secondsPerUpdate);
+
+		if (gameState == GameState::Battle) {
+			battleScene.InitBattle(dungeonMapScene.GetParty(), dungeonMapScene.GetChoosenEncounter());
+		}
+
 		break;
 	case GameState::Battle:
 		gameState = battleScene.Update(secondsPerUpdate);

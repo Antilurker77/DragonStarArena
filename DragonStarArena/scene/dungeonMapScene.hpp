@@ -46,6 +46,12 @@ public:
 	// Builds the vertex array for the nodes.
 	void BuildNodeVertexArray();
 
+	// Returns the party vector.
+	std::vector<ActorPtr> GetParty();
+
+	// Returns the encounter node the user has selected.
+	EncounterNode* GetChoosenEncounter();
+
 private:
 	// Returns the average level of the party, rounded down.
 	int getAveragePartyLevel();

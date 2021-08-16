@@ -48,6 +48,21 @@ void DungeonMapScene::ReadInput(sf::RenderWindow& window) {
 GameState DungeonMapScene::Update(float secondsPerUpdate) {
 	GameState gs = GameState::DungeonMap;
 
+	choosenEncounter = nullptr;
+
+	for (size_t i = 0; i < nodeBoxes.size(); i++) {
+		if (nodeBoxes[i].getGlobalBounds().contains(sf::Vector2f(mousePos.x, mousePos.y))) {
+			// todo: tooltip
+			if (leftClick) {
+				choosenEncounter = &encounterNodes[i];
+			}
+		}
+	}
+
+	if (choosenEncounter != nullptr) {
+		gs = GameState::Battle;
+	}
+
 	return gs;
 }
 
@@ -294,6 +309,14 @@ void DungeonMapScene::BuildNodeVertexArray() {
 
 		i++;
 	}
+}
+
+std::vector<ActorPtr> DungeonMapScene::GetParty() {
+	return party;
+}
+
+EncounterNode* DungeonMapScene::GetChoosenEncounter() {
+	return choosenEncounter;
 }
 
 int DungeonMapScene::getAveragePartyLevel() {

@@ -31,6 +31,9 @@ public:
 	// Returns the encounter type of this node.
 	EncounterType GetEncounterType();
 
+	// Returns the encounter data.
+	EncounterData* GetEncounterData();
+
 private:
 	// Selects what kind of encounter this node should be.
 	void generateEncounter(int level, std::mt19937_64& mt);

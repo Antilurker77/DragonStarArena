@@ -9,6 +9,7 @@
 #pragma once
 
 class Actor;
+class EncounterNode;
 enum class BattlePosition;
 enum class GameState;
 
@@ -28,6 +29,9 @@ public:
 
 	// Initializes a mock battle.
 	void InitTestBattle();
+
+	// Initializes the battle based on the given encounter node.
+	void InitBattle(std::vector<ActorPtr> party, EncounterNode* encounterNode);
 
 	// Reads input.
 	void ReadInput(sf::RenderWindow& window);

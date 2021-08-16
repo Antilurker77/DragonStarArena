@@ -11,7 +11,9 @@
 #include "../core/gameState.hpp"
 #include "../core/random.hpp"
 #include "../core/settings.hpp"
+#include "../data/enconterData.hpp"
 #include "../data/id/battlePosition.hpp"
+#include "../entity/encounterNode.hpp"
 #include "../entity/monster.hpp"
 #include "../entity/player.hpp"
 
@@ -55,6 +57,69 @@ void BattleScene::InitTestBattle() {
 	actors.push_back(std::make_shared<Monster>(7, BattlePosition::FrontCenter)); // Fire Ant
 	actors.push_back(std::make_shared<Monster>(5, BattlePosition::FrontLeft)); // Giant Rat
 	actors.push_back(std::make_shared<Monster>(6, BattlePosition::FrontRight)); // Black Snake
+
+	for (size_t i = 0; i < actors.size(); i++) {
+		actors[i]->SetIndex(i);
+	}
+
+	// randomize exhaustion
+	for (size_t i = 0; i < actors.size(); i++) {
+		actors[i]->Exhaust(Random::RandomInt(1, 99));
+	}
+
+	playerText.setFont(*assetManager.LoadFont(settings.Font));
+	playerText.setCharacterSize(16u);
+	playerText.setPosition(10.f, 80.f);
+
+	enemyText.setFont(*assetManager.LoadFont(settings.Font));
+	enemyText.setCharacterSize(16u);
+	enemyText.setPosition(1080.f, 80.f);
+
+	setActorSpritePositions();
+
+	AddMessage("Let the battle begin!");
+}
+
+void BattleScene::InitBattle(std::vector<ActorPtr> party, EncounterNode* encounterNode) {
+	timePassed = 0;
+	actors.clear();
+	actors.reserve(16);
+
+	actors.insert(actors.end(), party.begin(), party.end());
+	EncounterData* ed = encounterNode->GetEncounterData();
+
+	if (ed->FrontFarLeftMonster != 0) {
+		actors.push_back(std::make_shared<Monster>(ed->FrontFarLeftMonster, BattlePosition::FrontFarLeft));
+	}
+	if (ed->FrontLeftMonster != 0) {
+		actors.push_back(std::make_shared<Monster>(ed->FrontLeftMonster, BattlePosition::FrontLeft));
+	}
+	if (ed->FrontCenterMonster != 0) {
+		actors.push_back(std::make_shared<Monster>(ed->FrontCenterMonster, BattlePosition::FrontCenter));
+	}
+	if (ed->FrontRightMonster != 0) {
+		actors.push_back(std::make_shared<Monster>(ed->FrontRightMonster, BattlePosition::FrontRight));
+	}
+	if (ed->FrontFarRightMonster != 0) {
+		actors.push_back(std::make_shared<Monster>(ed->FrontFarRightMonster, BattlePosition::FrontFarRight));
+	}
+	if (ed->BackFarLeftMonster != 0) {
+		actors.push_back(std::make_shared<Monster>(ed->BackFarLeftMonster, BattlePosition::FrontFarLeft));
+	}
+	if (ed->BackLeftMonster != 0) {
+		actors.push_back(std::make_shared<Monster>(ed->BackLeftMonster, BattlePosition::FrontLeft));
+	}
+	if (ed->BackCenterMonster != 0) {
+		actors.push_back(std::make_shared<Monster>(ed->BackCenterMonster, BattlePosition::FrontCenter));
+	}
+	if (ed->BackRightMonster != 0) {
+		actors.push_back(std::make_shared<Monster>(ed->BackRightMonster, BattlePosition::FrontRight));
+	}
+	if (ed->BackFarRightMonster != 0) {
+		actors.push_back(std::make_shared<Monster>(ed->BackFarRightMonster, BattlePosition::FrontFarRight));
+	}
+
+	actors.shrink_to_fit();
 
 	for (size_t i = 0; i < actors.size(); i++) {
 		actors[i]->SetIndex(i);
