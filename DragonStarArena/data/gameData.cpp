@@ -371,14 +371,20 @@ static std::vector<EquipType> stringToEquipTypes(std::vector<std::string>& strv)
 	for (size_t i = 0; i < strv.size(); i++) {
 		if (strv[i] == "sword") {
 			equipTypes.push_back(EquipType::Sword);
+		}
+		else if (strv[i] == "sword2h") {
 			equipTypes.push_back(EquipType::Sword2H);
 		}
 		else if (strv[i] == "axe") {
 			equipTypes.push_back(EquipType::Axe);
+		}
+		else if (strv[i] == "axe2h") {
 			equipTypes.push_back(EquipType::Axe2H);
 		}
 		else if (strv[i] == "mace") {
 			equipTypes.push_back(EquipType::Mace);
+		}
+		else if (strv[i] == "mace2h") {
 			equipTypes.push_back(EquipType::Mace2H);
 		}
 		else if (strv[i] == "dagger") {
