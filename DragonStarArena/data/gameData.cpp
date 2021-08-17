@@ -1135,27 +1135,32 @@ int GameData::loadMonsters(void* notUsed, int argc, char** data, char** colname)
 	md.BaseHealingPower = std::stoll(data[11]);
 	md.BaseArmor = std::stoll(data[12]);
 	md.BaseSpellDefense = std::stoll(data[13]);
-	md.BaseHitChance = std::stoll(data[14]);
-	md.AttackSpeed = std::stoi(data[15]);
+	md.BaseEvasion = std::stoll(data[14]);
+	md.BaseHitChance = std::stoll(data[15]);
+	md.BaseAccuracy = std::stoll(data[16]);
+	md.AttackSpeed = std::stoi(data[17]);
 
-	if (data[16] != nullptr) {
-		md.MainHandWeaponType = stringToEquipType(data[16]);
+	if (data[18] != nullptr) {
+		md.MainHandWeaponType = stringToEquipType(data[18]);
 	}
 
-	md.MainHandWeaponDamage = std::stoll(data[17]);
-	md.MainHandMultiplier = std::stoll(data[18]);
+	md.MainHandWeaponDamage = std::stoll(data[19]);
+	md.MainHandMultiplier = std::stoll(data[20]);
 
-	if (data[19] != nullptr) {
-		md.OffHandWeaponType = stringToEquipType(data[19]);
+	if (data[21] != nullptr) {
+		md.OffHandWeaponType = stringToEquipType(data[21]);
 	}
 
-	md.OffHandWeaponDamage = std::stoll(data[20]);
-	md.OffHandMultiplier = std::stoll(data[21]);
+	md.OffHandWeaponDamage = std::stoll(data[22]);
+	md.OffHandMultiplier = std::stoll(data[23]);
 
-	if (data[22] != nullptr) {
-		strv = splitString(data[22], ',');
+	if (data[24] != nullptr) {
+		strv = splitString(data[24], ',');
 		md.AbilityIDs = stringToID(strv);
 	}
+	md.EXPDrop = std::stoll(data[25]);
+	md.GoldDrop = std::stoll(data[26]);
+	md.LootPoints = std::stoll(data[27]);
 
 	monsters.push_back(md);
 

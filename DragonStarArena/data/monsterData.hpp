@@ -29,7 +29,9 @@ struct MonsterData {
 	int64_t BaseHealingPower = 10ll;
 	int64_t BaseArmor = 20ll;
 	int64_t BaseSpellDefense = 20ll;
+	int64_t BaseEvasion = 0ll;
 	int64_t BaseHitChance = 8000ll;
+	int64_t BaseAccuracy = 1ll;
 	int AttackSpeed = 200;
 	EquipType MainHandWeaponType{};
 	int64_t MainHandWeaponDamage = 0ll;
@@ -40,4 +42,7 @@ struct MonsterData {
 	std::vector<StatMod> StatMods{};
 	std::vector<size_t> AbilityIDs{};
 	std::vector<Tactic> Tactics{};
+	int64_t EXPDrop = 0ll;
+	int64_t GoldDrop = 0ll;
+	int64_t LootPoints = 0ll;
 };

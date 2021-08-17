@@ -32,7 +32,7 @@ private:
 	// ================================
 
 	RaceData* raceData = nullptr;
-	int currentEXP = 0;
+	int64_t currentEXP = 0ll;
 
 	// Slot  0: Main-Hand
 	// Slot  1: Off-Hand
