@@ -13,8 +13,11 @@ enum class GameState;
 #include <memory>
 #include <vector>
 #include <SFML/Graphics.hpp>
+#include "../data/item.hpp"
 #include "../entity/player.hpp"
 #include "../entity/encounterNode.hpp"
+#include "../ui/button.hpp"
+#include "../ui/inventoryList.hpp"
 #include "../ui/resourceWindow.hpp"
 
 typedef std::shared_ptr<Actor> ActorPtr;
@@ -71,6 +74,7 @@ private:
 
 	// Party
 	std::vector<ActorPtr> party{};
+	std::vector<Item> inventory{};
 	int64_t gold = 0;
 	int64_t dust = 0;
 
@@ -90,6 +94,11 @@ private:
 
 	// UI
 	ResourceWindow resourceWindow;
+
+	Button inventoryButton;
+
+	InventoryList inventoryList;
+	bool displayInventory = false;
 
 	// Input
 	bool leftClick = false;

@@ -27,6 +27,12 @@ public:
 	// Draws all the entity's sprites to the screen.
 	void Render(sf::RenderTarget& window, float timeRatio);
 
+	// Sets the number of sprites in this entity.
+	void SetSpriteCount(size_t count);
+
+	// Sets the texture of the specified sprite.
+	void SetTexture(std::string texFilepath, size_t index = 0);
+
 	// Moves the sprite to the specified location. If the velocity is set to 0, the move will be instant.
 	void Move(sf::Vector2f target, float unitsPerSecond = 0.f);
 

@@ -31,6 +31,10 @@ bool Item::IsNull() {
 	return itemData == nullptr;
 }
 
+std::string Item::GetName() {
+	return currentName;
+}
+
 int64_t Item::GetWeaponDamage() {
 	if (itemData != nullptr && itemData->ItemType == ItemType::Weapon) {
 		return itemData->WeaponDamage;

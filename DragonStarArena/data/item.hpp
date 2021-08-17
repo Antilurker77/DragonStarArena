@@ -26,6 +26,9 @@ public:
 	// Returns true if the item is uninitialized.
 	bool IsNull();
 
+	// Returns the item's name.
+	std::string GetName();
+
 	// Returns the damage dealt by the weapon. Non-weapons
 	// return 0.
 	int64_t GetWeaponDamage();

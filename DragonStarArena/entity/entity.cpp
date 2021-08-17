@@ -97,6 +97,17 @@ void Entity::Render(sf::RenderTarget& window, float timeRatio) {
 	}
 }
 
+void Entity::SetSpriteCount(size_t count) {
+	sprites.clear();
+	sprites.resize(count);
+}
+
+void Entity::SetTexture(std::string texFilepath, size_t index) {
+	if (index < sprites.size()) {
+		sprites[index].setTexture(*assetManager.LoadTexture(texFilepath));
+	}
+}
+
 void Entity::Move(sf::Vector2f target, float unitsPerSecond) {
 	if (!sprites.empty()) {
 		if (unitsPerSecond == 0.f) {
