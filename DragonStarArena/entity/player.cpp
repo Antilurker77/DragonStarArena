@@ -120,9 +120,11 @@ int64_t Player::getBaseStat(StatModType statModType) {
 		switch (statModType) {
 		case StatModType::HP:
 			result = raceData->BaseHP;
+			result = static_cast<int64_t>(std::round(result + (level - 1.0) * (result / 10.0) + std::pow(level - 1.0, 3.0) * (result / 100.0)));
 			break;
 		case StatModType::MP:
 			result = raceData->BaseMP;
+			result = static_cast<int64_t>(std::round(result + (level - 1.0) * (result / 10.0)));
 			break;
 		case StatModType::SP:
 			result = raceData->BaseSP;
