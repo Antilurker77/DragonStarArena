@@ -54,7 +54,16 @@ GameState DungeonMapScene::Update(float secondsPerUpdate) {
 		if (nodeBoxes[i].getGlobalBounds().contains(sf::Vector2f(mousePos.x, mousePos.y))) {
 			// todo: tooltip
 			if (leftClick) {
-				choosenEncounter = &encounterNodes[i];
+				if (!hasStarted && encounterNodes[i].GetLocation().first == 0) {
+					choosenEncounter = &encounterNodes[i];
+					hasStarted = true;
+					currentLocation = encounterNodes[i].GetLocation();
+				}
+				else if (std::find(availableNodes.begin(), availableNodes.end(), i) != availableNodes.end()) {
+					choosenEncounter = &encounterNodes[i];
+					hasStarted = true;
+					currentLocation = encounterNodes[i].GetLocation();
+				}
 			}
 		}
 	}
@@ -290,7 +299,7 @@ void DungeonMapScene::BuildNodeVertexArray() {
 			texPos.x = 128.f;
 			texPos.y = 0.f;
 		}
-		else if (hasStarted && node.GetLocation().first == currentLocation.x && node.GetLocation().second == currentLocation.y) {
+		else if (hasStarted && node.GetLocation().first == currentLocation.first && node.GetLocation().second == currentLocation.second) {
 			texPos.x = 64.f;
 			texPos.y = 0.f;
 		}
@@ -310,6 +319,27 @@ void DungeonMapScene::BuildNodeVertexArray() {
 
 		i++;
 	}
+}
+
+void DungeonMapScene::CompleteNode() {
+	availableNodes.clear();
+
+	size_t currentNodeIndex = 0;
+
+	for (size_t i = 0; i < encounterNodes.size(); i++) {
+		if (encounterNodes[i].GetLocation() == currentLocation) {
+			currentNodeIndex = i;
+			break;
+		}
+	}
+
+	for (size_t i = 0; i < connections.size(); i++) {
+		if (connections[i].first == currentNodeIndex) {
+			availableNodes.push_back(connections[i].second);
+		}
+	}
+
+	BuildNodeVertexArray();
 }
 
 std::vector<ActorPtr> DungeonMapScene::GetParty() {

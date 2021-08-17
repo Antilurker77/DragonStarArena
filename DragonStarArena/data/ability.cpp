@@ -118,6 +118,13 @@ void Ability::DecrementCooldown(Actor* user) {
 	}
 }
 
+void Ability::Refresh() {
+	currentCooldown = 0;
+	if (abilityData != nullptr) {
+		currentCharges = abilityData->MaxCharges;
+	}
+}
+
 bool Ability::IsNull() {
 	return abilityData == nullptr;
 }

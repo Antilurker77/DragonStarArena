@@ -46,6 +46,10 @@ public:
 	// Builds the vertex array for the nodes.
 	void BuildNodeVertexArray();
 
+	// Marks the current node as completed, and updates
+	// which nodes the player can travel to.
+	void CompleteNode();
+
 	// Returns the party vector.
 	std::vector<ActorPtr> GetParty();
 
@@ -77,7 +81,7 @@ private:
 	EncounterNode* choosenEncounter = nullptr;
 
 	std::vector<size_t> availableNodes{};
-	sf::Vector2<size_t> currentLocation = { 0, 0 };
+	Location currentLocation = { 0, 0 };
 	bool hasStarted = false;
 
 	// Input

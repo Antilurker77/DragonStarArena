@@ -35,6 +35,9 @@ public:
 	// charges if applicable.
 	void DecrementCooldown(Actor* user);
 
+	// Resets the cooldown and sets charges to maximum.
+	void Refresh();
+
 	// Returns true if the ability is uninitialized.
 	bool IsNull();
 

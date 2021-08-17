@@ -87,6 +87,10 @@ void Game::update(float secondsPerUpdate) {
 		break;
 	case GameState::Battle:
 		gameState = battleScene.Update(secondsPerUpdate);
+
+		if (gameState == GameState::DungeonMap) {
+			dungeonMapScene.CompleteNode();
+		}
 		break;
 	default:
 		break;

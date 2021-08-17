@@ -216,6 +216,17 @@ void Actor::Exhaust(int amount) {
 	exhaustion += std::max(0, amount);
 }
 
+void Actor::PostBattleRecovery() {
+	exhaustion = 0;
+	currentSP = GetMaxSP();
+
+	for (size_t i = 0; i < abilities.size(); i++) {
+		abilities[i].Refresh();
+	}
+
+	ClearAuras();
+}
+
 bool Actor::IsReady() {
 	if (currentHP <= 0) {
 		return false;

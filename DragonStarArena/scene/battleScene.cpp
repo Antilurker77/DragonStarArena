@@ -45,9 +45,16 @@ BattleScene::BattleScene() {
 
 		actorBoxes[i].setPosition(pos);
 	}
+
+	continueButton.SetString("Continue", 32u);
+	continueButton.SetPosition(settings.ScreenWidthF / 2.f, actorBoxSize * 2.f + 7.f);
 }
 
 void BattleScene::InitTestBattle() {
+	timePassed = 0;
+	victory = false;
+	defeat = false;
+	
 	actors.push_back(std::make_shared<Player>("Human", 1, BattlePosition::FrontCenter));
 	actors.push_back(std::make_shared<Player>("Elf", 2, BattlePosition::FrontLeft));
 	actors.push_back(std::make_shared<Player>("Stone Dwarf", 4, BattlePosition::FrontRight));
@@ -82,6 +89,8 @@ void BattleScene::InitTestBattle() {
 
 void BattleScene::InitBattle(std::vector<ActorPtr> party, EncounterNode* encounterNode) {
 	timePassed = 0;
+	victory = false;
+	defeat = false;
 	actors.clear();
 	actors.reserve(16);
 
@@ -257,6 +266,22 @@ GameState BattleScene::Update(float secondsPerUpdate) {
 	timePassed++;
 
 	// UI
+	if (victory || defeat) {
+		if (continueButton.Update(secondsPerUpdate, mousePos) && leftClick) {
+			if (victory) {
+				gs = GameState::DungeonMap;
+
+				for (size_t i = 0; i < actors.size(); i++) {
+					if (actors[i]->IsPlayer()) {
+						actors[i]->PostBattleRecovery();
+					}
+				}
+			}
+			else {
+				gs = GameState::MainMenu;
+			}
+		}
+	}
 
 	return gs;
 }
@@ -285,6 +310,10 @@ void BattleScene::Render(sf::RenderTarget& window, float timeRatio) {
 	}
 	for (size_t i = last; i < messageLog.size(); i++) {
 		window.draw(messageLog[i]);
+	}
+
+	if (victory || defeat) {
+		continueButton.Render(window);
 	}
 }
 

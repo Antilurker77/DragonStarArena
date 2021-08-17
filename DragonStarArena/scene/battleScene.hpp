@@ -19,6 +19,7 @@ enum class GameState;
 #include <vector>
 #include <SFML/Graphics.hpp>
 #include "../entity/actor.hpp"
+#include "../ui/button.hpp"
 #include "../ui/richText.hpp"
 
 typedef std::shared_ptr<Actor> ActorPtr;
@@ -74,6 +75,8 @@ private:
 	const size_t messagesDisplayed = 20ull;
 
 	std::array<sf::RectangleShape, 20> actorBoxes;
+
+	Button continueButton;
 
 	// Input
 	bool leftClick = false;

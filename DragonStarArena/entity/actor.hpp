@@ -84,6 +84,9 @@ public:
 	// Adds exhaustion to the actor.
 	void Exhaust(int amount);
 
+	// Post-battle recovery. Restores all SP, refreshes cooldowns, and clears auras.
+	void PostBattleRecovery();
+
 	// Returns true if the actor is a player character.
 	virtual bool IsPlayer() = 0;
 
