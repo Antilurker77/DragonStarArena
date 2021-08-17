@@ -102,11 +102,17 @@ int64_t Monster::getBaseStat(StatModType statModType) {
 		case StatModType::HealingPower:
 			result = monsterData->BaseHealingPower;
 			break;
+		case StatModType::Accuracy:
+			result = monsterData->BaseAccuracy;
+			break;
 		case StatModType::Armor:
 			result = monsterData->BaseArmor;
 			break;
 		case StatModType::SpellDefense:
 			result = monsterData->BaseSpellDefense;
+			break;
+		case StatModType::Evasion:
+			result = monsterData->BaseEvasion;
 			break;
 		default:
 			break;

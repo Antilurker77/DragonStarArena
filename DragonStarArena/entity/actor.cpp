@@ -434,7 +434,7 @@ int64_t Actor::GetHealingPower(CombatOptions& combatOptions, bool consumeBuffs) 
 }
 
 int64_t Actor::GetAccuracy(CombatOptions& combatOptions, bool consumeBuffs) {
-	int64_t result = 1ll;
+	int64_t result = getBaseStat(StatModType::Accuracy);
 
 	result = getStat(result, StatModType::Accuracy, combatOptions, false, consumeBuffs);
 
@@ -538,7 +538,7 @@ int64_t Actor::GetSpellDefensePen(CombatOptions& combatOptions, bool consumeBuff
 }
 
 int64_t Actor::GetEvasion(CombatOptions& combatOptions, bool consumeBuffs) {
-	int64_t result = 0ll;
+	int64_t result = getBaseStat(StatModType::Evasion);
 
 	result = getStat(result, StatModType::Evasion, combatOptions, false, consumeBuffs);
 

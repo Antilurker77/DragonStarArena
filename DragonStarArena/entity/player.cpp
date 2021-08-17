@@ -110,6 +110,12 @@ int64_t Player::getBaseStat(StatModType statModType) {
 		case StatModType::HealingPower:
 			result = 0;
 			break;
+		case StatModType::Accuracy:
+			result = 1;
+			break;
+		case StatModType::Evasion:
+			result = 0;
+			break;
 		default:
 			break;
 		}
