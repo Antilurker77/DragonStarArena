@@ -34,7 +34,10 @@ std::map<sf::String, sf::Color> sfe::RichText::colors = {
 	{"heal", sf::Color(0, 200, 0, 255)},
 
 	{"player", sf::Color(100, 100, 255, 255)},
-	{"monster", sf::Color(255, 100, 100, 255)}
+	{"monster", sf::Color(255, 100, 100, 255)},
+
+	{"gold", sf::Color(255, 215, 0, 255)},
+	{"dust", sf::Color(200, 120, 200, 255)}
 };
 
 namespace {

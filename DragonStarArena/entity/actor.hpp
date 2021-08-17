@@ -87,6 +87,9 @@ public:
 	// Post-battle recovery. Restores all SP, refreshes cooldowns, and clears auras.
 	void PostBattleRecovery();
 
+	// Award EXP to the actor, and levels them up if possible.
+	virtual void AwardEXP(int64_t exp) = 0;
+
 	// Returns true if the actor is a player character.
 	virtual bool IsPlayer() = 0;
 
@@ -254,6 +257,18 @@ public:
 	// Returns the damage of the actor's main hand, including
 	// damage gained from attack power.
 	virtual int64_t GetMainHandDamage(CombatOptions& combatOptions, bool consumeBuffs) = 0;
+
+	// Returns the amount of EXP the monster is worth. Players
+	// return 0.
+	virtual int64_t GetEXPDrop() = 0;
+
+	// Returns the amount of gold the monster is worth. Players
+	// return 0.
+	virtual int64_t GetGoldDrop() = 0;
+
+	// Returns the amount of loot points the monster is worth. Players
+	// return 0.
+	virtual int64_t GetLootPoints() = 0;
 
 protected:
 	// Returns the base stat for the designated stat type. Pulls from race

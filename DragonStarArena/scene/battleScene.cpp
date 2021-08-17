@@ -257,6 +257,24 @@ GameState BattleScene::Update(float secondsPerUpdate) {
 
 		if (victory) {
 			AddMessage("Your party is victorious!");
+
+			int64_t totalEXP = 0;
+			int64_t totalGold = 0;
+			int64_t totalLootPoints = 0;
+
+			for (size_t i = 0; i < actors.size(); i++) {
+				totalEXP += actors[i]->GetEXPDrop();
+				totalGold += actors[i]->GetGoldDrop();
+				totalLootPoints += actors[i]->GetLootPoints();
+			}
+
+			for (size_t i = 0; i < actors.size(); i++) {
+				actors[i]->AwardEXP(totalEXP);
+			}
+
+			goldAwarded = totalGold;
+
+			AddMessage("Earned " + std::to_string(totalEXP) + " EXP. Found " + std::to_string(totalGold) + " gold.");
 		}
 		else if (defeat) {
 			AddMessage("Your party has been slain.");
@@ -352,6 +370,10 @@ void BattleScene::AddMessage(std::string message) {
 
 void BattleScene::ClearMessageLog() {
 	messageLog.clear();
+}
+
+int64_t BattleScene::GetGoldAwarded() {
+	return goldAwarded;
 }
 
 void BattleScene::setActorSpritePositions() {

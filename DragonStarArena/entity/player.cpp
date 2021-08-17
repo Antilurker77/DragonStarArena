@@ -58,6 +58,20 @@ Player::Player(std::string name, size_t raceID, BattlePosition p) {
 	currentSP = GetMaxSP();
 }
 
+void Player::AwardEXP(int64_t exp) {
+	double baseEXP = 100.0;
+	if (raceData != nullptr) {
+		baseEXP = static_cast<double>(raceData->BaseEXPPerLevel);
+	}
+	int64_t nextLevel = static_cast<int64_t>(std::round(baseEXP + (level - 1.0) * (baseEXP / 10.0) + std::pow(level - 1.0, 3.0) * (baseEXP / 100.0)));
+	currentEXP += exp * GetEXPRate() / 10000ll;
+	while (currentEXP >= nextLevel) {
+		currentEXP -= nextLevel;
+		level++;
+		nextLevel = static_cast<int64_t>(std::round(baseEXP + (level - 1.0) * (baseEXP / 10.0) + std::pow(level - 1.0, 3.0) * (baseEXP / 100.0)));
+	}
+}
+
 bool Player::IsPlayer() {
 	return true;
 }
@@ -85,6 +99,18 @@ int64_t Player::GetMainHandDamage(CombatOptions& combatOptions, bool consumeBuff
 	}
 
 	return result;
+}
+
+int64_t Player::GetEXPDrop() {
+	return 0ll;
+}
+
+int64_t Player::GetGoldDrop() {
+	return 0ll;
+}
+
+int64_t Player::GetLootPoints() {
+	return 0ll;
 }
 
 int64_t Player::getBaseStat(StatModType statModType) {

@@ -53,6 +53,9 @@ public:
 	// Clears the message log.
 	void ClearMessageLog();
 
+	// Returns the total amount of gold earned by the party.
+	int64_t GetGoldAwarded();
+
 private:
 	// Sets the positions of the actor sprites.
 	void setActorSpritePositions();
@@ -63,6 +66,8 @@ private:
 	int timePassed = 0;
 	bool victory = false;
 	bool defeat = false;
+
+	int64_t goldAwarded = 0;
 
 	// Debug
 	sf::Text playerText;

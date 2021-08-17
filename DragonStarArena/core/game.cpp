@@ -90,6 +90,7 @@ void Game::update(float secondsPerUpdate) {
 
 		if (gameState == GameState::DungeonMap) {
 			dungeonMapScene.CompleteNode();
+			dungeonMapScene.AddGold(battleScene.GetGoldAwarded());
 		}
 		break;
 	default:

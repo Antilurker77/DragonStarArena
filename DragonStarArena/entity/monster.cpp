@@ -51,6 +51,10 @@ Monster::Monster(size_t monsterID, BattlePosition p) {
 	sprites.push_back(sprite);
 }
 
+void Monster::AwardEXP(int64_t exp) {
+	return;
+}
+
 bool Monster::IsPlayer() {
 	return false;
 }
@@ -77,6 +81,27 @@ int64_t Monster::GetMainHandDamage(CombatOptions& combatOptions, bool consumeBuf
 		result += GetAttackPower(combatOptions, consumeBuffs) * monsterData->MainHandMultiplier / 10000;
 	}
 	return result;
+}
+
+int64_t Monster::GetEXPDrop() {
+	if (monsterData != nullptr) {
+		return monsterData->EXPDrop;
+	}
+	return 0ll;
+}
+
+int64_t Monster::GetGoldDrop() {
+	if (monsterData != nullptr) {
+		return monsterData->GoldDrop;
+	}
+	return 0ll;
+}
+
+int64_t Monster::GetLootPoints() {
+	if (monsterData != nullptr) {
+		return monsterData->LootPoints;
+	}
+	return 0ll;
 }
 
 int64_t Monster::getBaseStat(StatModType statModType) {

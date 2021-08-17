@@ -15,6 +15,7 @@ enum class GameState;
 #include <SFML/Graphics.hpp>
 #include "../entity/player.hpp"
 #include "../entity/encounterNode.hpp"
+#include "../ui/resourceWindow.hpp"
 
 typedef std::shared_ptr<Actor> ActorPtr;
 typedef std::pair<size_t, size_t> Connection;
@@ -50,6 +51,9 @@ public:
 	// which nodes the player can travel to.
 	void CompleteNode();
 
+	// Adds gold to the player's total.
+	void AddGold(int64_t amount);
+
 	// Returns the party vector.
 	std::vector<ActorPtr> GetParty();
 
@@ -83,6 +87,9 @@ private:
 	std::vector<size_t> availableNodes{};
 	Location currentLocation = { 0, 0 };
 	bool hasStarted = false;
+
+	// UI
+	ResourceWindow resourceWindow;
 
 	// Input
 	bool leftClick = false;

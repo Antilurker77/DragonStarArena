@@ -17,10 +17,14 @@ public:
 	Monster();
 	Monster(size_t monsterID, BattlePosition p);
 
+	void AwardEXP(int64_t exp);
 	bool IsPlayer();
 
 	int GetAttackSpeed();
 	int64_t GetMainHandDamage(CombatOptions& combatOptions, bool consumeBuffs);
+	int64_t GetEXPDrop();
+	int64_t GetGoldDrop();
+	int64_t GetLootPoints();
 private:
 	int64_t getBaseStat(StatModType statModType);
 	std::vector<StatMod> getBaseStatMods();

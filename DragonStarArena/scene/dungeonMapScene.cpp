@@ -15,6 +15,9 @@
 
 DungeonMapScene::DungeonMapScene() {
 	nodeTexture = assetManager.LoadTexture("gfx/node/nodes.png");
+
+	sf::Vector2f size = resourceWindow.GetSize();
+	resourceWindow.SetPosition(settings.ScreenWidthF - size.x - 2.f, 2.f);
 }
 
 void DungeonMapScene::ReadInput(sf::RenderWindow& window) {
@@ -51,7 +54,7 @@ GameState DungeonMapScene::Update(float secondsPerUpdate) {
 	choosenEncounter = nullptr;
 
 	for (size_t i = 0; i < nodeBoxes.size(); i++) {
-		if (nodeBoxes[i].getGlobalBounds().contains(sf::Vector2f(mousePos.x, mousePos.y))) {
+		if (nodeBoxes[i].getGlobalBounds().contains(sf::Vector2f(static_cast<float>(mousePos.x), static_cast<float>(mousePos.y)))) {
 			// todo: tooltip
 			if (leftClick) {
 				if (!hasStarted && encounterNodes[i].GetLocation().first == 0) {
@@ -79,9 +82,7 @@ void DungeonMapScene::Render(sf::RenderTarget& window, float timeRatio) {
 	window.draw(lines);
 	window.draw(nodes, nodeTexture);
 
-	//for (size_t i = 0; i < encounterNodes.size(); i++) {
-	//	encounterNodes[i].Render(window, timeRatio);
-	//}
+	resourceWindow.Render(window);
 }
 
 void DungeonMapScene::CreateParty() {
@@ -340,6 +341,14 @@ void DungeonMapScene::CompleteNode() {
 	}
 
 	BuildNodeVertexArray();
+}
+
+void DungeonMapScene::AddGold(int64_t amount) {
+	gold += std::max(0ll, amount);
+	resourceWindow.SetGold(gold);
+
+	sf::Vector2f size = resourceWindow.GetSize();
+	resourceWindow.SetPosition(settings.ScreenWidthF - size.x - 2.f, 2.f);
 }
 
 std::vector<ActorPtr> DungeonMapScene::GetParty() {
