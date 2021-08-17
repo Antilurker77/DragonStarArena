@@ -93,6 +93,7 @@ void DungeonMapScene::GenerateEncounterNodes() {
 	int partyLevel = getAveragePartyLevel();
 	size_t stages = Random::RandomSizeT(7, 9, mt);
 	const size_t rows = 6;
+	const float variance = 24.f;
 	std::vector<std::array<bool, rows>> nodesToPlace;
 	std::vector<LocationPair> connectionsToBuild;
 	nodesToPlace.resize(stages + 1);
@@ -138,7 +139,7 @@ void DungeonMapScene::GenerateEncounterNodes() {
 				pos.y = (settings.ScreenHeightF / (rows + 2)) * (j + 2);
 
 				EncounterNode node(pos, i, j, partyLevel, mt);
-				node.VaryPosition(16.f);
+				node.VaryPosition(variance);
 				encounterNodes.push_back(node);
 
 				sf::RectangleShape hitBox;
@@ -189,7 +190,7 @@ void DungeonMapScene::GenerateEncounterNodes() {
 	pos.y = (settings.ScreenHeightF / (rows + 2)) * ((rows / 2) + 2 + (rows % 2));
 
 	EncounterNode node(pos, stages, (rows / 2) + (rows % 2), partyLevel, mt);
-	node.VaryPosition(16.f);
+	node.VaryPosition(variance);
 	node.SetBossNode(partyLevel, mt);
 	encounterNodes.push_back(node);
 
