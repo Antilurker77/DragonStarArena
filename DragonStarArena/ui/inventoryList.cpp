@@ -23,9 +23,15 @@ InventoryList::InventoryList() {
 void InventoryList::Update(float secondsPerUpdate, sf::Vector2i mousePos) {
 	sf::Vector2f mousePosF{ static_cast<float>(mousePos.x), static_cast<float>(mousePos.y) };
 
+	displayTooltip = false;
+
 	for (size_t i = 0; i < selectionBoxes.size(); i++) {
 		if (selectionBoxes[i].getGlobalBounds().contains(mousePosF)) {
 			selectionBoxes[i].setFillColor(sf::Color(127, 127, 127, 191));
+			tooltip.SetTooltip(&inventory->at(i));
+			auto tooltipSize = tooltip.GetSize();
+			tooltip.SetPosition(selectionBoxes[i].getPosition().x, selectionBoxes[i].getPosition().y - tooltipSize.y);
+			displayTooltip = true;
 		}
 		else {
 			selectionBoxes[i].setFillColor(sf::Color(127, 127, 127, 0));
@@ -42,12 +48,18 @@ void InventoryList::Render(sf::RenderTarget& window) {
 		itemIcons[i].Render(window, 0.f);
 		window.draw(itemText[i]);
 	}
+
+	if (displayTooltip) {
+		tooltip.Render(window);
+	}
 }
 
 void InventoryList::SetList(std::vector<Item>& items) {
 	itemIcons.clear();
 	itemText.clear();
 	selectionBoxes.clear();
+
+	inventory = &items;
 
 	float longest = titleText.getLocalBounds().width + 4.f;
 

@@ -1,0 +1,59 @@
+// ================================================================
+//
+// dataString.cpp
+//
+// ================================================================
+
+#include "dataString.hpp"
+
+#include <unordered_map>
+#include "../data/statMod.hpp"
+#include "../data/id/itemRarity.hpp"
+#include "../data/id/statModType.hpp"
+
+static std::unordered_map<ItemRarity, std::string> itemRarityMap = {
+	{ItemRarity::Common, ""},
+	{ItemRarity::Magical, "#magical "},
+	{ItemRarity::Rare, "#rare "},
+	{ItemRarity::Epic, "#epic "},
+	{ItemRarity::FixedArtifact, "#fixedart "},
+	{ItemRarity::RandomArtifact, "#randart "}
+};
+
+static std::unordered_map<StatModType, std::string> statModTypeMap = {
+	{StatModType::HP, "Maximum HP"},
+	{StatModType::MP, "Maximum MP"},
+	{StatModType::SP, "Maximum SP"},
+	{StatModType::AttackPower, "Attack Power"},
+	{StatModType::SpellPower, "Spell Power"},
+	{StatModType::HealingPower, "Healing Power"},
+	{StatModType::Accuracy, "Accuracy"}
+};
+
+std::string DataString::ItemRarityColorCode(ItemRarity itemRarity) {
+	auto i = itemRarityMap.find(itemRarity);
+	if (i != itemRarityMap.end()) {
+		return i->second;
+	}
+	return "";
+}
+
+std::string DataString::StatModString(StatMod* statMod) {
+	std::string str = "";
+
+	if (statMod->Value >= 0) {
+		str += "+";
+	}
+
+	str += std::to_string(statMod->Value);
+
+	auto i = statModTypeMap.find(statMod->StatModType);
+	if (i != statModTypeMap.end()) {
+		str += " " + i->second;
+	}
+	else {
+		str += " Unknown";
+	}
+
+	return str;
+}

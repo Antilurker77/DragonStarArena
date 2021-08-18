@@ -35,6 +35,10 @@ std::string Item::GetName() {
 	return currentName;
 }
 
+ItemRarity Item::GetItemRarity() {
+	return currentRarity;
+}
+
 int64_t Item::GetWeaponDamage() {
 	if (itemData != nullptr && itemData->ItemType == ItemType::Weapon) {
 		return itemData->WeaponDamage;

@@ -14,6 +14,7 @@ class Item;
 #include <vector>
 #include <SFML/Graphics.hpp>
 #include "richText.hpp"
+#include "tooltip.hpp"
 #include "../entity/entity.hpp"
 
 class InventoryList {
@@ -49,4 +50,9 @@ private:
 	std::vector<Entity> itemIcons;
 	std::vector<sfe::RichText> itemText;
 	std::vector<sf::RectangleShape> selectionBoxes;
+
+	std::vector<Item>* inventory = nullptr;
+
+	Tooltip tooltip;
+	bool displayTooltip = false;
 };

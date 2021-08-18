@@ -29,6 +29,9 @@ public:
 	// Returns the item's name.
 	std::string GetName();
 
+	// Return the item's rarity.
+	ItemRarity GetItemRarity();
+
 	// Returns the damage dealt by the weapon. Non-weapons
 	// return 0.
 	int64_t GetWeaponDamage();
