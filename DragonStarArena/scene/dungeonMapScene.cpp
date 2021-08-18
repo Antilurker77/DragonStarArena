@@ -59,22 +59,28 @@ void DungeonMapScene::ReadInput(sf::RenderWindow& window) {
 
 GameState DungeonMapScene::Update(float secondsPerUpdate) {
 	GameState gs = GameState::DungeonMap;
+	displayTooltip = false;
 
 	choosenEncounter = nullptr;
 
-	for (size_t i = 0; i < nodeBoxes.size(); i++) {
-		if (nodeBoxes[i].getGlobalBounds().contains(sf::Vector2f(static_cast<float>(mousePos.x), static_cast<float>(mousePos.y)))) {
-			// todo: tooltip
-			if (leftClick) {
-				if (!hasStarted && encounterNodes[i].GetLocation().first == 0) {
-					choosenEncounter = &encounterNodes[i];
-					hasStarted = true;
-					currentLocation = encounterNodes[i].GetLocation();
-				}
-				else if (std::find(availableNodes.begin(), availableNodes.end(), i) != availableNodes.end()) {
-					choosenEncounter = &encounterNodes[i];
-					hasStarted = true;
-					currentLocation = encounterNodes[i].GetLocation();
+	if (!windowOpen) {
+		for (size_t i = 0; i < nodeBoxes.size(); i++) {
+			if (nodeBoxes[i].getGlobalBounds().contains(sf::Vector2f(static_cast<float>(mousePos.x), static_cast<float>(mousePos.y)))) {
+				tooltip.SetTooltip(&encounterNodes[i]);
+				auto tooltipSize = tooltip.GetSize();
+				tooltip.SetPosition(static_cast<float>(mousePos.x), static_cast<float>(mousePos.y) - tooltipSize.y);
+				displayTooltip = true;
+				if (leftClick) {
+					if (!hasStarted && encounterNodes[i].GetLocation().first == 0) {
+						choosenEncounter = &encounterNodes[i];
+						hasStarted = true;
+						currentLocation = encounterNodes[i].GetLocation();
+					}
+					else if (std::find(availableNodes.begin(), availableNodes.end(), i) != availableNodes.end()) {
+						choosenEncounter = &encounterNodes[i];
+						hasStarted = true;
+						currentLocation = encounterNodes[i].GetLocation();
+					}
 				}
 			}
 		}
@@ -92,6 +98,7 @@ GameState DungeonMapScene::Update(float secondsPerUpdate) {
 	if (inventoryButton.Update(secondsPerUpdate, mousePos)) {
 		if (leftClick) {
 			displayInventory = !displayInventory;
+			windowOpen = displayInventory;
 			if (displayInventory) {
 				inventoryList.SetList(inventory);
 				auto ilSize = inventoryList.GetSize();
@@ -114,6 +121,10 @@ void DungeonMapScene::Render(sf::RenderTarget& window, float timeRatio) {
 	resourceWindow.Render(window);
 
 	inventoryButton.Render(window);
+
+	if (displayTooltip && !windowOpen) {
+		tooltip.Render(window);
+	}
 
 	if (displayInventory) {
 		inventoryList.Render(window);

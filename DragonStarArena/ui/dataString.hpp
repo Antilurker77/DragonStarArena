@@ -11,6 +11,7 @@
 struct StatMod;
 enum class Category;
 enum class Element;
+enum class EncounterType;
 enum class EquipType;
 enum class ItemRarity;
 
@@ -18,6 +19,9 @@ enum class ItemRarity;
 #include <vector>
 
 namespace DataString {
+	// Returns the encounter type string.
+	std::string EncounterTypeString(EncounterType encounterType);
+	
 	// Returns the equip type string.
 	std::string EquipTypeString(EquipType equipType);
 	

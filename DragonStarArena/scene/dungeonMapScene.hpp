@@ -94,8 +94,12 @@ private:
 
 	// UI
 	ResourceWindow resourceWindow;
+	Tooltip tooltip;
+	bool displayTooltip = false;
 
 	Button inventoryButton;
+
+	bool windowOpen = false;
 
 	InventoryList inventoryList;
 	bool displayInventory = false;

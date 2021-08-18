@@ -9,6 +9,7 @@
 
 #pragma once
 
+class EncounterNode;
 class Item;
 
 #include <string>
@@ -28,6 +29,9 @@ public:
 
 	// Sets the position of the tooltip.
 	void SetPosition(sf::Vector2f pos);
+
+	// Sets the tooltip to display information about the given node.
+	void SetTooltip(EncounterNode* node);
 
 	// Sets the tooltip to display information about the given item.
 	void SetTooltip(Item* item);

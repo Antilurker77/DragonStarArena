@@ -9,8 +9,13 @@
 #include "dataString.hpp"
 #include "../core/assetManager.hpp"
 #include "../core/settings.hpp"
+#include "../data/enconterData.hpp"
+#include "../data/gameData.hpp"
 #include "../data/item.hpp"
+#include "../data/monsterData.hpp"
 #include "../data/statMod.hpp"
+#include "../data/id/encounterType.hpp"
+#include "../entity/encounterNode.hpp"
 
 Tooltip::Tooltip() {
 	background.setFillColor(sf::Color(0, 0, 0, 191));
@@ -42,6 +47,126 @@ void Tooltip::SetPosition(sf::Vector2f pos) {
 		tooltipText[i].setPosition(pos);
 		pos.y += 18.f;
 	}
+}
+
+void Tooltip::SetTooltip(EncounterNode* node) {
+	tooltipText.clear();
+	sfe::RichText t;
+	std::string str;
+
+	// Type
+	EncounterType encounterType = node->GetEncounterType();
+	str = DataString::EncounterTypeString(encounterType);
+	t.setString(str);
+	tooltipText.push_back(t);
+
+	// Monsters
+	if (encounterType == EncounterType::Battle || encounterType == EncounterType::UniqueBattle) {
+		EncounterData* encounterData = node->GetEncounterData();
+		MonsterData* monsterData = nullptr;
+
+		if (encounterData->FrontFarLeftMonster != 0) {
+			monsterData = gameData.GetMonster(encounterData->FrontFarLeftMonster);
+			str = "#aaaaaa LV#default " + std::to_string(monsterData->Level) + " " + monsterData->Name;
+			if (!monsterData->Title.empty()) {
+				str += ", " + monsterData->Title;
+			}
+			t.setString(str);
+			tooltipText.push_back(t);
+		}
+
+		if (encounterData->FrontLeftMonster != 0) {
+			monsterData = gameData.GetMonster(encounterData->FrontLeftMonster);
+			str = "#aaaaaa LV#default " + std::to_string(monsterData->Level) + " " + monsterData->Name;
+			if (!monsterData->Title.empty()) {
+				str += ", " + monsterData->Title;
+			}
+			t.setString(str);
+			tooltipText.push_back(t);
+		}
+
+		if (encounterData->FrontCenterMonster != 0) {
+			monsterData = gameData.GetMonster(encounterData->FrontCenterMonster);
+			str = "#aaaaaa LV#default " + std::to_string(monsterData->Level) + " " + monsterData->Name;
+			if (!monsterData->Title.empty()) {
+				str += ", " + monsterData->Title;
+			}
+			t.setString(str);
+			tooltipText.push_back(t);
+		}
+
+		if (encounterData->FrontRightMonster != 0) {
+			monsterData = gameData.GetMonster(encounterData->FrontRightMonster);
+			str = "#aaaaaa LV#default " + std::to_string(monsterData->Level) + " " + monsterData->Name;
+			if (!monsterData->Title.empty()) {
+				str += ", " + monsterData->Title;
+			}
+			t.setString(str);
+			tooltipText.push_back(t);
+		}
+
+		if (encounterData->FrontFarRightMonster != 0) {
+			monsterData = gameData.GetMonster(encounterData->FrontFarRightMonster);
+			str = "#aaaaaa LV#default " + std::to_string(monsterData->Level) + " " + monsterData->Name;
+			if (!monsterData->Title.empty()) {
+				str += ", " + monsterData->Title;
+			}
+			t.setString(str);
+			tooltipText.push_back(t);
+		}
+
+		if (encounterData->BackFarLeftMonster != 0) {
+			monsterData = gameData.GetMonster(encounterData->BackFarLeftMonster);
+			str = "#aaaaaa LV#default " + std::to_string(monsterData->Level) + " " + monsterData->Name;
+			if (!monsterData->Title.empty()) {
+				str += ", " + monsterData->Title;
+			}
+			t.setString(str);
+			tooltipText.push_back(t);
+		}
+
+		if (encounterData->BackLeftMonster != 0) {
+			monsterData = gameData.GetMonster(encounterData->BackLeftMonster);
+			str = "#aaaaaa LV#default " + std::to_string(monsterData->Level) + " " + monsterData->Name;
+			if (!monsterData->Title.empty()) {
+				str += ", " + monsterData->Title;
+			}
+			t.setString(str);
+			tooltipText.push_back(t);
+		}
+
+		if (encounterData->BackCenterMonster != 0) {
+			monsterData = gameData.GetMonster(encounterData->BackCenterMonster);
+			str = "#aaaaaa LV#default " + std::to_string(monsterData->Level) + " " + monsterData->Name;
+			if (!monsterData->Title.empty()) {
+				str += ", " + monsterData->Title;
+			}
+			t.setString(str);
+			tooltipText.push_back(t);
+		}
+
+		if (encounterData->BackRightMonster != 0) {
+			monsterData = gameData.GetMonster(encounterData->BackRightMonster);
+			str = "#aaaaaa LV#default " + std::to_string(monsterData->Level) + " " + monsterData->Name;
+			if (!monsterData->Title.empty()) {
+				str += ", " + monsterData->Title;
+			}
+			t.setString(str);
+			tooltipText.push_back(t);
+		}
+
+		if (encounterData->BackFarRightMonster != 0) {
+			monsterData = gameData.GetMonster(encounterData->BackFarRightMonster);
+			str = "#aaaaaa LV#default " + std::to_string(monsterData->Level) + " " + monsterData->Name;
+			if (!monsterData->Title.empty()) {
+				str += ", " + monsterData->Title;
+			}
+			t.setString(str);
+			tooltipText.push_back(t);
+		}
+	}
+
+	format();
 }
 
 void Tooltip::SetTooltip(Item* item) {

@@ -8,9 +8,17 @@
 
 #include <unordered_map>
 #include "../data/statMod.hpp"
+#include "../data/id/encounterType.hpp"
 #include "../data/id/equipType.hpp"
 #include "../data/id/itemRarity.hpp"
 #include "../data/id/statModType.hpp"
+
+static std::unordered_map<EncounterType, std::string> encounterTypeMap = {
+	{EncounterType::Battle, "Battle"},
+	{EncounterType::UniqueBattle, "Boss"},
+	{EncounterType::Treasure, "Treasure"},
+	{EncounterType::SpecialShop, "Shop"}
+};
 
 static std::unordered_map<EquipType, std::string> equipTypeMap = {
 	{EquipType::Unarmed, "Unarmed"},
@@ -37,6 +45,14 @@ static std::unordered_map<StatModType, std::string> statModTypeMap = {
 	{StatModType::HealingPower, "Healing Power"},
 	{StatModType::Accuracy, "Accuracy"}
 };
+
+std::string DataString::EncounterTypeString(EncounterType encounterType) {
+	auto i = encounterTypeMap.find(encounterType);
+	if (i != encounterTypeMap.end()) {
+		return i->second;
+	}
+	return "";
+}
 
 std::string DataString::EquipTypeString(EquipType equipType) {
 	auto i = equipTypeMap.find(equipType);
