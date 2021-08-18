@@ -8,6 +8,7 @@
 
 #pragma once
 
+enum class EquipType;
 enum class ItemRarity;
 struct ItemData;
 
@@ -31,6 +32,9 @@ public:
 
 	// Return the item's rarity.
 	ItemRarity GetItemRarity();
+
+	// Returns the equip type of the equipment.
+	EquipType GetEquipType();
 
 	// Returns the damage dealt by the weapon. Non-weapons
 	// return 0.

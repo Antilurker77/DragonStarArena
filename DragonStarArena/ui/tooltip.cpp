@@ -54,6 +54,11 @@ void Tooltip::SetTooltip(Item* item) {
 	t.setString(str);
 	tooltipText.push_back(t);
 
+	// Item Type
+	str = "#aaaaaa " + DataString::EquipTypeString(item->GetEquipType());
+	t.setString(str);
+	tooltipText.push_back(t);
+
 	// Stat Mods
 	std::vector<StatMod> statMods = item->GetStatMods();
 

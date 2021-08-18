@@ -8,6 +8,7 @@
 
 #include "gameData.hpp"
 #include "itemData.hpp"
+#include "id/equipType.hpp"
 #include "id/itemType.hpp"
 
 Item::Item() {
@@ -37,6 +38,13 @@ std::string Item::GetName() {
 
 ItemRarity Item::GetItemRarity() {
 	return currentRarity;
+}
+
+EquipType Item::GetEquipType() {
+	if (itemData != nullptr) {
+		return itemData->EquipType;
+	}
+	return EquipType::Undefined;
 }
 
 int64_t Item::GetWeaponDamage() {

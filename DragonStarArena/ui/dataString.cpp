@@ -8,8 +8,16 @@
 
 #include <unordered_map>
 #include "../data/statMod.hpp"
+#include "../data/id/equipType.hpp"
 #include "../data/id/itemRarity.hpp"
 #include "../data/id/statModType.hpp"
+
+static std::unordered_map<EquipType, std::string> equipTypeMap = {
+	{EquipType::Unarmed, "Unarmed"},
+	{EquipType::Sword, "Sword"},
+	{EquipType::Belt, "Belt"},
+	{EquipType::Ring, "Ring"}
+};
 
 static std::unordered_map<ItemRarity, std::string> itemRarityMap = {
 	{ItemRarity::Common, ""},
@@ -29,6 +37,14 @@ static std::unordered_map<StatModType, std::string> statModTypeMap = {
 	{StatModType::HealingPower, "Healing Power"},
 	{StatModType::Accuracy, "Accuracy"}
 };
+
+std::string DataString::EquipTypeString(EquipType equipType) {
+	auto i = equipTypeMap.find(equipType);
+	if (i != equipTypeMap.end()) {
+		return i->second;
+	}
+	return "";
+}
 
 std::string DataString::ItemRarityColorCode(ItemRarity itemRarity) {
 	auto i = itemRarityMap.find(itemRarity);

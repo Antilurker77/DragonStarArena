@@ -11,12 +11,16 @@
 struct StatMod;
 enum class Category;
 enum class Element;
+enum class EquipType;
 enum class ItemRarity;
 
 #include <string>
 #include <vector>
 
 namespace DataString {
+	// Returns the equip type string.
+	std::string EquipTypeString(EquipType equipType);
+	
 	// Returns the color code based on the given item rarity.
 	std::string ItemRarityColorCode(ItemRarity itemRarity);
 
