@@ -6,9 +6,12 @@
 
 #include "equipWindow.hpp"
 
+#include "dataString.hpp"
 #include "../core/assetManager.hpp"
 #include "../core/settings.hpp"
 #include "../data/item.hpp"
+#include "../data/id/equipType.hpp"
+#include "../data/id/itemType.hpp"
 #include "../entity/actor.hpp"
 
 EquipWindow::EquipWindow() {
@@ -89,6 +92,12 @@ EquipWindow::EquipWindow() {
 
 	equipBG[11].setPosition(bgPos.x + 140.f, bgPos.y + 180.f);
 	equipIcons[11].Move(sf::Vector2f(bgPos.x + 140.f, bgPos.y + 180.f));
+
+	inventoryBG.setSize(sf::Vector2f(350.f, 300.f));
+	inventoryBG.setFillColor(sf::Color(0, 0, 0, 255));
+	inventoryBG.setOutlineThickness(1.f);
+	inventoryBG.setOutlineColor(sf::Color(255, 255, 255, 255));
+	inventoryBG.setPosition(bgPos.x + 425.f, bgPos.y + 75.f);
 }
 
 void EquipWindow::Update(float secondsPerUpdate, sf::Vector2i mousePos, bool leftClick, bool rightClick) {
@@ -113,6 +122,22 @@ void EquipWindow::Update(float secondsPerUpdate, sf::Vector2i mousePos, bool lef
 			tooltip.SetPosition(mousePosF.x, mousePosF.y - size.y);
 		}
 	}
+
+	for (size_t i = 0; i < highlightBoxes.size(); i++) {
+		if (highlightBoxes[i].getGlobalBounds().contains(mousePosF)) {
+			highlightBoxes[i].setFillColor(sf::Color(127, 127, 127, 191));
+			displayTooltip = true;
+			tooltip.SetTooltip(&inventory->at(displayedItems[i]));
+			auto size = tooltip.GetSize();
+			tooltip.SetPosition(mousePosF.x, mousePosF.y - size.y);
+			if (rightClick) {
+
+			}
+		}
+		else {
+			highlightBoxes[i].setFillColor(sf::Color(127, 127, 127, 0));
+		}
+	}
 }
 
 void EquipWindow::Render(sf::RenderTarget& window) {
@@ -130,6 +155,20 @@ void EquipWindow::Render(sf::RenderTarget& window) {
 		playerButtons[i].Render(window);
 	}
 
+	window.draw(inventoryBG);
+
+	for (size_t i = 0; i < highlightBoxes.size(); i++) {
+		window.draw(highlightBoxes[i]);
+	}
+
+	for (size_t i = 0; i < inventoryIcons.size(); i++) {
+		inventoryIcons[i].Render(window, 0.f);
+	}
+
+	for (size_t i = 0; i < inventoryText.size(); i++) {
+		window.draw(inventoryText[i]);
+	}
+
 	if (displayTooltip) {
 		tooltip.Render(window);
 	}
@@ -145,6 +184,12 @@ void EquipWindow::SetPlayerList(std::vector<ActorPtr>* list) {
 	setEquipment(viewedPlayer);
 }
 
+void EquipWindow::SetInventoryList(std::vector<Item>* list) {
+	inventory = list;
+
+	filterInventory();
+}
+
 void EquipWindow::setEquipment(size_t index) {
 	equippedItems = players->at(index)->GetEquipment();
 
@@ -155,5 +200,53 @@ void EquipWindow::setEquipment(size_t index) {
 		else {
 			equipIcons[i].SetColor(sf::Color(127, 127, 127, 255));
 		}
+	}
+}
+
+void EquipWindow::filterInventory() {
+	inventoryText.clear();
+	inventoryIcons.clear();
+	highlightBoxes.clear();
+	displayedItems.clear();
+
+	for (size_t i = 0; i < inventory->size(); i++) {
+		if (inventory->at(i).GetItemType() == ItemType::Weapon || inventory->at(i).GetItemType() == ItemType::Armor) {
+			if (currentFilter == EquipType::Undefined || inventory->at(i).GetEquipType() == currentFilter) {
+				displayedItems.push_back(i);
+			}
+		}
+	}
+
+	float iFloat = 0.f;
+	auto pos = inventoryBG.getPosition();
+	pos.x += 2.f;
+	pos.y += 2.f;
+
+	for (size_t i = 0; i < displayedItems.size(); i++) {
+		Item* item = &inventory->at(displayedItems[i]);
+		sfe::RichText text;
+		Entity icon;
+		sf::RectangleShape box;
+
+		text.setString(DataString::ItemRarityColorCode(item->GetItemRarity()) + item->GetName());
+		text.setCharacterSize(16u);
+		text.setFont(*assetManager.LoadFont(settings.Font));
+
+		// todo: icon and rarity color
+		icon.SetSpriteCount(1);
+		icon.SetTexture("gfx/icon/item/placeholder.png");
+
+		box.setSize(sf::Vector2f(348.f, 20.f));
+		box.setFillColor(sf::Color(127, 127, 127, 0));
+
+		icon.Move(sf::Vector2f(pos.x, pos.y + (iFloat * 20.f)));
+		text.setPosition(pos.x + 18.f, pos.y + (iFloat * 20.f) - 2.f);
+		box.setPosition(pos.x - 1.f, pos.y + (iFloat * 20.f) - 1.f);
+
+		inventoryIcons.push_back(icon);
+		inventoryText.push_back(text);
+		highlightBoxes.push_back(box);
+
+		iFloat += 1.f;
 	}
 }

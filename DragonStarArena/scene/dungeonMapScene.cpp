@@ -120,6 +120,7 @@ GameState DungeonMapScene::Update(float secondsPerUpdate) {
 			displayInventory = false;
 			if (displayEquipWindow) {
 				equipWindow.SetPlayerList(&party);
+				equipWindow.SetInventoryList(&inventory);
 			}
 		}
 	}

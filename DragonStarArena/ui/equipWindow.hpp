@@ -9,6 +9,8 @@
 #pragma once
 
 class Actor;
+class Item;
+enum class EquipType;
 
 #include <array>
 #include <memory>
@@ -35,9 +37,15 @@ public:
 	// Sets the player reference.
 	void SetPlayerList(std::vector<ActorPtr>* list);
 
+	// Sets the inventory reference.
+	void SetInventoryList(std::vector<Item>* list);
+
 private:
 	// Sets up the equipment entities.
 	void setEquipment(size_t index);
+
+	// Sets up the inventory display based on the current filter.
+	void filterInventory();
 
 	// ================================
 	Tooltip tooltip;
@@ -53,4 +61,12 @@ private:
 	std::array<Entity, 12> equipIcons;
 	const float equipBGSize = 32.f;
 	std::array<Item, 12>* equippedItems = nullptr;
+
+	sf::RectangleShape inventoryBG;
+	std::vector<Item>* inventory = nullptr;
+	std::vector<sfe::RichText> inventoryText{};
+	std::vector<Entity> inventoryIcons{};
+	std::vector<sf::RectangleShape> highlightBoxes{};
+	std::vector<size_t> displayedItems{};
+	EquipType currentFilter{};
 };
