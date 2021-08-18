@@ -108,6 +108,18 @@ void Entity::SetTexture(std::string texFilepath, size_t index) {
 	}
 }
 
+void Entity::SetScale(float scale) {
+	for (size_t i = 0; i < sprites.size(); i++) {
+		sprites[i].setScale(scale, scale);
+	}
+}
+
+void Entity::SetColor(sf::Color color) {
+	for (size_t i = 0; i < sprites.size(); i++) {
+		sprites[i].setColor(color);
+	}
+}
+
 void Entity::Move(sf::Vector2f target, float unitsPerSecond) {
 	if (!sprites.empty()) {
 		if (unitsPerSecond == 0.f) {

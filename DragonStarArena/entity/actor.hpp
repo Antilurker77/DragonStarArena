@@ -10,6 +10,7 @@
 #pragma once
 
 class BattleScene;
+class Item;
 enum class Attribute;
 enum class BattlePosition;
 enum class StatModType;
@@ -249,6 +250,9 @@ public:
 
 	// Returns the actor's EXP rate multiplier.
 	int64_t GetEXPRate();
+
+	// Returns the items equipped to the actor. Monsters return a nullptr.
+	virtual std::array<Item, 12>* GetEquipment() = 0;
 
 	// Returns the attack speed of the actor's weapon. If a player is dual
 	// wielding, the slowest weapon is used.

@@ -22,6 +22,9 @@ DungeonMapScene::DungeonMapScene() {
 	inventoryButton.SetString("Inventory", 24u);
 	inventoryButton.SetPosition(settings.ScreenWidthF * 0.10f, settings.ScreenHeightF * 0.95f);
 
+	equipButton.SetString("Equip", 24u);
+	equipButton.SetPosition(settings.ScreenWidthF * 0.25f, settings.ScreenHeightF * 0.95f);
+
 	// test
 	inventory.push_back(Item(40));
 	inventory.push_back(Item(40));
@@ -101,6 +104,7 @@ GameState DungeonMapScene::Update(float secondsPerUpdate) {
 		if (leftClick) {
 			displayInventory = !displayInventory;
 			windowOpen = displayInventory;
+			displayEquipWindow = false;
 			if (displayInventory) {
 				inventoryList.SetList(inventory);
 				auto ilSize = inventoryList.GetSize();
@@ -109,8 +113,23 @@ GameState DungeonMapScene::Update(float secondsPerUpdate) {
 		}
 	}
 
+	if (equipButton.Update(secondsPerUpdate, mousePos)) {
+		if (leftClick) {
+			displayEquipWindow = !displayEquipWindow;
+			windowOpen = displayEquipWindow;
+			displayInventory = false;
+			if (displayEquipWindow) {
+				equipWindow.SetPlayerList(&party);
+			}
+		}
+	}
+
 	if (displayInventory) {
 		inventoryList.Update(secondsPerUpdate, mousePos);
+	}
+
+	if (displayEquipWindow) {
+		equipWindow.Update(secondsPerUpdate, mousePos, leftClick, rightClick);
 	}
 
 	return gs;
@@ -123,6 +142,7 @@ void DungeonMapScene::Render(sf::RenderTarget& window, float timeRatio) {
 	resourceWindow.Render(window);
 
 	inventoryButton.Render(window);
+	equipButton.Render(window);
 
 	if (displayTooltip && !windowOpen) {
 		tooltip.Render(window);
@@ -130,6 +150,10 @@ void DungeonMapScene::Render(sf::RenderTarget& window, float timeRatio) {
 
 	if (displayInventory) {
 		inventoryList.Render(window);
+	}
+
+	if (displayEquipWindow) {
+		equipWindow.Render(window);
 	}
 }
 

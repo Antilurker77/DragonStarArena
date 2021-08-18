@@ -169,6 +169,7 @@
     <ClCompile Include="scene\mainMenuScene.cpp" />
     <ClCompile Include="ui\button.cpp" />
     <ClCompile Include="ui\dataString.cpp" />
+    <ClCompile Include="ui\equipWindow.cpp" />
     <ClCompile Include="ui\fpsWindow.cpp" />
     <ClCompile Include="ui\inventoryList.cpp" />
     <ClCompile Include="ui\resourceWindow.cpp" />
@@ -216,6 +217,7 @@
     <ClInclude Include="scene\mainMenuScene.hpp" />
     <ClInclude Include="ui\button.hpp" />
     <ClInclude Include="ui\dataString.hpp" />
+    <ClInclude Include="ui\equipWindow.hpp" />
     <ClInclude Include="ui\fpsWindow.hpp" />
     <ClInclude Include="ui\inventoryList.hpp" />
     <ClInclude Include="ui\resourceWindow.hpp" />

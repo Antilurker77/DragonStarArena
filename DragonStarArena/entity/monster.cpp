@@ -59,6 +59,10 @@ bool Monster::IsPlayer() {
 	return false;
 }
 
+std::array<Item, 12>* Monster::GetEquipment() {
+	return nullptr;
+}
+
 int Monster::GetAttackSpeed() {
 	int result = 200;
 

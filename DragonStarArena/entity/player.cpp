@@ -76,6 +76,10 @@ bool Player::IsPlayer() {
 	return true;
 }
 
+std::array<Item, 12>* Player::GetEquipment() {
+	return &equipment;
+}
+
 int Player::GetAttackSpeed() {
 	int result = 200;
 

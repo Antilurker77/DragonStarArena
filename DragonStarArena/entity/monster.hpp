@@ -20,6 +20,7 @@ public:
 	void AwardEXP(int64_t exp);
 	bool IsPlayer();
 
+	std::array<Item, 12>* GetEquipment();
 	int GetAttackSpeed();
 	int64_t GetMainHandDamage(CombatOptions& combatOptions, bool consumeBuffs);
 	int64_t GetEXPDrop();

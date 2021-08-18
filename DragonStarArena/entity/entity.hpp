@@ -33,6 +33,12 @@ public:
 	// Sets the texture of the specified sprite.
 	void SetTexture(std::string texFilepath, size_t index = 0);
 
+	// Set's the sprite's scale.
+	void SetScale(float scale);
+
+	// Sets the color of the sprites.
+	void SetColor(sf::Color color);
+
 	// Moves the sprite to the specified location. If the velocity is set to 0, the move will be instant.
 	void Move(sf::Vector2f target, float unitsPerSecond = 0.f);
 
