@@ -23,6 +23,7 @@ static std::unordered_map<EncounterType, std::string> encounterTypeMap = {
 static std::unordered_map<EquipType, std::string> equipTypeMap = {
 	{EquipType::Unarmed, "Unarmed"},
 	{EquipType::Sword, "Sword"},
+	{EquipType::MediumBody, "Medium Body Armor"},
 	{EquipType::Belt, "Belt"},
 	{EquipType::Ring, "Ring"}
 };
@@ -86,6 +87,20 @@ std::string DataString::StatModString(StatMod* statMod) {
 	else {
 		str += " Unknown";
 	}
+
+	return str;
+}
+
+std::string DataString::TimeString(int64_t time) {
+	std::string str = "";
+
+	str = std::to_string(time / 100) + ".";
+
+	int64_t remainder = time % 100;
+	if (remainder < 10) {
+		str += "0";
+	}
+	str += std::to_string(remainder) + "s";
 
 	return str;
 }

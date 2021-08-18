@@ -30,4 +30,7 @@ namespace DataString {
 
 	// Returns a string based on the given stat mod.
 	std::string StatModString(StatMod* statMod);
+
+	// Converts a number to a time amount.
+	std::string TimeString(int64_t time);
 }

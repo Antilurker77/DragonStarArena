@@ -10,6 +10,7 @@
 
 enum class EquipType;
 enum class ItemRarity;
+enum class ItemType;
 struct ItemData;
 
 #include <string>
@@ -33,6 +34,9 @@ public:
 	// Return the item's rarity.
 	ItemRarity GetItemRarity();
 
+	// Returns the item's type.
+	ItemType GetItemType();
+
 	// Returns the equip type of the equipment.
 	EquipType GetEquipType();
 
@@ -47,6 +51,10 @@ public:
 	// Returns the attack speed of the weapon. Non-weapons
 	// return 0.
 	int64_t GetWeaponSpeed();
+
+	// Returns the base hit chance of the weapon. Non-weapons
+	// return 0.
+	int64_t GetWeaponHitChance();
 
 	// Returns the armor value of the armor. Non-armor returns 0.
 	int64_t GetArmor();

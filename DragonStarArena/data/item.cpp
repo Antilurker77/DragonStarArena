@@ -40,6 +40,13 @@ ItemRarity Item::GetItemRarity() {
 	return currentRarity;
 }
 
+ItemType Item::GetItemType() {
+	if (itemData != nullptr) {
+		return itemData->ItemType;
+	}
+	return ItemType::Undefined;
+}
+
 EquipType Item::GetEquipType() {
 	if (itemData != nullptr) {
 		return itemData->EquipType;
@@ -64,6 +71,13 @@ int64_t Item::GetWeaponMultiplier() {
 int64_t Item::GetWeaponSpeed() {
 	if (itemData != nullptr && itemData->ItemType == ItemType::Weapon) {
 		return itemData->WeaponSpeed;
+	}
+	return 0;
+}
+
+int64_t Item::GetWeaponHitChance() {
+	if (itemData != nullptr && itemData->ItemType == ItemType::Weapon) {
+		return itemData->WeaponHitChance;
 	}
 	return 0;
 }

@@ -15,6 +15,7 @@
 #include "../data/monsterData.hpp"
 #include "../data/statMod.hpp"
 #include "../data/id/encounterType.hpp"
+#include "../data/id/itemType.hpp"
 #include "../entity/encounterNode.hpp"
 
 Tooltip::Tooltip() {
@@ -183,6 +184,41 @@ void Tooltip::SetTooltip(Item* item) {
 	str = "#aaaaaa " + DataString::EquipTypeString(item->GetEquipType());
 	t.setString(str);
 	tooltipText.push_back(t);
+
+	// Weapon Stats
+	if (item->GetItemType() == ItemType::Weapon) {
+		str = std::to_string(item->GetWeaponDamage()) + " + " + std::to_string(item->GetWeaponMultiplier() / 100) + "% Attack Power Damage";
+		t.setString(str);
+		tooltipText.push_back(t);
+
+		str = DataString::TimeString(item->GetWeaponSpeed()) + " Use Time";
+		t.setString(str);
+		tooltipText.push_back(t);
+
+		str = std::to_string(item->GetWeaponHitChance() / 100) + "% Hit Chance";
+		t.setString(str);
+		tooltipText.push_back(t);
+	}
+	// Armor Stats
+	else if (item->GetItemType() == ItemType::Armor) {
+		str = "";
+		int64_t armor = item->GetArmor();
+		int64_t spellDefense = item->GetSpellDefense();
+
+		if (armor > 0) {
+			str += std::to_string(armor) + " Armor";
+			if (spellDefense > 0) {
+				str += " | ";
+			}
+		}
+		if (spellDefense > 0) {
+			str += std::to_string(spellDefense) + " Spell Defense";
+		}
+		if (!str.empty()) {
+			t.setString(str);
+			tooltipText.push_back(t);
+		}
+	}
 
 	// Stat Mods
 	std::vector<StatMod> statMods = item->GetStatMods();

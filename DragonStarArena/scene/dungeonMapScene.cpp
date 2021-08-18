@@ -27,6 +27,8 @@ DungeonMapScene::DungeonMapScene() {
 	inventory.push_back(Item(40));
 	inventory.push_back(Item(3));
 	inventory.push_back(Item(40));
+	inventory.push_back(Item(11));
+	inventory.push_back(Item(30));
 }
 
 void DungeonMapScene::ReadInput(sf::RenderWindow& window) {
