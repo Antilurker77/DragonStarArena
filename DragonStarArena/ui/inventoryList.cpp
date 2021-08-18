@@ -6,6 +6,7 @@
 
 #include "inventoryList.hpp"
 
+#include "dataString.hpp"
 #include "../core/assetManager.hpp"
 #include "../core/settings.hpp"
 #include "../data/item.hpp"
@@ -68,8 +69,8 @@ void InventoryList::SetList(std::vector<Item>& items) {
 		Entity icon;
 		sf::RectangleShape box;
 
-		// todo: rarity colors, different icons
-		text.setString(items[i].GetName());
+		// todo: different icons
+		text.setString(DataString::ItemRarityColorCode(items[i].GetItemRarity()) + items[i].GetName());
 		text.setCharacterSize(16u);
 		text.setFont(*assetManager.LoadFont(settings.Font));
 
@@ -104,19 +105,22 @@ void InventoryList::SetPosition(float x, float y) {
 }
 
 void InventoryList::SetPosition(sf::Vector2f pos) {
+	pos.x = std::roundf(pos.x);
+	pos.y = std::roundf(pos.y);
+	
 	background.setPosition(pos);
 
 	titleText.setPosition(pos.x + background.getSize().x / 2.f - titleText.getLocalBounds().width / 2.f, pos.y);
 
 	pos.x += 2.f;
-	pos.y += 36.f;
+	pos.y += 16.f;
 
 	for (size_t i = 0; i < itemIcons.size(); i++) {
-		itemIcons[i].Move(pos);
-		itemText[i].setPosition(pos.x + 18.f, pos.y - 2.f);
-		selectionBoxes[i].setPosition(pos.x - 1.f, pos.y - 2.f);
-
 		pos.y += 20.f;
+		
+		itemIcons[i].Move(pos);
+		itemText[i].setPosition(pos.x + 18.f, pos.y - 3.f);
+		selectionBoxes[i].setPosition(pos.x - 1.f, pos.y - 2.f);
 	}
 }
 
