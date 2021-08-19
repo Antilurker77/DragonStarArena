@@ -59,39 +59,51 @@ EquipWindow::EquipWindow() {
 	// Slot 11: Trinket
 	equipBG[0].setPosition(bgPos.x + 60.f, bgPos.y + 200.f);
 	equipIcons[0].Move(sf::Vector2f(bgPos.x + 60.f, bgPos.y + 200.f));
+	equipIcons[0].SetTexture("gfx/icon/item/sword.png");
 
 	equipBG[1].setPosition(bgPos.x + 100.f, bgPos.y + 200.f);
 	equipIcons[1].Move(sf::Vector2f(bgPos.x + 100.f, bgPos.y + 200.f));
+	equipIcons[1].SetTexture("gfx/icon/item/shield.png");
 
 	equipBG[2].setPosition(bgPos.x + 20.f, bgPos.y + 20.f);
 	equipIcons[2].Move(sf::Vector2f(bgPos.x + 20.f, bgPos.y + 20.f));
+	equipIcons[2].SetTexture("gfx/icon/item/head.png");
 
 	equipBG[3].setPosition(bgPos.x + 20.f, bgPos.y + 60.f);
 	equipIcons[3].Move(sf::Vector2f(bgPos.x + 20.f, bgPos.y + 60.f));
+	equipIcons[3].SetTexture("gfx/icon/item/body.png");
 
 	equipBG[4].setPosition(bgPos.x + 20.f, bgPos.y + 100.f);
 	equipIcons[4].Move(sf::Vector2f(bgPos.x + 20.f, bgPos.y + 100.f));
+	equipIcons[4].SetTexture("gfx/icon/item/hands.png");
 
 	equipBG[5].setPosition(bgPos.x + 20.f, bgPos.y + 140.f);
 	equipIcons[5].Move(sf::Vector2f(bgPos.x + 20.f, bgPos.y + 140.f));
+	equipIcons[5].SetTexture("gfx/icon/item/legs.png");
 
 	equipBG[6].setPosition(bgPos.x + 20.f, bgPos.y + 180.f);
 	equipIcons[6].Move(sf::Vector2f(bgPos.x + 20.f, bgPos.y + 180.f));
+	equipIcons[6].SetTexture("gfx/icon/item/feet.png");
 
 	equipBG[7].setPosition(bgPos.x + 140.f, bgPos.y + 20.f);
 	equipIcons[7].Move(sf::Vector2f(bgPos.x + 140.f, bgPos.y + 20.f));
+	equipIcons[7].SetTexture("gfx/icon/item/belt.png");
 
 	equipBG[8].setPosition(bgPos.x + 140.f, bgPos.y + 60.f);
 	equipIcons[8].Move(sf::Vector2f(bgPos.x + 140.f, bgPos.y + 60.f));
+	equipIcons[8].SetTexture("gfx/icon/item/neck.png");
 
 	equipBG[9].setPosition(bgPos.x + 140.f, bgPos.y + 100.f);
 	equipIcons[9].Move(sf::Vector2f(bgPos.x + 140.f, bgPos.y + 100.f));
+	equipIcons[9].SetTexture("gfx/icon/item/ring.png");
 
 	equipBG[10].setPosition(bgPos.x + 140.f, bgPos.y + 140.f);
 	equipIcons[10].Move(sf::Vector2f(bgPos.x + 140.f, bgPos.y + 140.f));
+	equipIcons[10].SetTexture("gfx/icon/item/ring.png");
 
 	equipBG[11].setPosition(bgPos.x + 140.f, bgPos.y + 180.f);
 	equipIcons[11].Move(sf::Vector2f(bgPos.x + 140.f, bgPos.y + 180.f));
+	equipIcons[11].SetTexture("gfx/icon/item/trinket.png");
 
 	inventoryBG.setSize(sf::Vector2f(350.f, 300.f));
 	inventoryBG.setFillColor(sf::Color(0, 0, 0, 255));
@@ -199,6 +211,7 @@ void EquipWindow::setEquipment(size_t index) {
 	for (size_t i = 0; i < equipIcons.size(); i++) {
 		if (!equippedItems->at(i).IsNull()) {
 			equipIcons[i].SetColor(sf::Color(255, 255, 255, 255));
+			equipIcons[i].SetTexture(equippedItems->at(i).GetIcon());
 		}
 		else {
 			equipIcons[i].SetColor(sf::Color(127, 127, 127, 255));
@@ -235,9 +248,9 @@ void EquipWindow::filterInventory() {
 		text.setCharacterSize(16u);
 		text.setFont(*assetManager.LoadFont(settings.Font));
 
-		// todo: icon and rarity color
+		// todo: rarity color
 		icon.SetSpriteCount(1);
-		icon.SetTexture("gfx/icon/item/placeholder.png");
+		icon.SetTexture(item->GetIcon());
 
 		box.setSize(sf::Vector2f(348.f, 20.f));
 		box.setFillColor(sf::Color(127, 127, 127, 0));

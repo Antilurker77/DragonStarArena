@@ -75,7 +75,7 @@ void InventoryList::SetList(std::vector<Item>& items) {
 		text.setFont(*assetManager.LoadFont(settings.Font));
 
 		icon.SetSpriteCount(1);
-		icon.SetTexture("gfx/icon/item/placeholder.png");
+		icon.SetTexture(items[i].GetIcon());
 
 		box.setFillColor(sf::Color(127, 127, 127, 0));
 

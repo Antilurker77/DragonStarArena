@@ -31,6 +31,9 @@ public:
 	// Returns the item's name.
 	std::string GetName();
 
+	// Returns the filepath of the icon.
+	std::string GetIcon();
+
 	// Return the item's rarity.
 	ItemRarity GetItemRarity();
 

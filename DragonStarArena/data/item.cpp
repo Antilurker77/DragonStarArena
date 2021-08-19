@@ -36,6 +36,81 @@ std::string Item::GetName() {
 	return currentName;
 }
 
+std::string Item::GetIcon() {
+	std::string fp = "placeholder";
+
+	if (itemData != nullptr) {
+		switch (itemData->ItemType) {
+		case ItemType::Weapon:
+			switch (itemData->EquipType) {
+			case EquipType::Sword:
+			case EquipType::Sword2H:
+				fp = "sword";
+				break;
+			case EquipType::Bow:
+				fp = "longbow";
+				break;
+			case EquipType::Staff:
+				fp = "staff";
+				break;
+			default:
+				break;
+			}
+			break;
+		case ItemType::Armor:
+			switch (itemData->EquipType) {
+			case EquipType::Shield:
+				fp = "shield";
+				break;
+			case EquipType::LightHead:
+			case EquipType::MediumHead:
+			case EquipType::HeavyHead:
+				fp = "head";
+				break;
+			case EquipType::LightBody:
+			case EquipType::MediumBody:
+			case EquipType::HeavyBody:
+				fp = "body";
+				break;
+			case EquipType::LightHands:
+			case EquipType::MediumHands:
+			case EquipType::HeavyHands:
+				fp = "hands";
+				break;
+			case EquipType::LightLegs:
+			case EquipType::MediumLegs:
+			case EquipType::HeavyLegs:
+				fp = "legs";
+				break;
+			case EquipType::LightFeet:
+			case EquipType::MediumFeet:
+			case EquipType::HeavyFeet:
+				fp = "feet";
+				break;
+			case EquipType::Belt:
+				fp = "belt";
+				break;
+			case EquipType::Neck:
+				fp = "neck";
+				break;
+			case EquipType::Ring:
+				fp = "ring";
+				break;
+			case EquipType::Trinket:
+				fp = "trinket";
+				break;
+			default:
+				break;
+			}
+			break;
+		default:
+			break;
+		}
+	}
+
+	return "gfx/icon/item/" + fp + ".png";
+}
+
 ItemRarity Item::GetItemRarity() {
 	return currentRarity;
 }

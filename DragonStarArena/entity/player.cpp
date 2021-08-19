@@ -223,9 +223,11 @@ void Player::Equip(Item& item, size_t slot, std::vector<Item>* inventory, size_t
 		inventory->erase(inventory->begin() + index);
 	}
 
-	currentHP = GetMaxHP() - missingHP;
-	currentMP = GetMaxMP() - missingMP;
-	currentSP = GetMaxSP() - missingSP;
+	if (currentHP > 0) {
+		currentHP = GetMaxHP() - missingHP;
+		currentMP = GetMaxMP() - missingMP;
+		currentSP = GetMaxSP() - missingSP;
+	}
 }
 
 int Player::GetAttackSpeed() {
