@@ -40,6 +40,9 @@ public:
 	// Returns the equip type of the equipment.
 	EquipType GetEquipType();
 
+	// Returns true if the weapon is two handed.
+	bool IsTwoHanded();
+
 	// Returns the damage dealt by the weapon. Non-weapons
 	// return 0.
 	int64_t GetWeaponDamage();

@@ -21,6 +21,8 @@ public:
 	bool IsPlayer();
 
 	std::array<Item, 12>* GetEquipment();
+	void Equip(Item& item, std::vector<Item>* inventory, size_t index);
+	void Equip(Item& item, size_t slot, std::vector<Item>* inventory, size_t index);
 	int GetAttackSpeed();
 	int64_t GetMainHandDamage(CombatOptions& combatOptions, bool consumeBuffs);
 	int64_t GetEXPDrop();

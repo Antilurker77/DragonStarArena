@@ -131,7 +131,10 @@ void EquipWindow::Update(float secondsPerUpdate, sf::Vector2i mousePos, bool lef
 			auto size = tooltip.GetSize();
 			tooltip.SetPosition(mousePosF.x, mousePosF.y - size.y);
 			if (rightClick) {
-
+				Item item = inventory->at(displayedItems[i]); // need to do it like this, weird memory issue
+				players->at(viewedPlayer)->Equip(item, inventory, displayedItems[i]);
+				setEquipment(viewedPlayer);
+				filterInventory();
 			}
 		}
 		else {

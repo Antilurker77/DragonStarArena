@@ -63,6 +63,14 @@ std::array<Item, 12>* Monster::GetEquipment() {
 	return nullptr;
 }
 
+void Monster::Equip(Item& item, std::vector<Item>* inventory, size_t index) {
+	return;
+}
+
+void Monster::Equip(Item& item, size_t slot, std::vector<Item>* inventory, size_t index) {
+	return;
+}
+
 int Monster::GetAttackSpeed() {
 	int result = 200;
 

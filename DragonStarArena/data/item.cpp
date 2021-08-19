@@ -54,6 +54,16 @@ EquipType Item::GetEquipType() {
 	return EquipType::Undefined;
 }
 
+bool Item::IsTwoHanded() {
+	if (itemData != nullptr && itemData->ItemType == ItemType::Weapon) {
+		EquipType et = itemData->EquipType;
+		if (et == EquipType::Sword2H || et == EquipType::Axe2H || et == EquipType::Mace2H || et == EquipType::Spear || et == EquipType::Bow || et == EquipType::Staff) {
+			return true;
+		}
+	}
+	return false;
+}
+
 int64_t Item::GetWeaponDamage() {
 	if (itemData != nullptr && itemData->ItemType == ItemType::Weapon) {
 		return itemData->WeaponDamage;

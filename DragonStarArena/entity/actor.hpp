@@ -254,6 +254,14 @@ public:
 	// Returns the items equipped to the actor. Monsters return a nullptr.
 	virtual std::array<Item, 12>* GetEquipment() = 0;
 
+	// Attempts to equip the given item in the correct slot. Unequipped items
+	// are added to the end of the inventory.
+	virtual void Equip(Item& item, std::vector<Item>* inventory, size_t index) = 0;
+
+	// Attempts to equip the given item in the designated slot. Unequipped items
+	// are added to the end of the inventory.
+	virtual void Equip(Item& item, size_t slot, std::vector<Item>* inventory, size_t index) = 0;
+
 	// Returns the attack speed of the actor's weapon. If a player is dual
 	// wielding, the slowest weapon is used.
 	virtual int GetAttackSpeed() = 0;

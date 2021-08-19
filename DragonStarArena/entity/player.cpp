@@ -9,6 +9,7 @@
 #include "../data/gameData.hpp"
 #include "../data/id/aiCondition.hpp"
 #include "../data/id/aiTarget.hpp"
+#include "../data/id/equipType.hpp"
 #include "../data/id/statModType.hpp"
 
 Player::Player() {
@@ -78,6 +79,145 @@ bool Player::IsPlayer() {
 
 std::array<Item, 12>* Player::GetEquipment() {
 	return &equipment;
+}
+
+void Player::Equip(Item& item, std::vector<Item>* inventory, size_t index) {
+	size_t slot = 0;
+
+	switch (item.GetEquipType()) {
+	case EquipType::Sword:
+	case EquipType::Axe:
+	case EquipType::Mace:
+	case EquipType::Dagger:
+		if (equipment[0].IsNull() || equipment[0].IsTwoHanded()) {
+			slot = 0;
+		}
+		else if (equipment[0].GetEquipType() == EquipType::Wand) {
+			slot = 0;
+		}
+		else if (equipment[1].GetEquipType() == EquipType::Shield || equipment[1].GetEquipType() == EquipType::OffHand) {
+			slot = 0;
+		}
+		else if (!equipment[0].IsNull() && !equipment[0].IsTwoHanded()) {
+			slot = 1;
+		}
+		else {
+			slot = 0;
+		}
+		break;
+	case EquipType::Sword2H:
+	case EquipType::Axe2H:
+	case EquipType::Mace2H:
+	case EquipType::Spear:
+	case EquipType::Bow:
+	case EquipType::Wand:
+	case EquipType::Staff:
+		slot = 0;
+		break;
+	case EquipType::Shield:
+	case EquipType::OffHand:
+		slot = 1;
+		break;
+	case EquipType::LightHead:
+	case EquipType::MediumHead:
+	case EquipType::HeavyHead:
+		slot = 2;
+		break;
+	case EquipType::LightBody:
+	case EquipType::MediumBody:
+	case EquipType::HeavyBody:
+		slot = 3;
+		break;
+	case EquipType::LightHands:
+	case EquipType::MediumHands:
+	case EquipType::HeavyHands:
+		slot = 4;
+		break;
+	case EquipType::LightLegs:
+	case EquipType::MediumLegs:
+	case EquipType::HeavyLegs:
+		slot = 5;
+		break;
+	case EquipType::LightFeet:
+	case EquipType::MediumFeet:
+	case EquipType::HeavyFeet:
+		slot = 6;
+		break;
+	case EquipType::Belt:
+		slot = 7;
+		break;
+	case EquipType::Neck:
+		slot = 8;
+		break;
+	case EquipType::Ring:
+		if (equipment[9].IsNull()) {
+			slot = 9;
+		}
+		else if (equipment[10].IsNull()) {
+			slot = 10;
+		}
+		else {
+			slot = 9;
+		}
+		break;
+	case EquipType::Trinket:
+		slot = 11;
+		break;
+	default:
+		return;
+	}
+
+	Equip(item, slot, inventory, index);
+}
+
+void Player::Equip(Item& item, size_t slot, std::vector<Item>* inventory, size_t index) {
+	static std::vector<std::vector<EquipType>> allowedTypes{
+		{EquipType::Sword, EquipType::Sword2H, EquipType::Axe, EquipType::Axe2H, EquipType::Mace, EquipType::Mace2H, EquipType::Dagger, EquipType::Spear, EquipType::Bow, EquipType::Wand, EquipType::Staff},
+		{EquipType::Sword, EquipType::Axe, EquipType::Mace, EquipType::Dagger, EquipType::Shield, EquipType::OffHand},
+		{EquipType::LightHead, EquipType::MediumHead, EquipType::HeavyHead},
+		{EquipType::LightBody, EquipType::MediumBody, EquipType::HeavyBody},
+		{EquipType::LightHands, EquipType::MediumHands, EquipType::HeavyHands},
+		{EquipType::LightLegs, EquipType::MediumLegs, EquipType::HeavyLegs},
+		{EquipType::LightFeet, EquipType::MediumFeet, EquipType::HeavyFeet},
+		{EquipType::Belt},
+		{EquipType::Neck},
+		{EquipType::Ring},
+		{EquipType::Ring},
+		{EquipType::Trinket}
+	};
+
+	if (std::find(allowedTypes[slot].begin(), allowedTypes[slot].end(), item.GetEquipType()) != allowedTypes[slot].end()) {
+		if (slot == 0) {
+			if (!equipment[0].IsNull()) {
+				inventory->push_back(equipment[0]);
+			}
+			equipment[0] = item;
+			if (item.IsTwoHanded()) {
+				if (!equipment[1].IsNull()) {
+					inventory->push_back(equipment[1]);
+					equipment[1] = Item();
+				}
+			}
+		}
+		else if (slot == 1) {
+			if (!equipment[1].IsNull()) {
+				inventory->push_back(equipment[1]);
+			}
+			equipment[1] = item;
+			if (equipment[0].IsTwoHanded()) {
+				inventory->push_back(equipment[0]);
+				equipment[0] = Item();
+			}
+		}
+		else {
+			if (!equipment[slot].IsNull()) {
+				inventory->push_back(equipment[slot]);
+			}
+			equipment[slot] = item;
+		}
+
+		inventory->erase(inventory->begin() + index);
+	}
 }
 
 int Player::GetAttackSpeed() {
