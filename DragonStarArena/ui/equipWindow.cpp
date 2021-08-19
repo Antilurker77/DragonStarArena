@@ -140,6 +140,11 @@ void EquipWindow::Update(float secondsPerUpdate, sf::Vector2i mousePos, bool lef
 				tooltip.SetTooltip(&equippedItems->at(i));
 				auto size = tooltip.GetSize();
 				tooltip.SetPosition(mousePosF.x, mousePosF.y - size.y);
+				if (!dragging && rightClick) {
+					players->at(viewedPlayer)->Unequip(i, inventory);
+					setEquipment(viewedPlayer);
+					filterInventory();
+				}
 			}
 			if (dragging && !draggingLeft) {
 				Item item = inventory->at(indexOnCursor); // need to do it like this, weird memory issue

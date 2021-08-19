@@ -230,6 +230,23 @@ void Player::Equip(Item& item, size_t slot, std::vector<Item>* inventory, size_t
 	}
 }
 
+void Player::Unequip(size_t slot, std::vector<Item>* inventory) {
+	int64_t missingHP = GetMaxHP() - currentHP;
+	int64_t missingMP = GetMaxMP() - currentMP;
+	int64_t missingSP = GetMaxSP() - currentSP;
+
+	if (!equipment[slot].IsNull()) {
+		inventory->push_back(equipment[slot]);
+		equipment[slot] = Item();
+	}
+
+	if (currentHP > 0) {
+		currentHP = GetMaxHP() - missingHP;
+		currentMP = GetMaxMP() - missingMP;
+		currentSP = GetMaxSP() - missingSP;
+	}
+}
+
 int Player::GetAttackSpeed() {
 	int result = 200;
 

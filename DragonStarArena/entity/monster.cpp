@@ -71,6 +71,10 @@ void Monster::Equip(Item& item, size_t slot, std::vector<Item>* inventory, size_
 	return;
 }
 
+void Monster::Unequip(size_t slot, std::vector<Item>* inventory) {
+	return;
+}
+
 int Monster::GetAttackSpeed() {
 	int result = 200;
 
