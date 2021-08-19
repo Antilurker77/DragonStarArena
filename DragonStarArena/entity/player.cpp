@@ -186,6 +186,10 @@ void Player::Equip(Item& item, size_t slot, std::vector<Item>* inventory, size_t
 		{EquipType::Trinket}
 	};
 
+	int64_t missingHP = GetMaxHP() - currentHP;
+	int64_t missingMP = GetMaxMP() - currentMP;
+	int64_t missingSP = GetMaxSP() - currentSP;
+
 	if (std::find(allowedTypes[slot].begin(), allowedTypes[slot].end(), item.GetEquipType()) != allowedTypes[slot].end()) {
 		if (slot == 0) {
 			if (!equipment[0].IsNull()) {
@@ -218,6 +222,10 @@ void Player::Equip(Item& item, size_t slot, std::vector<Item>* inventory, size_t
 
 		inventory->erase(inventory->begin() + index);
 	}
+
+	currentHP = GetMaxHP() - missingHP;
+	currentMP = GetMaxMP() - missingMP;
+	currentSP = GetMaxSP() - missingSP;
 }
 
 int Player::GetAttackSpeed() {
