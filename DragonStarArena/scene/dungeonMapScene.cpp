@@ -47,9 +47,15 @@ void DungeonMapScene::ReadInput(sf::RenderWindow& window) {
 		case sf::Event::Closed:
 			window.close();
 			break;
+		case sf::Event::MouseButtonPressed:
+			if (ev.mouseButton.button == sf::Mouse::Left) {
+				draggingLeft = true;
+			}
+			break;
 		case sf::Event::MouseButtonReleased:
 			if (ev.mouseButton.button == sf::Mouse::Left) {
 				leftClick = true;
+				draggingLeft = false;
 			}
 			else if (ev.mouseButton.button == sf::Mouse::Right) {
 				rightClick = true;
@@ -130,7 +136,7 @@ GameState DungeonMapScene::Update(float secondsPerUpdate) {
 	}
 
 	if (displayEquipWindow) {
-		equipWindow.Update(secondsPerUpdate, mousePos, leftClick, rightClick);
+		equipWindow.Update(secondsPerUpdate, mousePos, leftClick, rightClick, draggingLeft);
 	}
 
 	return gs;

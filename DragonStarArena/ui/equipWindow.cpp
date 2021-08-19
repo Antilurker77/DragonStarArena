@@ -21,6 +21,9 @@ EquipWindow::EquipWindow() {
 	background.setOutlineColor(sf::Color(255, 255, 255, 255));
 	background.setPosition(settings.ScreenWidthF / 2.f - 400.f, settings.ScreenHeightF / 2.f - 225.f);
 
+	entityOnCursor.SetSpriteCount(1);
+	entityOnCursor.SetScale(2.f);
+
 	auto bgPos = background.getPosition();
 	bgPos.y -= 40.f;
 
@@ -112,10 +115,14 @@ EquipWindow::EquipWindow() {
 	inventoryBG.setPosition(bgPos.x + 425.f, bgPos.y + 75.f);
 }
 
-void EquipWindow::Update(float secondsPerUpdate, sf::Vector2i mousePos, bool leftClick, bool rightClick) {
+void EquipWindow::Update(float secondsPerUpdate, sf::Vector2i mousePos, bool leftClick, bool rightClick, bool draggingLeft) {
 	sf::Vector2f mousePosF{ static_cast<float>(mousePos.x), static_cast<float>(mousePos.y) };
 
 	displayTooltip = false;
+
+	if (dragging) {
+		entityOnCursor.Move(sf::Vector2f(mousePosF.x - 16.f, mousePosF.y - 16.f));
+	}
 
 	for (size_t i = 0; i < playerButtons.size(); i++) {
 		if (playerButtons[i].Update(secondsPerUpdate, mousePos)) {
@@ -127,31 +134,59 @@ void EquipWindow::Update(float secondsPerUpdate, sf::Vector2i mousePos, bool lef
 	}
 
 	for (size_t i = 0; i < equipBG.size(); i++) {
-		if (equipBG[i].getGlobalBounds().contains(mousePosF) && !equippedItems->at(i).IsNull()) {
-			displayTooltip = true;
-			tooltip.SetTooltip(&equippedItems->at(i));
-			auto size = tooltip.GetSize();
-			tooltip.SetPosition(mousePosF.x, mousePosF.y - size.y);
-		}
-	}
-
-	for (size_t i = 0; i < highlightBoxes.size(); i++) {
-		if (highlightBoxes[i].getGlobalBounds().contains(mousePosF)) {
-			highlightBoxes[i].setFillColor(sf::Color(127, 127, 127, 191));
-			displayTooltip = true;
-			tooltip.SetTooltip(&inventory->at(displayedItems[i]));
-			auto size = tooltip.GetSize();
-			tooltip.SetPosition(mousePosF.x, mousePosF.y - size.y);
-			if (rightClick) {
-				Item item = inventory->at(displayedItems[i]); // need to do it like this, weird memory issue
-				players->at(viewedPlayer)->Equip(item, inventory, displayedItems[i]);
+		if (equipBG[i].getGlobalBounds().contains(mousePosF)) {
+			if (!equippedItems->at(i).IsNull()) {
+				displayTooltip = true;
+				tooltip.SetTooltip(&equippedItems->at(i));
+				auto size = tooltip.GetSize();
+				tooltip.SetPosition(mousePosF.x, mousePosF.y - size.y);
+			}
+			if (dragging && !draggingLeft) {
+				Item item = inventory->at(indexOnCursor); // need to do it like this, weird memory issue
+				players->at(viewedPlayer)->Equip(item, i, inventory, indexOnCursor);
+				dragging = false;
+				holdingDownTime = 0.f;
 				setEquipment(viewedPlayer);
 				filterInventory();
 			}
 		}
-		else {
-			highlightBoxes[i].setFillColor(sf::Color(127, 127, 127, 0));
+	}
+
+	if (!dragging) {
+		for (size_t i = 0; i < highlightBoxes.size(); i++) {
+			if (highlightBoxes[i].getGlobalBounds().contains(mousePosF)) {
+				if (draggingLeft) {
+					holdingDownTime += secondsPerUpdate;
+					if (holdingDownTime >= 0.05f) {
+						dragging = true;
+						indexOnCursor = displayedItems[i];
+						entityOnCursor.SetTexture(inventory->at(displayedItems[i]).GetIcon());
+					}
+				}
+				else {
+					highlightBoxes[i].setFillColor(sf::Color(127, 127, 127, 191));
+					displayTooltip = true;
+					tooltip.SetTooltip(&inventory->at(displayedItems[i]));
+					auto size = tooltip.GetSize();
+					tooltip.SetPosition(mousePosF.x, mousePosF.y - size.y);
+					if (rightClick) {
+						Item item = inventory->at(displayedItems[i]); // need to do it like this, weird memory issue
+						players->at(viewedPlayer)->Equip(item, inventory, displayedItems[i]);
+						entityOnCursor.Move(sf::Vector2f(mousePosF.x - 16.f, mousePosF.y - 16.f));
+						setEquipment(viewedPlayer);
+						filterInventory();
+					}
+				}
+			}
+			else {
+				highlightBoxes[i].setFillColor(sf::Color(127, 127, 127, 0));
+			}
 		}
+	}
+
+	if (dragging && !draggingLeft) {
+		dragging = false;
+		holdingDownTime = 0.f;
 	}
 }
 
@@ -182,6 +217,10 @@ void EquipWindow::Render(sf::RenderTarget& window) {
 
 	for (size_t i = 0; i < inventoryText.size(); i++) {
 		window.draw(inventoryText[i]);
+	}
+
+	if (dragging) {
+		entityOnCursor.Render(window, 0.f);
 	}
 
 	if (displayTooltip) {

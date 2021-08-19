@@ -29,7 +29,7 @@ public:
 	EquipWindow();
 
 	// Updates the equip window.
-	void Update(float secondsPerUpdate, sf::Vector2i mousePos, bool leftClick, bool rightClick);
+	void Update(float secondsPerUpdate, sf::Vector2i mousePos, bool leftClick, bool rightClick, bool draggingLeft);
 
 	// Draws the equip window.
 	void Render(sf::RenderTarget& window);
@@ -69,4 +69,9 @@ private:
 	std::vector<sf::RectangleShape> highlightBoxes{};
 	std::vector<size_t> displayedItems{};
 	EquipType currentFilter{};
+
+	bool dragging = false;
+	float holdingDownTime = 0.f;
+	Entity entityOnCursor;
+	size_t indexOnCursor = 0;
 };

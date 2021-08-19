@@ -111,6 +111,7 @@ private:
 
 	// Input
 	bool leftClick = false;
+	bool draggingLeft = false;
 	bool rightClick = false;
 	sf::Vector2i mousePos;
 };
