@@ -636,6 +636,9 @@ void GameData::LoadData() {
 		query = "SELECT * FROM Monster;";
 		error = sqlite3_exec(db, query.c_str(), GameData::loadMonsters, 0, &errorMessage);
 
+		query = "SELECT * FROM MonsterAbility;";
+		error = sqlite3_exec(db, query.c_str(), GameData::loadMonsterAbilities, 0, &errorMessage);
+
 		query = "SELECT * FROM MonsterAI;";
 		error = sqlite3_exec(db, query.c_str(), GameData::loadMonsterAI, 0, &errorMessage);
 
@@ -1153,18 +1156,22 @@ int GameData::loadMonsters(void* notUsed, int argc, char** data, char** colname)
 
 	md.OffHandWeaponDamage = std::stoll(data[22]);
 	md.OffHandMultiplier = std::stoll(data[23]);
-
-	if (data[24] != nullptr) {
-		strv = splitString(data[24], ',');
-		md.AbilityIDs = stringToID(strv);
-	}
-	md.EXPDrop = std::stoll(data[25]);
-	md.GoldDrop = std::stoll(data[26]);
-	md.LootPoints = std::stoll(data[27]);
+	md.EXPDrop = std::stoll(data[24]);
+	md.GoldDrop = std::stoll(data[25]);
+	md.LootPoints = std::stoll(data[26]);
 
 	monsters.push_back(md);
 
 	std::cout << "Loaded " << data[1] << " into monster vector.\n";
+
+	return 0;
+}
+
+int GameData::loadMonsterAbilities(void* notUsed, int argc, char** data, char** colname) {
+	notUsed = 0;
+
+	size_t monsterID = std::stoull(data[1]);
+	monsters[monsterID].AbilityIDs.push_back(std::stoull(data[2]));
 
 	return 0;
 }

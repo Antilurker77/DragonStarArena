@@ -94,6 +94,9 @@ private:
 	// Initializes the monster data.
 	static int loadMonsters(void* notUsed, int argc, char** data, char** colname);
 	
+	// Initializes the monster abilities.
+	static int loadMonsterAbilities(void* notUsed, int argc, char** data, char** colname);
+
 	// Initializes the monster AI data.
 	static int loadMonsterAI(void* notUsed, int argc, char** data, char** colname);
 
