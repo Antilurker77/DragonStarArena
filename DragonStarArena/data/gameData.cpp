@@ -260,6 +260,9 @@ static EquipType stringToEquipType(char* s) {
 	if (str == "unarmed") {
 		return EquipType::Unarmed;
 	}
+	else if (str == "unarmed_ranged") {
+		return EquipType::UnarmedRanged;
+	}
 	else if (str == "sword") {
 		return EquipType::Sword;
 	}

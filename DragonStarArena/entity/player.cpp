@@ -20,6 +20,8 @@ Player::Player() {
 	currentHP = GetMaxHP();
 	currentMP = GetMaxMP();
 	currentSP = GetMaxSP();
+
+	abilities.push_back(Ability(1));
 }
 
 Player::Player(std::string name, size_t raceID, BattlePosition p) {
@@ -202,6 +204,13 @@ void Player::Equip(Item& item, size_t slot, std::vector<Item>* inventory, size_t
 					equipment[1] = Item();
 				}
 			}
+
+			if (IsRanged()) {
+				abilities[0].Initialize(2);
+			}
+			else {
+				abilities[0].Initialize(1);
+			}
 		}
 		else if (slot == 1) {
 			if (!equipment[1].IsNull()) {
@@ -212,6 +221,7 @@ void Player::Equip(Item& item, size_t slot, std::vector<Item>* inventory, size_t
 				inventory->push_back(equipment[0]);
 				equipment[0] = Item();
 			}
+			abilities[0].Initialize(1);
 		}
 		else {
 			if (!equipment[slot].IsNull()) {
@@ -240,11 +250,25 @@ void Player::Unequip(size_t slot, std::vector<Item>* inventory) {
 		equipment[slot] = Item();
 	}
 
+	if (slot == 0) {
+		abilities[0].Initialize(1);
+	}
+
 	if (currentHP > 0) {
 		currentHP = GetMaxHP() - missingHP;
 		currentMP = GetMaxMP() - missingMP;
 		currentSP = GetMaxSP() - missingSP;
 	}
+}
+
+bool Player::IsRanged() {
+	if (!equipment[0].IsNull()) {
+		EquipType weaponType = equipment[0].GetEquipType();
+		if (weaponType == EquipType::Bow || weaponType == EquipType::Wand) {
+			return true;
+		}
+	}
+	return false;
 }
 
 int Player::GetAttackSpeed() {

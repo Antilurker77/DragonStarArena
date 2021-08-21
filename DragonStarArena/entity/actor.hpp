@@ -265,6 +265,9 @@ public:
 	// Unequips the item in the designated slot.
 	virtual void Unequip(size_t slot, std::vector<Item>* inventory) = 0;
 
+	// Returns true if the actor has a ranged weapon.
+	virtual bool IsRanged() = 0;
+
 	// Returns the attack speed of the actor's weapon. If a player is dual
 	// wielding, the slowest weapon is used.
 	virtual int GetAttackSpeed() = 0;

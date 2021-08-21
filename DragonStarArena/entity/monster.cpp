@@ -35,12 +35,18 @@ Monster::Monster(size_t monsterID, BattlePosition p) {
 	currentMP = GetMaxMP();
 	currentSP = GetMaxSP();
 
-	abilities.push_back(Ability(1)); // Attack
 	if (monsterData != nullptr) {
 		name = monsterData->Name;
 		sprite.setTexture(*assetManager.LoadTexture("gfx/monster/" + monsterData->Graphic + ".png"));
 		level = monsterData->Level;
-		
+
+		if (IsRanged()) {
+			abilities.push_back(Ability(2)); // Shoot
+		}
+		else {
+			abilities.push_back(Ability(1)); // Attack
+		}
+
 		for (size_t i = 0; i < monsterData->AbilityIDs.size(); i++) {
 			abilities.push_back(Ability(monsterData->AbilityIDs[i]));
 		}
@@ -73,6 +79,16 @@ void Monster::Equip(Item& item, size_t slot, std::vector<Item>* inventory, size_
 
 void Monster::Unequip(size_t slot, std::vector<Item>* inventory) {
 	return;
+}
+
+bool Monster::IsRanged() {
+	if (monsterData != nullptr) {
+		EquipType weaponType = monsterData->MainHandWeaponType;
+		if (weaponType == EquipType::UnarmedRanged || weaponType == EquipType::Bow || weaponType == EquipType::Wand) {
+			return true;
+		}
+	}
+	return false;
 }
 
 int Monster::GetAttackSpeed() {

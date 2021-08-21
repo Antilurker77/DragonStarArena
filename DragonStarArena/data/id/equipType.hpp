@@ -11,6 +11,7 @@
 enum class EquipType {
 	Undefined = 0,
 	Unarmed,
+	UnarmedRanged,
 	Sword,
 	Sword2H,
 	Axe,
