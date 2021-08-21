@@ -657,6 +657,18 @@ void GameData::LoadData() {
 
 		query = "SELECT * FROM RaceStatMod;";
 		error = sqlite3_exec(db, query.c_str(), GameData::loadRaceStatMods, 0, &errorMessage);
+
+		// Memory Debug
+		size_t bytes = 0;
+		bytes += sizeof(abilities[0]) * abilities.size() + sizeof(abilities);
+		bytes += sizeof(auras[0]) * auras.size() + sizeof(auras);
+		bytes += sizeof(encounters[0]) * encounters.size() + sizeof(encounters);
+		bytes += sizeof(encounterTypeWeights[0]) * encounterTypeWeights.size() + sizeof(encounterTypeWeights);
+		bytes += sizeof(items[0]) * items.size() + sizeof(items);
+		bytes += sizeof(monsters[0]) * monsters.size() + sizeof(monsters);
+		bytes += sizeof(races[0]) * races.size() + sizeof(races);
+
+		std::cout << "Memory size of game data: " << bytes << " Bytes\n";
 	}
 	else {
 		std::cout << "An error has occured opening the database. ERROR " << error << ": " << sqlite3_errmsg(db);
