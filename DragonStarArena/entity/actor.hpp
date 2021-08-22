@@ -251,6 +251,9 @@ public:
 	// Returns the actor's EXP rate multiplier.
 	int64_t GetEXPRate();
 
+	// Returns the abilities the actor has equipped.
+	std::vector<Ability>* GetAbilities();
+
 	// Returns the items equipped to the actor. Monsters return a nullptr.
 	virtual std::array<Item, 12>* GetEquipment() = 0;
 

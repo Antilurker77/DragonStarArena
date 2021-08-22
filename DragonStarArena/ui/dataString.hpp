@@ -8,6 +8,8 @@
 
 #pragma once
 
+class Ability;
+class Actor;
 struct StatMod;
 enum class Category;
 enum class Element;
@@ -25,6 +27,10 @@ namespace DataString {
 	// Returns the equip type string.
 	std::string EquipTypeString(EquipType equipType);
 	
+	// Formats an ability description to fit in a tooltip. Each
+	// member of the vector is a seperate line.
+	std::vector<std::string> FormatAbilityDescription(Ability* ability, Actor* user, size_t charsPerLine = 42);
+
 	// Returns the color code based on the given item rarity.
 	std::string ItemRarityColorCode(ItemRarity itemRarity);
 

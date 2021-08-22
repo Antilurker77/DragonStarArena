@@ -16,6 +16,7 @@ enum class GameState;
 #include "../data/item.hpp"
 #include "../entity/player.hpp"
 #include "../entity/encounterNode.hpp"
+#include "../ui/abilityWindow.hpp"
 #include "../ui/button.hpp"
 #include "../ui/equipWindow.hpp"
 #include "../ui/inventoryList.hpp"
@@ -100,6 +101,7 @@ private:
 
 	Button inventoryButton;
 	Button equipButton;
+	Button abilityButton;
 
 	bool windowOpen = false;
 
@@ -108,6 +110,9 @@ private:
 
 	EquipWindow equipWindow;
 	bool displayEquipWindow = false;
+
+	AbilityWindow abilityWindow;
+	bool displayAbilityWindow = false;
 
 	// Input
 	bool leftClick = false;

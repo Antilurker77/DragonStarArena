@@ -25,6 +25,9 @@ DungeonMapScene::DungeonMapScene() {
 	equipButton.SetString("Equip", 24u);
 	equipButton.SetPosition(settings.ScreenWidthF * 0.25f, settings.ScreenHeightF * 0.95f);
 
+	abilityButton.SetString("Abilities", 24u);
+	abilityButton.SetPosition(settings.ScreenWidthF * 0.40f, settings.ScreenHeightF * 0.95f);
+
 	// test
 	inventory.push_back(Item(40));
 	inventory.push_back(Item(40));
@@ -111,6 +114,7 @@ GameState DungeonMapScene::Update(float secondsPerUpdate) {
 			displayInventory = !displayInventory;
 			windowOpen = displayInventory;
 			displayEquipWindow = false;
+			displayAbilityWindow = false;
 			if (displayInventory) {
 				inventoryList.SetList(inventory);
 				auto ilSize = inventoryList.GetSize();
@@ -124,9 +128,22 @@ GameState DungeonMapScene::Update(float secondsPerUpdate) {
 			displayEquipWindow = !displayEquipWindow;
 			windowOpen = displayEquipWindow;
 			displayInventory = false;
+			displayAbilityWindow = false;
 			if (displayEquipWindow) {
 				equipWindow.SetPlayerList(&party);
 				equipWindow.SetInventoryList(&inventory);
+			}
+		}
+	}
+
+	if (abilityButton.Update(secondsPerUpdate, mousePos)) {
+		if (leftClick) {
+			displayAbilityWindow = !displayAbilityWindow;
+			windowOpen = displayAbilityWindow;
+			displayInventory = false;
+			displayEquipWindow = false;
+			if (displayAbilityWindow) {
+				abilityWindow.SetPlayerList(party);
 			}
 		}
 	}
@@ -137,6 +154,10 @@ GameState DungeonMapScene::Update(float secondsPerUpdate) {
 
 	if (displayEquipWindow) {
 		equipWindow.Update(secondsPerUpdate, mousePos, leftClick, rightClick, draggingLeft);
+	}
+
+	if (displayAbilityWindow) {
+		abilityWindow.Update(secondsPerUpdate, mousePos, leftClick, rightClick, draggingLeft);
 	}
 
 	return gs;
@@ -150,6 +171,7 @@ void DungeonMapScene::Render(sf::RenderTarget& window, float timeRatio) {
 
 	inventoryButton.Render(window);
 	equipButton.Render(window);
+	abilityButton.Render(window);
 
 	if (displayTooltip && !windowOpen) {
 		tooltip.Render(window);
@@ -161,6 +183,10 @@ void DungeonMapScene::Render(sf::RenderTarget& window, float timeRatio) {
 
 	if (displayEquipWindow) {
 		equipWindow.Render(window);
+	}
+
+	if (displayAbilityWindow) {
+		abilityWindow.Render(window);
 	}
 }
 

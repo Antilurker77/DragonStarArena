@@ -69,4 +69,19 @@ namespace Combat {
 
 	// Adds the aura to the target.
 	void AddAura(Actor* user, Actor* target, size_t auraID, int stacks, BattleScene* battleScene);
+
+	// Returns an estimate of the amount of damage a weapon attack would deal.
+	int64_t WeaponDamageEstimate(Actor* user, CombatOptions& combatOptions, int64_t coefficient);
+
+	// Returns an estimate of the amount of damage an attack would deal.
+	int64_t AttackDamageEstimate(Actor* user, CombatOptions& combatOptions, int64_t coefficient);
+
+	// Returns an estimate of the amount of damage an attack would deal.
+	int64_t SpellDamageEstimate(Actor* user, CombatOptions& combatOptions, int64_t coefficient);
+
+	// Returns an estimate of the amount of damage an attack would deal.
+	int64_t HealingEstimate(Actor* user, CombatOptions& combatOptions, int64_t coefficient);
+
+	// Returns an estimate of the amount of damage an attack would deal.
+	int64_t HealingPercentSelfEstimate(Actor* user, CombatOptions& combatOptions, int64_t percent, Attribute attribute);
 }

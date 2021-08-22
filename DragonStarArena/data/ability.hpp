@@ -57,6 +57,15 @@ public:
 	// uninitialized.
 	std::string GetName();
 
+	// Returns the filepath of the ability's icon.
+	std::string GetIcon();
+
+	// Returns the ability's raw description.
+	std::string GetDescription();
+
+	// Returns true if the ability is a spell.
+	bool IsSpell();
+
 	// Returns true if the ability is ranged. Returns false if the
 	// ability is melee or unintialized.
 	bool IsRanged();
@@ -80,9 +89,11 @@ public:
 	// Returns the stat mods of the ability.
 	std::vector<StatMod> GetStatMods();
 
-private:
 	// Builds the CombatOptions struct based on ability data.
-	CombatOptions getCombatOptions();
+	CombatOptions GetCombatOptions();
+
+private:
+
 	
 	// ================================
 

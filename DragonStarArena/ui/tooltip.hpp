@@ -9,6 +9,8 @@
 
 #pragma once
 
+class Ability;
+class Actor;
 class EncounterNode;
 class Item;
 
@@ -29,6 +31,9 @@ public:
 
 	// Sets the position of the tooltip.
 	void SetPosition(sf::Vector2f pos);
+
+	// Sets the tooltip to display information about the given ability.
+	void SetTooltip(Ability* ability, Actor* actor = nullptr);
 
 	// Sets the tooltip to display information about the given node.
 	void SetTooltip(EncounterNode* node);

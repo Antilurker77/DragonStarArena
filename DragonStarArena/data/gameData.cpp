@@ -783,7 +783,7 @@ int GameData::loadAbilities(void* notUsed, int argc, char** data, char** colname
 
 	ad.ID = std::stoull(data[0]);
 	ad.Name = data[1];
-	ad.Icon = static_cast<std::string>(data[2]) + ".png";
+	ad.Icon = static_cast<std::string>(data[2]);
 	ad.Description = data[3];
 	ad.IsPassive = (std::stoi(data[4]) == 1);
 
@@ -885,7 +885,7 @@ int GameData::loadAuras(void* notUsed, int argc, char** data, char** colname) {
 
 	ad.ID = std::stoull(data[0]);
 	ad.Name = data[1];
-	ad.Icon = static_cast<std::string>(data[2]) + ".png";
+	ad.Icon = static_cast<std::string>(data[2]);
 	ad.Description = data[3];
 
 	if (data[4] != nullptr) {

@@ -80,18 +80,18 @@ static int64_t applyBlock(int64_t amount, Actor* user, Actor* target, CombatOpti
 	return result;
 }
 
-static int64_t applyDamageFlat(int64_t amount, Actor* user, Actor* target, CombatOptions& combatOptions) {
+static int64_t applyDamageFlat(int64_t amount, Actor* user, CombatOptions& combatOptions, bool consumeBuffs = true) {
 	int64_t result = amount;
-	int64_t damageFlat = user->GetDamageFlat(combatOptions, true);
+	int64_t damageFlat = user->GetDamageFlat(combatOptions, consumeBuffs);
 
 	result = result + (damageFlat * 100);
 
 	return result;
 }
 
-static int64_t applyDamageMulti(int64_t amount, Actor* user, Actor* target, CombatOptions& combatOptions) {
+static int64_t applyDamageMulti(int64_t amount, Actor* user, CombatOptions& combatOptions, bool consumeBuffs = true) {
 	int64_t result = amount;
-	int64_t damageMulti = user->GetDamageMulti(combatOptions, true);
+	int64_t damageMulti = user->GetDamageMulti(combatOptions, consumeBuffs);
 
 	result = result * damageMulti / 10000;
 
@@ -151,18 +151,18 @@ static int64_t applyResistance(int64_t amount, Actor* user, Actor* target, Comba
 	return result;
 }
 
-static int64_t applyHealingFlat(int64_t amount, Actor* user, Actor* target, CombatOptions& combatOptions) {
+static int64_t applyHealingFlat(int64_t amount, Actor* user, CombatOptions& combatOptions, bool consumeBuffs = true) {
 	int64_t result = amount;
-	int64_t healingFlat = user->GetHealingFlat(combatOptions, true);
+	int64_t healingFlat = user->GetHealingFlat(combatOptions, consumeBuffs);
 
 	result = result + (healingFlat * 100);
 
 	return result;
 }
 
-static int64_t applyHealingMulti(int64_t amount, Actor* user, Actor* target, CombatOptions& combatOptions) {
+static int64_t applyHealingMulti(int64_t amount, Actor* user, CombatOptions& combatOptions, bool consumeBuffs = true) {
 	int64_t result = amount;
-	int64_t healingMulti = user->GetHealingMulti(combatOptions, true);
+	int64_t healingMulti = user->GetHealingMulti(combatOptions, consumeBuffs);
 
 	result = result * healingMulti / 10000;
 
@@ -309,8 +309,8 @@ CombatResult Combat::WeaponDamage(Actor* user, Actor* target, CombatOptions& com
 			amount = applyBlock(amount, user, target, combatOptions);
 		}
 
-		amount = applyDamageFlat(amount, user, target, combatOptions);
-		amount = applyDamageMulti(amount, user, target, combatOptions);
+		amount = applyDamageFlat(amount, user, combatOptions);
+		amount = applyDamageMulti(amount, user, combatOptions);
 
 		amount = applyDamageTakenFlat(amount, user, target, combatOptions);
 		amount = applyDamageTakenMulti(amount, user, target, combatOptions);
@@ -355,8 +355,8 @@ CombatResult Combat::AttackDamage(Actor* user, Actor* target, CombatOptions& com
 			amount = applyBlock(amount, user, target, combatOptions);
 		}
 
-		amount = applyDamageFlat(amount, user, target, combatOptions);
-		amount = applyDamageMulti(amount, user, target, combatOptions);
+		amount = applyDamageFlat(amount, user, combatOptions);
+		amount = applyDamageMulti(amount, user, combatOptions);
 
 		amount = applyDamageTakenFlat(amount, user, target, combatOptions);
 		amount = applyDamageTakenMulti(amount, user, target, combatOptions);
@@ -401,8 +401,8 @@ CombatResult Combat::SpellDamage(Actor* user, Actor* target, CombatOptions& comb
 			amount = applyBlock(amount, user, target, combatOptions);
 		}
 
-		amount = applyDamageFlat(amount, user, target, combatOptions);
-		amount = applyDamageMulti(amount, user, target, combatOptions);
+		amount = applyDamageFlat(amount, user, combatOptions);
+		amount = applyDamageMulti(amount, user, combatOptions);
 
 		amount = applyDamageTakenFlat(amount, user, target, combatOptions);
 		amount = applyDamageTakenMulti(amount, user, target, combatOptions);
@@ -434,8 +434,8 @@ CombatResult Combat::Healing(Actor* user, Actor* target, CombatOptions& combatOp
 
 	amount = (getBaseDamage(user) + user->GetHealingPower(combatOptions, true)) * coefficient / 100; // Intentionally dividing by 100, last two digits used as two-decimal precision
 
-	amount = applyHealingFlat(amount, user, target, combatOptions);
-	amount = applyHealingMulti(amount, user, target, combatOptions);
+	amount = applyHealingFlat(amount, user, combatOptions);
+	amount = applyHealingMulti(amount, user, combatOptions);
 
 	amount = applyHealingTakenFlat(amount, user, target, combatOptions);
 	amount = applyHealingTakenMulti(amount, user, target, combatOptions);
@@ -476,8 +476,8 @@ CombatResult Combat::HealingPercent(Actor* user, Actor* target, CombatOptions& c
 
 	amount = amount * percent / 100; // Intentionally dividing by 100, last two digits used as two-decimal precision
 
-	amount = applyHealingFlat(amount, user, target, combatOptions);
-	amount = applyHealingMulti(amount, user, target, combatOptions);
+	amount = applyHealingFlat(amount, user, combatOptions);
+	amount = applyHealingMulti(amount, user, combatOptions);
 
 	amount = applyHealingTakenFlat(amount, user, target, combatOptions);
 	amount = applyHealingTakenMulti(amount, user, target, combatOptions);
@@ -494,4 +494,73 @@ CombatResult Combat::HealingPercent(Actor* user, Actor* target, CombatOptions& c
 
 void Combat::AddAura(Actor* user, Actor* target, size_t auraID, int stacks, BattleScene* battleScene) {
 	target->AddAura(auraID, user, stacks);
+}
+
+int64_t Combat::WeaponDamageEstimate(Actor* user, CombatOptions& combatOptions, int64_t coefficient) {
+	int64_t amount = 0;
+
+	amount = user->GetMainHandDamage(combatOptions, false) * coefficient / 100; // Intentionally dividing by 100, last two digits used as two-decimal precision
+
+	amount = applyDamageFlat(amount, user, combatOptions, false);
+	amount = applyDamageMulti(amount, user, combatOptions, false);
+
+	return amount / 100;
+}
+
+int64_t Combat::AttackDamageEstimate(Actor* user, CombatOptions& combatOptions, int64_t coefficient) {
+	int64_t amount = 0;
+
+	amount = (getBaseDamage(user) + user->GetAttackPower(combatOptions, false)) * coefficient / 100; // Intentionally dividing by 100, last two digits used as two-decimal precision
+
+	amount = applyDamageFlat(amount, user, combatOptions, false);
+	amount = applyDamageMulti(amount, user, combatOptions, false);
+
+	return amount / 100;
+}
+
+int64_t Combat::SpellDamageEstimate(Actor* user, CombatOptions& combatOptions, int64_t coefficient) {
+	int64_t amount = 0;
+
+	amount = (getBaseDamage(user) + user->GetSpellPower(combatOptions, false)) * coefficient / 100; // Intentionally dividing by 100, last two digits used as two-decimal precision
+
+	amount = applyDamageFlat(amount, user, combatOptions, false);
+	amount = applyDamageMulti(amount, user, combatOptions, false);
+
+	return amount / 100;
+}
+
+int64_t Combat::HealingEstimate(Actor* user, CombatOptions& combatOptions, int64_t coefficient) {
+	int64_t amount = 0;
+
+	amount = (getBaseDamage(user) + user->GetHealingPower(combatOptions, false)) * coefficient / 100; // Intentionally dividing by 100, last two digits used as two-decimal precision
+
+	amount = applyHealingFlat(amount, user, combatOptions, false);
+	amount = applyHealingMulti(amount, user, combatOptions, false);
+
+	return amount / 100;
+}
+
+int64_t Combat::HealingPercentSelfEstimate(Actor* user, CombatOptions& combatOptions, int64_t percent, Attribute attribute) {
+	int64_t amount = 0;
+
+	switch (attribute) {
+	case Attribute::HP:
+		amount = user->GetMaxHP();
+		break;
+	case Attribute::MP:
+		amount = user->GetMaxMP();
+		break;
+	case Attribute::SP:
+		amount = user->GetMaxSP();
+		break;
+	default:
+		break;
+	}
+
+	amount = amount * percent / 100; // Intentionally dividing by 100, last two digits used as two-decimal precision
+
+	amount = applyHealingFlat(amount, user, combatOptions, false);
+	amount = applyHealingMulti(amount, user, combatOptions, false);
+
+	return amount / 100;
 }

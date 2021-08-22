@@ -670,6 +670,10 @@ int64_t Actor::GetEXPRate() {
 	return std::max(0ll, result);
 }
 
+std::vector<Ability>* Actor::GetAbilities() {
+	return &abilities;
+}
+
 int64_t Actor::getStat(int64_t base, StatModType statModType, bool isMultiplicative, bool consumeBuffs) {
 	CombatOptions co{};
 	return getStat(base, statModType, co, isMultiplicative, consumeBuffs);

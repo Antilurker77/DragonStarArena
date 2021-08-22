@@ -9,6 +9,7 @@
 #include "abilityData.hpp"
 #include "abilityEffect.hpp"
 #include "gameData.hpp"
+#include "id/category.hpp"
 #include "../core/random.hpp"
 #include "../entity/actor.hpp"
 
@@ -31,7 +32,7 @@ void Ability::Initialize(size_t abilityID) {
 
 void Ability::Execute(Actor* user, std::vector<Actor*>& targets, BattleScene* battleScene) {
 	CombatResult result;
-	CombatOptions combatOptions = getCombatOptions();
+	CombatOptions combatOptions = GetCombatOptions();
 
 	// If base hit chance is negative, pull from the characters weapon.
 	if (combatOptions.BaseHitChance < 0) {
@@ -255,7 +256,29 @@ std::string Ability::GetName() {
 	if (abilityData != nullptr) {
 		return abilityData->Name;
 	}
-	return "";
+	return "Unknown Ability";
+}
+
+std::string Ability::GetIcon() {
+	if (abilityData != nullptr) {
+		return "gfx/icon/ability/" + abilityData->Icon + ".png";
+	}
+	return "gfx/icon/ability/placeholder.png";
+}
+
+std::string Ability::GetDescription() {
+	if (abilityData != nullptr) {
+		return abilityData->Description;
+	}
+	return "Error.";
+}
+
+bool Ability::IsSpell() {
+	if (abilityData != nullptr) {
+		auto i = std::find(abilityData->Categories.begin(), abilityData->Categories.end(), Category::Spell);
+		return i != abilityData->Categories.end();
+	}
+	return false;
 }
 
 bool Ability::IsRanged() {
@@ -267,7 +290,7 @@ bool Ability::IsRanged() {
 
 int Ability::GetUseTime(bool consumeBuffs, Actor* actor) {
 	int useTime = 0;
-	CombatOptions co = getCombatOptions();
+	CombatOptions co = GetCombatOptions();
 
 	if (abilityData != nullptr) {
 		useTime = abilityData->UseTime;
@@ -289,7 +312,7 @@ int Ability::GetUseTime(bool consumeBuffs, Actor* actor) {
 
 int64_t Ability::GetMPCost(bool consumeBuffs, Actor* actor) {
 	int64_t mpCost = 0;
-	CombatOptions co = getCombatOptions();
+	CombatOptions co = GetCombatOptions();
 
 	if (abilityData != nullptr) {
 		mpCost = abilityData->MPCost;
@@ -304,7 +327,7 @@ int64_t Ability::GetMPCost(bool consumeBuffs, Actor* actor) {
 
 int64_t Ability::GetSPCost(bool consumeBuffs, Actor* actor) {
 	int64_t spCost = 0;
-	CombatOptions co = getCombatOptions();
+	CombatOptions co = GetCombatOptions();
 
 	if (abilityData != nullptr) {
 		spCost = abilityData->SPCost;
@@ -319,7 +342,7 @@ int64_t Ability::GetSPCost(bool consumeBuffs, Actor* actor) {
 
 int Ability::GetCooldown(bool consumeBuffs, Actor* actor) {
 	int cooldown = 0;
-	CombatOptions co = getCombatOptions();
+	CombatOptions co = GetCombatOptions();
 
 	if (abilityData != nullptr) {
 		cooldown = abilityData->Cooldown;
@@ -342,7 +365,7 @@ std::vector<StatMod> Ability::GetStatMods() {
 	return {};
 }
 
-CombatOptions Ability::getCombatOptions() {
+CombatOptions Ability::GetCombatOptions() {
 	CombatOptions co;
 
 	if (abilityData != nullptr) {

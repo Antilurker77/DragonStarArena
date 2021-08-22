@@ -167,6 +167,7 @@
     <ClCompile Include="scene\battleScene.cpp" />
     <ClCompile Include="scene\dungeonMapScene.cpp" />
     <ClCompile Include="scene\mainMenuScene.cpp" />
+    <ClCompile Include="ui\abilityWindow.cpp" />
     <ClCompile Include="ui\button.cpp" />
     <ClCompile Include="ui\dataString.cpp" />
     <ClCompile Include="ui\equipWindow.cpp" />
@@ -215,6 +216,7 @@
     <ClInclude Include="scene\battleScene.hpp" />
     <ClInclude Include="scene\dungeonMapScene.hpp" />
     <ClInclude Include="scene\mainMenuScene.hpp" />
+    <ClInclude Include="ui\abilityWindow.hpp" />
     <ClInclude Include="ui\button.hpp" />
     <ClInclude Include="ui\dataString.hpp" />
     <ClInclude Include="ui\equipWindow.hpp" />

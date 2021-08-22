@@ -9,6 +9,7 @@
 #include "dataString.hpp"
 #include "../core/assetManager.hpp"
 #include "../core/settings.hpp"
+#include "../data/ability.hpp"
 #include "../data/enconterData.hpp"
 #include "../data/gameData.hpp"
 #include "../data/item.hpp"
@@ -46,8 +47,71 @@ void Tooltip::SetPosition(sf::Vector2f pos) {
 
 	for (size_t i = 0; i < tooltipText.size(); i++) {
 		tooltipText[i].setPosition(pos);
-		pos.y += 18.f;
+		pos.y += 16.f;
 	}
+}
+
+void Tooltip::SetTooltip(Ability* ability, Actor* actor) {
+	tooltipText.clear();
+	sfe::RichText t;
+	std::string str;
+
+	// Name
+	if (ability->IsSpell()) {
+		str = "#spell ";
+	}
+	else {
+		str = "#skill ";
+	}
+	str += ability->GetName();
+	t.setString(str);
+	tooltipText.push_back(t);
+
+	// Costs
+	int64_t mpCost = ability->GetMPCost(false, actor);
+	int64_t spCost = ability->GetSPCost(false, actor);
+
+	if (mpCost == 0 && spCost == 0) {
+		str = "#aaaaaa No Cost";
+	}
+	else if (mpCost > 0 && spCost == 0) {
+		str = "#spell " + std::to_string(mpCost) + " MP";
+	}
+	else if (spCost > 0 && mpCost == 0) {
+		str = "#skill " + std::to_string(spCost) + " SP";
+	}
+	else {
+		str = "#spell " + std::to_string(mpCost) + " MP  " + "#skill " + std::to_string(spCost) + " SP";
+	}
+	t.setString(str);
+	tooltipText.push_back(t);
+
+	// Range
+	if (ability->IsRanged()) {
+		str = "Ranged";
+	}
+	else {
+		str = "Melee";
+	}
+	t.setString(str);
+	tooltipText.push_back(t);
+
+	// Use Time and Cooldown
+	str = DataString::TimeString(ability->GetUseTime(false, actor)) + " Use Time";
+	int cooldown = ability->GetCooldown(false, actor);
+	if (cooldown > 0) {
+		str += " | " + DataString::TimeString(cooldown) + " Cooldown";
+	}
+	t.setString(str);
+	tooltipText.push_back(t);
+
+	std::vector<std::string> strv = DataString::FormatAbilityDescription(ability, actor);
+	for (size_t i = 0; i < strv.size(); i++) {
+		t.setString(strv[i]);
+		tooltipText.push_back(t);
+	}
+
+	format();
 }
 
 void Tooltip::SetTooltip(EncounterNode* node) {
@@ -243,14 +307,14 @@ void Tooltip::format() {
 	size.y = 4.f;
 
 	for (size_t i = 0; i < tooltipText.size(); i++) {
-		tooltipText[i].setCharacterSize(16u);
+		tooltipText[i].setCharacterSize(12u);
 		tooltipText[i].setFont(*assetManager.LoadFont(settings.Font));
 
-		float length = tooltipText[i].getLocalBounds().width + 5.f;
+		float length = tooltipText[i].getLocalBounds().width + 6.f;
 		if (length > longest) {
 			longest = length;
 		}
-		size.y += 18.f;
+		size.y += 16.f;
 	}
 
 	size.x = longest;

@@ -10,6 +10,7 @@
 #include "../data/id/aiCondition.hpp"
 #include "../data/id/aiTarget.hpp"
 #include "../data/id/equipType.hpp"
+#include "../data/id/itemType.hpp"
 #include "../data/id/statModType.hpp"
 
 Player::Player() {
@@ -21,7 +22,8 @@ Player::Player() {
 	currentMP = GetMaxMP();
 	currentSP = GetMaxSP();
 
-	abilities.push_back(Ability(1));
+	abilities.resize(11);
+	abilities[0].Initialize(1);
 }
 
 Player::Player(std::string name, size_t raceID, BattlePosition p) {
@@ -31,9 +33,11 @@ Player::Player(std::string name, size_t raceID, BattlePosition p) {
 	this->name = name;
 	raceData = gameData.GetRace(raceID);
 
+	abilities.resize(11);
+
 	if (IsInFrontRow()) {
-		abilities.push_back(Ability(1)); // Attack
-		abilities.push_back(Ability(4)); // Power Strike
+		abilities[0].Initialize(1); // Attack
+		abilities[1].Initialize(4); // Power Strike
 
 		tactics.push_back({ 0, AICondition::None, 0, AITarget::Any, 0, 4, 100 });
 		tactics.push_back({ 1, AICondition::None, 0, AITarget::Any, 0, 1, 100 });
@@ -44,8 +48,8 @@ Player::Player(std::string name, size_t raceID, BattlePosition p) {
 		equipment[6].Initialize(10);
 	}
 	else {
-		abilities.push_back(Ability(2)); // Shoot
-		abilities.push_back(Ability(10)); // Power Shot
+		abilities[0].Initialize(2); // Shoot
+		abilities[1].Initialize(10); // Power Shot
 
 		tactics.push_back({ 0, AICondition::None, 0, AITarget::Any, 0, 10, 100 });
 		tactics.push_back({ 1, AICondition::None, 0, AITarget::Any, 0, 2, 100 });
@@ -275,6 +279,9 @@ int Player::GetAttackSpeed() {
 	int result = 200;
 
 	if (!equipment[0].IsNull()) {
+		if (!equipment[1].IsNull() && equipment[1].GetItemType() == ItemType::Weapon) {
+			result = static_cast<int>(std::max(equipment[0].GetWeaponSpeed(), equipment[1].GetWeaponSpeed()));
+		}
 		result = static_cast<int>(equipment[0].GetWeaponSpeed());
 	}
 
