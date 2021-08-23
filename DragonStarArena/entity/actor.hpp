@@ -254,6 +254,9 @@ public:
 	// Returns the abilities the actor has equipped.
 	std::vector<Ability>* GetAbilities();
 
+	// Returns the ability pool (unequipped abilities) the actor has.
+	std::vector<size_t>* GetAbilityPool();
+
 	// Returns the items equipped to the actor. Monsters return a nullptr.
 	virtual std::array<Item, 12>* GetEquipment() = 0;
 
@@ -331,6 +334,7 @@ protected:
 	int64_t currentSP = 0ll;
 
 	std::vector<Ability> abilities{};
+	std::vector<size_t> abilityPool{};
 	std::vector<Aura> auras{};
 	std::vector<Tactic> tactics{};
 };

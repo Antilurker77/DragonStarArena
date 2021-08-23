@@ -67,44 +67,52 @@ void Tooltip::SetTooltip(Ability* ability, Actor* actor) {
 	t.setString(str);
 	tooltipText.push_back(t);
 
-	// Costs
-	int64_t mpCost = ability->GetMPCost(false, actor);
-	int64_t spCost = ability->GetSPCost(false, actor);
-
-	if (mpCost == 0 && spCost == 0) {
-		str = "#aaaaaa No Cost";
-	}
-	else if (mpCost > 0 && spCost == 0) {
-		str = "#spell " + std::to_string(mpCost) + " MP";
-	}
-	else if (spCost > 0 && mpCost == 0) {
-		str = "#skill " + std::to_string(spCost) + " SP";
+	if (ability->IsPassive()) {
+		str = "#aaaaaa Passive";
+		t.setString(str);
+		tooltipText.push_back(t);
 	}
 	else {
-		str = "#spell " + std::to_string(mpCost) + " MP  " + "#skill " + std::to_string(spCost) + " SP";
-	}
-	t.setString(str);
-	tooltipText.push_back(t);
+		// Costs
+		int64_t mpCost = ability->GetMPCost(false, actor);
+		int64_t spCost = ability->GetSPCost(false, actor);
 
-	// Range
-	if (ability->IsRanged()) {
-		str = "Ranged";
-	}
-	else {
-		str = "Melee";
-	}
-	t.setString(str);
-	tooltipText.push_back(t);
+		if (mpCost == 0 && spCost == 0) {
+			str = "#aaaaaa No Cost";
+		}
+		else if (mpCost > 0 && spCost == 0) {
+			str = "#spell " + std::to_string(mpCost) + " MP";
+		}
+		else if (spCost > 0 && mpCost == 0) {
+			str = "#skill " + std::to_string(spCost) + " SP";
+		}
+		else {
+			str = "#spell " + std::to_string(mpCost) + " MP  " + "#skill " + std::to_string(spCost) + " SP";
+		}
+		t.setString(str);
+		tooltipText.push_back(t);
 
-	// Use Time and Cooldown
-	str = DataString::TimeString(ability->GetUseTime(false, actor)) + " Use Time";
-	int cooldown = ability->GetCooldown(false, actor);
-	if (cooldown > 0) {
-		str += " | " + DataString::TimeString(cooldown) + " Cooldown";
-	}
-	t.setString(str);
-	tooltipText.push_back(t);
+		// Range
+		if (ability->IsRanged()) {
+			str = "Ranged";
+		}
+		else {
+			str = "Melee";
+		}
+		t.setString(str);
+		tooltipText.push_back(t);
 
+		// Use Time and Cooldown
+		str = DataString::TimeString(ability->GetUseTime(false, actor)) + " Use Time";
+		int cooldown = ability->GetCooldown(false, actor);
+		if (cooldown > 0) {
+			str += " | " + DataString::TimeString(cooldown) + " Cooldown";
+		}
+		t.setString(str);
+		tooltipText.push_back(t);
+	}
+
+	// Description
 	std::vector<std::string> strv = DataString::FormatAbilityDescription(ability, actor);
 	for (size_t i = 0; i < strv.size(); i++) {
 		t.setString(strv[i]);

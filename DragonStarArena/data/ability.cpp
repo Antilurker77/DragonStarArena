@@ -273,6 +273,13 @@ std::string Ability::GetDescription() {
 	return "Error.";
 }
 
+bool Ability::IsPassive() {
+	if (abilityData != nullptr) {
+		return abilityData->IsPassive;
+	}
+	return false;
+}
+
 bool Ability::IsSpell() {
 	if (abilityData != nullptr) {
 		auto i = std::find(abilityData->Categories.begin(), abilityData->Categories.end(), Category::Spell);

@@ -185,7 +185,7 @@ std::vector<std::string> DataString::FormatAbilityDescription(Ability* ability, 
 				if (charCount + wordLength + 1 > charsPerLine) {
 					strv.push_back(currentLine);
 					if (j > 0) {
-						currentLine = wordsToAdd[0] + wordsToAdd[j];
+						currentLine = wordsToAdd[0] + " " + wordsToAdd[j];
 					}
 					else {
 						currentLine = wordsToAdd[j];

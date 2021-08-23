@@ -56,6 +56,10 @@ private:
 	std::vector<Ability>* equippedAbilities = nullptr;
 
 	sf::RectangleShape knownAbilitiesBG;
+	std::vector<sf::RectangleShape> knownAbilitiesBoxes;
+	std::vector<Entity> knownAbilitiesIcons;
+	std::vector<sfe::RichText> knownAbilitiesText;
+	std::vector<size_t>* knownAbilities = nullptr;
 
 	bool dragging = false;
 	float holdingDownTime = 0.f;

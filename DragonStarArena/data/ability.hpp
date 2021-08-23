@@ -63,6 +63,9 @@ public:
 	// Returns the ability's raw description.
 	std::string GetDescription();
 
+	// Returns true if the ability is passive.
+	bool IsPassive();
+
 	// Returns true if the ability is a spell.
 	bool IsSpell();
 

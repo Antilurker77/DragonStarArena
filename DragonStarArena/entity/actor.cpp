@@ -674,6 +674,10 @@ std::vector<Ability>* Actor::GetAbilities() {
 	return &abilities;
 }
 
+std::vector<size_t>* Actor::GetAbilityPool() {
+	return &abilityPool;
+}
+
 int64_t Actor::getStat(int64_t base, StatModType statModType, bool isMultiplicative, bool consumeBuffs) {
 	CombatOptions co{};
 	return getStat(base, statModType, co, isMultiplicative, consumeBuffs);

@@ -35,6 +35,12 @@ Player::Player(std::string name, size_t raceID, BattlePosition p) {
 
 	abilities.resize(11);
 
+	abilityPool.push_back(3); // Magic Missile
+	abilityPool.push_back(6); // Constitution
+	abilityPool.push_back(7); // Second Wind
+	abilityPool.push_back(8); // Heal
+	abilityPool.push_back(12); // Flame Bolt
+
 	if (IsInFrontRow()) {
 		abilities[0].Initialize(1); // Attack
 		abilities[1].Initialize(4); // Power Strike

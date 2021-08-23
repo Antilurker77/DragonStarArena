@@ -84,6 +84,23 @@ void AbilityWindow::Update(float secondsPerUpdate, sf::Vector2i mousePos, bool l
 			}
 		}
 	}
+
+	for (size_t i = 0; i < knownAbilitiesBoxes.size(); i++) {
+		if (knownAbilitiesBoxes[i].getGlobalBounds().contains(mousePosF)) {
+			knownAbilitiesBoxes[i].setFillColor(sf::Color(127, 127, 127, 191));
+			Ability ability(knownAbilities->at(i));
+			displayTooltip = true;
+			tooltip.SetTooltip(&ability, players.at(viewedPlayer).get());
+			auto size = tooltip.GetSize();
+			tooltip.SetPosition(mousePosF.x, mousePosF.y - size.y);
+			if (rightClick) {
+
+			}
+		}
+		else {
+			knownAbilitiesBoxes[i].setFillColor(sf::Color(127, 127, 127, 0));
+		}
+	}
 }
 
 void AbilityWindow::Render(sf::RenderTarget& window) {
@@ -104,6 +121,18 @@ void AbilityWindow::Render(sf::RenderTarget& window) {
 	}
 
 	window.draw(knownAbilitiesBG);
+
+	for (size_t i = 0; i < knownAbilitiesBoxes.size(); i++) {
+		window.draw(knownAbilitiesBoxes[i]);
+	}
+
+	for (size_t i = 0; i < knownAbilitiesIcons.size(); i++) {
+		knownAbilitiesIcons[i].Render(window, 0.f);
+	}
+
+	for (size_t i = 0; i < knownAbilitiesText.size(); i++) {
+		window.draw(knownAbilitiesText[i]);
+	}
 
 	if (displayTooltip) {
 		tooltip.Render(window);
@@ -139,5 +168,47 @@ void AbilityWindow::setAbilities() {
 		else {
 			drawEquippedAbilitiesIcons[i] = false;
 		}
+	}
+
+	knownAbilities = players.at(viewedPlayer)->GetAbilityPool();
+
+	knownAbilitiesBoxes.clear();
+	knownAbilitiesIcons.clear();
+	knownAbilitiesText.clear();
+
+	auto pos = knownAbilitiesBG.getPosition();
+
+	for (size_t i = 0; i < knownAbilities->size(); i++) {
+		Ability ability(knownAbilities->at(i));
+
+		sf::RectangleShape box;
+		box.setSize(sf::Vector2f(378.f, 18.f));
+		box.setFillColor(sf::Color(127, 127, 127, 0));
+		box.setPosition(pos.x + 1.f, pos.y + 1.f);
+
+		Entity icon;
+		icon.SetSpriteCount(1);
+		icon.SetTexture(ability.GetIcon());
+		icon.Move(sf::Vector2f(pos.x + 2, pos.y + 2.f));
+
+		sfe::RichText text;
+		std::string str;
+		if (ability.IsSpell()) {
+			str = "#spell ";
+		}
+		else {
+			str = "#skill ";
+		}
+		str += ability.GetName();
+		text.setString(str);
+		text.setCharacterSize(16u);
+		text.setFont(*assetManager.LoadFont(settings.Font));
+		text.setPosition(pos.x + 20.f, pos.y);
+
+		knownAbilitiesBoxes.push_back(box);
+		knownAbilitiesIcons.push_back(icon);
+		knownAbilitiesText.push_back(text);
+
+		pos.y += 20.f;
 	}
 }
