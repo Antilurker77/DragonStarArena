@@ -79,8 +79,9 @@ void AbilityWindow::Update(float secondsPerUpdate, sf::Vector2i mousePos, bool l
 			tooltip.SetTooltip(&equippedAbilities->at(i), players.at(viewedPlayer).get());
 			auto size = tooltip.GetSize();
 			tooltip.SetPosition(mousePosF.x, mousePosF.y - size.y);
-			if (rightClick) {
-
+			if (rightClick && i != 0) {
+				players.at(viewedPlayer)->UnequipAbility(i);
+				setAbilities();
 			}
 		}
 	}
@@ -94,7 +95,8 @@ void AbilityWindow::Update(float secondsPerUpdate, sf::Vector2i mousePos, bool l
 			auto size = tooltip.GetSize();
 			tooltip.SetPosition(mousePosF.x, mousePosF.y - size.y);
 			if (rightClick) {
-
+				players.at(viewedPlayer)->EquipAbility(knownAbilities->at(i));
+				setAbilities();
 			}
 		}
 		else {

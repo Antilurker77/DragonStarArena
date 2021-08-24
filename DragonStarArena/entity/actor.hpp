@@ -271,6 +271,16 @@ public:
 	// Unequips the item in the designated slot.
 	virtual void Unequip(size_t slot, std::vector<Item>* inventory) = 0;
 
+	// Attempts to equip an ability in the next empty slot.
+	virtual void EquipAbility(size_t abilityID) = 0;
+
+	// Equips the ability in the designated slot. If the slot is occupied, the old
+	// ability is placed in the ability pool.
+	virtual void EquipAbility(size_t abilityID, size_t slot) = 0;
+
+	// Unequips the ability in the designated slot and adds it to the ability pool.
+	virtual void UnequipAbility(size_t slot) = 0;
+
 	// Returns true if the actor has a ranged weapon.
 	virtual bool IsRanged() = 0;
 

@@ -271,6 +271,47 @@ void Player::Unequip(size_t slot, std::vector<Item>* inventory) {
 	}
 }
 
+void Player::EquipAbility(size_t abilityID) {
+	size_t slot = 0;
+
+	for (size_t i = 0; i < abilities.size(); i++) {
+		if (abilities[i].GetAbilityID() == 0) {
+			slot = i;
+			break;
+		}
+	}
+
+	if (slot != 0) {
+		EquipAbility(abilityID, slot);
+	}
+}
+
+void Player::EquipAbility(size_t abilityID, size_t slot) {
+	int64_t missingHP = GetMaxHP() - currentHP;
+	int64_t missingMP = GetMaxMP() - currentMP;
+	int64_t missingSP = GetMaxSP() - currentSP;
+	
+	if (abilities[slot].GetAbilityID() != 0) {
+		abilityPool.push_back(abilities[slot].GetAbilityID());
+	}
+	abilities[slot].Initialize(abilityID);
+	auto i = std::find(abilityPool.begin(), abilityPool.end(), abilityID);
+	abilityPool.erase(i);
+
+	if (currentHP > 0) {
+		currentHP = GetMaxHP() - missingHP;
+		currentMP = GetMaxMP() - missingMP;
+		currentSP = GetMaxSP() - missingSP;
+	}
+}
+
+void Player::UnequipAbility(size_t slot) {
+	if (abilities[slot].GetAbilityID() != 0) {
+		abilityPool.push_back(abilities[slot].GetAbilityID());
+		abilities[slot] = Ability();
+	}
+}
+
 bool Player::IsRanged() {
 	if (!equipment[0].IsNull()) {
 		EquipType weaponType = equipment[0].GetEquipType();

@@ -81,6 +81,18 @@ void Monster::Unequip(size_t slot, std::vector<Item>* inventory) {
 	return;
 }
 
+void Monster::EquipAbility(size_t abilityID) {
+	return;
+}
+
+void Monster::EquipAbility(size_t abilityID, size_t slot) {
+	return;
+}
+
+void Monster::UnequipAbility(size_t slot) {
+	return;
+}
+
 bool Monster::IsRanged() {
 	if (monsterData != nullptr) {
 		EquipType weaponType = monsterData->MainHandWeaponType;

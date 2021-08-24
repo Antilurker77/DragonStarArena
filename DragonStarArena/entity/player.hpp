@@ -27,6 +27,9 @@ public:
 	void Equip(Item& item, std::vector<Item>* inventory, size_t index);
 	void Equip(Item& item, size_t slot, std::vector<Item>* inventory, size_t index);
 	void Unequip(size_t slot, std::vector<Item>* inventory);
+	void EquipAbility(size_t abilityID);
+	void EquipAbility(size_t abilityID, size_t slot);
+	void UnequipAbility(size_t slot);
 	bool IsRanged();
 	int GetAttackSpeed();
 	int64_t GetMainHandDamage(CombatOptions& combatOptions, bool consumeBuffs);
