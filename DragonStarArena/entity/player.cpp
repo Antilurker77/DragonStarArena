@@ -45,8 +45,8 @@ Player::Player(std::string name, size_t raceID, BattlePosition p) {
 		abilities[0].Initialize(1); // Attack
 		abilities[1].Initialize(4); // Power Strike
 
-		tactics.push_back({ 0, AICondition::None, 0, AITarget::Any, 0, 4, 100 });
-		tactics.push_back({ 1, AICondition::None, 0, AITarget::Any, 0, 1, 100 });
+		tactics.push_back({ 0, AICondition::None, 0, 0, AITarget::Any, 0, 0, 4, 100 });
+		tactics.push_back({ 1, AICondition::None, 0, 0, AITarget::Any, 0, 0, 1, 100 });
 
 		equipment[0].Initialize(5);
 		equipment[3].Initialize(8);
@@ -57,8 +57,8 @@ Player::Player(std::string name, size_t raceID, BattlePosition p) {
 		abilities[0].Initialize(2); // Shoot
 		abilities[1].Initialize(10); // Power Shot
 
-		tactics.push_back({ 0, AICondition::None, 0, AITarget::Any, 0, 10, 100 });
-		tactics.push_back({ 1, AICondition::None, 0, AITarget::Any, 0, 2, 100 });
+		tactics.push_back({ 0, AICondition::None, 0, 0, AITarget::Any, 0, 0, 10, 100 });
+		tactics.push_back({ 1, AICondition::None, 0, 0, AITarget::Any, 0, 0, 2, 100 });
 
 		equipment[0].Initialize(6);
 		equipment[3].Initialize(8);

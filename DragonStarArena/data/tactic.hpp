@@ -18,9 +18,11 @@ struct Tactic {
 
 	AICondition Condition{};
 	int64_t ConditionValue = 0;
+	int64_t ConditionValue2 = 0;
 
 	AITarget Target{};
 	int64_t TargetValue = 0;
+	int64_t TargetValue2 = 0;
 
 	size_t AbilityID = 0;
 

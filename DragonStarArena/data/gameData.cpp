@@ -1200,10 +1200,12 @@ int GameData::loadMonsterAI(void* notUsed, int argc, char** data, char** colname
 	t.Rating = std::stoull(data[2]);
 	t.Condition = stringToAICondition(data[3]);
 	t.ConditionValue = std::stoll(data[4]);
-	t.Target = stringToAITarget(data[5]);
-	t.TargetValue = std::stoll(data[6]);
-	t.AbilityID = std::stoull(data[7]);
-	t.Weight = std::stoi(data[8]);
+	t.ConditionValue2 = std::stoll(data[5]);
+	t.Target = stringToAITarget(data[6]);
+	t.TargetValue = std::stoll(data[7]);
+	t.TargetValue2 = std::stoll(data[8]);
+	t.AbilityID = std::stoull(data[9]);
+	t.Weight = std::stoi(data[10]);
 
 	monsters[monsterID].Tactics.push_back(t);
 
