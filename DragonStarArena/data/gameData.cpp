@@ -65,6 +65,17 @@ static std::vector<size_t> stringToID(std::vector<std::string>& strv) {
 	return ids;
 }
 
+static std::vector<int64_t> stringToInt64(char* c) {
+	std::vector<int64_t> result{};
+	std::vector<std::string> strv = splitString(c, ',');
+
+	for (size_t i = 0; i < strv.size(); i++) {
+		result.push_back(std::stoll(strv[i]));
+	}
+
+	return result;
+}
+
 static AbilityEffect stringToAbilityEffect(std::string str) {
 	AbilityEffect effect;
 	std::vector<std::string> strv = splitString(str.c_str(), ',');
@@ -144,6 +155,25 @@ static AITarget stringToAITarget(char* s) {
 	}
 }
 
+static Attribute stringToAttribute(char* s) {
+	std::string str(s);
+
+	if (str == "hp") {
+		return Attribute::HP;
+	}
+	else if (str == "mp") {
+		return Attribute::MP;
+	}
+	else if (str == "sp") {
+		return Attribute::SP;
+	}
+	else {
+		std::cout << "Attribute Error: Could not parse " << str << ".\n";
+	}
+
+	return Attribute::Undefined;
+}
+
 static std::vector<Category> stringToCategory(std::vector<std::string>& strv) {
 	std::vector<Category> categories;
 
@@ -187,6 +217,37 @@ static std::vector<Category> stringToCategory(std::vector<std::string>& strv) {
 	}
 
 	return categories;
+}
+
+static Effect stringToEffect(char* s) {
+	std::string str(s);
+
+	if (str == "wpn") {
+		return Effect::WeaponDamage;
+	}
+	else if (str == "wpn_ah") {
+		return Effect::WeaponDamageAuraHit;
+	}
+	else if (str == "atk") {
+		return Effect::AttackDamage;
+	}
+	else if (str == "spl") {
+		return Effect::SpellDamage;
+	}
+	else if (str == "spl_ah") {
+		return Effect::SpellDamageAuraHit;
+	}
+	else if (str == "heal") {
+		return Effect::Healing;
+	}
+	else if (str == "heal_p") {
+		return Effect::HealingPercent;
+	}
+	else {
+		std::cout << "Effect Error: Could not parse " << str << ".\n";
+	}
+
+	return Effect::Undefined;
 }
 
 static std::vector<Element> stringToElements(std::vector<std::string>& strv) {
@@ -599,6 +660,9 @@ void GameData::LoadData() {
 		query = "SELECT * FROM Ability;";
 		error = sqlite3_exec(db, query.c_str(), GameData::loadAbilities, 0, &errorMessage);
 
+		query = "SELECT * FROM AbilityEffect;";
+		error = sqlite3_exec(db, query.c_str(), GameData::loadAbilityEffects, 0, &errorMessage);
+
 		query = "SELECT * FROM AbilityStatMod;";
 		error = sqlite3_exec(db, query.c_str(), GameData::loadAbilityStatMods, 0, &errorMessage);
 
@@ -823,16 +887,24 @@ int GameData::loadAbilities(void* notUsed, int argc, char** data, char** colname
 	ad.CanDoubleStrike = (std::stoi(data[20]) == 1);
 	ad.OffHandAttack = (std::stoi(data[21]) == 1);
 
-	if (data[22] != nullptr) {
-		strv = splitString(data[22], ';');
-		for (size_t i = 0; i < strv.size(); i++) {
-			ad.Effects.push_back(stringToAbilityEffect(strv[i]));
-		}
-	}
-
 	abilities.push_back(ad);
 
 	std::cout << "Loaded " << data[1] << " into ability vector.\n";
+
+	return 0;
+}
+
+int GameData::loadAbilityEffects(void* notUsed, int argc, char** data, char** colname) {
+	notUsed = 0;
+
+	AbilityEffect ae;
+	size_t abilityID = std::stoull(data[1]);
+
+	ae.Effect = stringToEffect(data[2]);
+	ae.Attribute = stringToAttribute(data[3]);
+	ae.Arguments = stringToInt64(data[4]);
+
+	abilities[abilityID].Effects.push_back(ae);
 
 	return 0;
 }

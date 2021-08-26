@@ -58,6 +58,9 @@ private:
 	// Initializes the ability data.
 	static int loadAbilities(void* notUsed, int argc, char** data, char** colname);
 	
+	// Initializes the ability effects.
+	static int loadAbilityEffects(void* notUsed, int argc, char** data, char** colname);
+
 	// Initializes the ability stat mods.
 	static int loadAbilityStatMods(void* notUsed, int argc, char** data, char** colname);
 
