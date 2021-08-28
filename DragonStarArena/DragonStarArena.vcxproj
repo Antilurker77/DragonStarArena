@@ -219,6 +219,7 @@
     <ClInclude Include="ui\abilityWindow.hpp" />
     <ClInclude Include="ui\button.hpp" />
     <ClInclude Include="ui\dataString.hpp" />
+    <ClInclude Include="ui\dropdown.hpp" />
     <ClInclude Include="ui\equipWindow.hpp" />
     <ClInclude Include="ui\fpsWindow.hpp" />
     <ClInclude Include="ui\inventoryList.hpp" />
