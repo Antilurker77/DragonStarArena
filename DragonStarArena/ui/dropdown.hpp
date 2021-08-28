@@ -25,7 +25,7 @@ public:
 	bool Update(float secondsPerUpdate, sf::Vector2i mousePos, bool leftClick, bool scrollUp, bool scrollDown, bool dragging);
 
 	// Draws the widget to the screen.
-	void Draw(sf::RenderTarget& window);
+	void Render(sf::RenderTarget& window);
 
 	// Removes all items from the dropdown widget.
 	void ClearOptions();
@@ -210,7 +210,7 @@ bool Dropdown<T>::Update(float secondsPerUpdate, sf::Vector2i mousePos, bool lef
 }
 
 template <typename T>
-void Dropdown<T>::Draw(sf::RenderTarget& window) {
+void Dropdown<T>::Render(sf::RenderTarget& window) {
 	window.draw(selectedBG);
 	window.draw(selectedText);
 	window.draw(arrowBG);

@@ -61,7 +61,7 @@ void TextBox::Update(float secondsPerUpdate) {
 	}
 }
 
-void TextBox::Draw(sf::RenderTarget& window, float timeRatio) {
+void TextBox::Render(sf::RenderTarget& window, float timeRatio) {
 	window.draw(box);
 	window.draw(text);
 }

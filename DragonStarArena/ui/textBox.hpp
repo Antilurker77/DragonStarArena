@@ -22,7 +22,7 @@ public:
 	void Update(float secondsPerUpdate);
 
 	// Draws the text box.
-	void Draw(sf::RenderTarget& window, float timeRatio);
+	void Render(sf::RenderTarget& window, float timeRatio);
 
 	// Sets the string displayed in the text box.
 	void SetString(std::string string);
