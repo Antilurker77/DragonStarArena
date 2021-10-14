@@ -21,6 +21,7 @@ enum class GameState;
 #include "../ui/equipWindow.hpp"
 #include "../ui/inventoryList.hpp"
 #include "../ui/resourceWindow.hpp"
+#include "../ui/tacticWindow.hpp"
 
 typedef std::shared_ptr<Actor> ActorPtr;
 typedef std::pair<size_t, size_t> Connection;
@@ -102,6 +103,7 @@ private:
 	Button inventoryButton;
 	Button equipButton;
 	Button abilityButton;
+	Button tacticButton;
 
 	bool windowOpen = false;
 
@@ -113,6 +115,9 @@ private:
 
 	AbilityWindow abilityWindow;
 	bool displayAbilityWindow = false;
+
+	TacticWindow tacticWindow;
+	bool displayTacticWindow = false;
 
 	// Input
 	bool leftClick = false;

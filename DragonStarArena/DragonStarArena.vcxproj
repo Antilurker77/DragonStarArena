@@ -175,6 +175,7 @@
     <ClCompile Include="ui\inventoryList.cpp" />
     <ClCompile Include="ui\resourceWindow.cpp" />
     <ClCompile Include="ui\richText.cpp" />
+    <ClCompile Include="ui\tacticWindow.cpp" />
     <ClCompile Include="ui\textBox.cpp" />
     <ClCompile Include="ui\tooltip.cpp" />
   </ItemGroup>
@@ -226,6 +227,7 @@
     <ClInclude Include="ui\inventoryList.hpp" />
     <ClInclude Include="ui\resourceWindow.hpp" />
     <ClInclude Include="ui\richText.hpp" />
+    <ClInclude Include="ui\tacticWindow.hpp" />
     <ClInclude Include="ui\textBox.hpp" />
     <ClInclude Include="ui\tooltip.hpp" />
   </ItemGroup>

@@ -28,6 +28,9 @@ DungeonMapScene::DungeonMapScene() {
 	abilityButton.SetString("Abilities", 24u);
 	abilityButton.SetPosition(settings.ScreenWidthF * 0.40f, settings.ScreenHeightF * 0.95f);
 
+	tacticButton.SetString("Tactics", 24u);
+	tacticButton.SetPosition(settings.ScreenWidthF * 0.55f, settings.ScreenHeightF * 0.95f);
+
 	// test
 	inventory.push_back(Item(40));
 	inventory.push_back(Item(40));
@@ -115,6 +118,7 @@ GameState DungeonMapScene::Update(float secondsPerUpdate) {
 			windowOpen = displayInventory;
 			displayEquipWindow = false;
 			displayAbilityWindow = false;
+			displayTacticWindow = false;
 			if (displayInventory) {
 				inventoryList.SetList(inventory);
 				auto ilSize = inventoryList.GetSize();
@@ -129,6 +133,7 @@ GameState DungeonMapScene::Update(float secondsPerUpdate) {
 			windowOpen = displayEquipWindow;
 			displayInventory = false;
 			displayAbilityWindow = false;
+			displayTacticWindow = false;
 			if (displayEquipWindow) {
 				equipWindow.SetPlayerList(&party);
 				equipWindow.SetInventoryList(&inventory);
@@ -142,8 +147,22 @@ GameState DungeonMapScene::Update(float secondsPerUpdate) {
 			windowOpen = displayAbilityWindow;
 			displayInventory = false;
 			displayEquipWindow = false;
+			displayTacticWindow = false;
 			if (displayAbilityWindow) {
 				abilityWindow.SetPlayerList(party);
+			}
+		}
+	}
+
+	if (tacticButton.Update(secondsPerUpdate, mousePos)) {
+		if (leftClick) {
+			displayTacticWindow = !displayTacticWindow;
+			windowOpen = displayTacticWindow;
+			displayInventory = false;
+			displayEquipWindow = false;
+			displayAbilityWindow = false;
+			if (displayTacticWindow) {
+				tacticWindow.SetPlayerList(party);
 			}
 		}
 	}
@@ -160,6 +179,10 @@ GameState DungeonMapScene::Update(float secondsPerUpdate) {
 		abilityWindow.Update(secondsPerUpdate, mousePos, leftClick, rightClick, draggingLeft);
 	}
 
+	if (displayTacticWindow) {
+		tacticWindow.Update(secondsPerUpdate, mousePos, leftClick, rightClick, draggingLeft, false, false);
+	}
+
 	return gs;
 }
 
@@ -172,6 +195,7 @@ void DungeonMapScene::Render(sf::RenderTarget& window, float timeRatio) {
 	inventoryButton.Render(window);
 	equipButton.Render(window);
 	abilityButton.Render(window);
+	tacticButton.Render(window);
 
 	if (displayTooltip && !windowOpen) {
 		tooltip.Render(window);
@@ -187,6 +211,10 @@ void DungeonMapScene::Render(sf::RenderTarget& window, float timeRatio) {
 
 	if (displayAbilityWindow) {
 		abilityWindow.Render(window);
+	}
+
+	if (displayTacticWindow) {
+		tacticWindow.Render(window);
 	}
 }
 
