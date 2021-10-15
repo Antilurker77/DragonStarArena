@@ -113,19 +113,19 @@ void BattleScene::InitBattle(std::vector<ActorPtr> party, EncounterNode* encount
 		actors.push_back(std::make_shared<Monster>(ed->FrontFarRightMonster, BattlePosition::FrontFarRight));
 	}
 	if (ed->BackFarLeftMonster != 0) {
-		actors.push_back(std::make_shared<Monster>(ed->BackFarLeftMonster, BattlePosition::FrontFarLeft));
+		actors.push_back(std::make_shared<Monster>(ed->BackFarLeftMonster, BattlePosition::BackFarLeft));
 	}
 	if (ed->BackLeftMonster != 0) {
-		actors.push_back(std::make_shared<Monster>(ed->BackLeftMonster, BattlePosition::FrontLeft));
+		actors.push_back(std::make_shared<Monster>(ed->BackLeftMonster, BattlePosition::BackLeft));
 	}
 	if (ed->BackCenterMonster != 0) {
-		actors.push_back(std::make_shared<Monster>(ed->BackCenterMonster, BattlePosition::FrontCenter));
+		actors.push_back(std::make_shared<Monster>(ed->BackCenterMonster, BattlePosition::BackCenter));
 	}
 	if (ed->BackRightMonster != 0) {
-		actors.push_back(std::make_shared<Monster>(ed->BackRightMonster, BattlePosition::FrontRight));
+		actors.push_back(std::make_shared<Monster>(ed->BackRightMonster, BattlePosition::BackRight));
 	}
 	if (ed->BackFarRightMonster != 0) {
-		actors.push_back(std::make_shared<Monster>(ed->BackFarRightMonster, BattlePosition::FrontFarRight));
+		actors.push_back(std::make_shared<Monster>(ed->BackFarRightMonster, BattlePosition::BackFarRight));
 	}
 
 	actors.shrink_to_fit();
